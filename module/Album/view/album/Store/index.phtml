@@ -45,7 +45,118 @@ $toggleBtn.click(function(){
 
 });
 </script>
+hello
+<div id ='title'><h1 >Abble Store</h1></div>
 
+<div id='name'><h2>welcome liansheng</h2></div>
+<div class="table2"><table class="table"  >
+
+<?php foreach($storeProducts as $Product) :?>
+    <tr> 
+     <td width="50%">
+        <strong>
+        <?php echo $this->escapehtml($Product->name);?></strong><br/>
+        
+        <?php echo $this->escapehtml($Product->desc);?><br/>
+        Cost:<strong>
+        <?php echo $this->escapehtml($Product->cost);?></strong><br /><br/>
+        
+    </td>
+    <TD><a href="<?php echo $this->url('store',array('action'=>'product-detail','id'=>$Product->id));?>">detail</a></TD>
+   <Td> <img src="<?php echo $this->url('store',array('action'=>'showimage','id'=>$Product->id,'subaction'=>'thumb'));?>" />
+    </Td>
+    <td>
+   <?php 
+$form = $this->form;
+$form->prepare() ;
+$form->setAttribute('action',$this->url(Null,array('controller'=>'store','action'=>'shoppingCart')));
+$form->setAttribute('method','post');   
+$form->get('product_id')->setAttribute('value',$Product->id);   
+
+echo $this->form()->openTag($form)
+
+?>
+
+<div><Table class="table">
+    <tr>
+        <td ><?php echo $this->formlabel($form->get('qty'));?></td>
+        <td ><a class='buy_less'>-</a><?php echo $this->formelement($form->get('qty'));?><a class='buy_add'>+</a>
+            <?php echo $this->formelementerrors($form->get('qty'));?>
+            <?php echo $this->formelement($form->get('product_id'));?></td>
+    
+    
+        <td class="purchase"><?php echo $this->formelement($form->get('submit'));?>
+            <?php echo $this->formelementerrors($form->get('submit'));?>
+            </td>
+    </tr>
+</Table></div>
+<?php echo $this->form()->closeTag();?></td>
+<?php endforeach;?>
+
+</table>
+</div>
+
+
+
+<div class="SubCategoryBox">
+<ul id="phone">
+<li><a href="#">Apple</a></li>
+<li><a href="#">Samsumg</a></li>
+<li><a href="#">OPPO</a></li>
+<li><a href="#">zhuizi</a></li>
+<li><a href="#">xiaomi</a></li>
+<li><a href="#">other brands</a></li>
+</ul>
+
+<div class="showmore">
+<?php $this->headScript()
+->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/
+javascript');
+$this->headScript()
+->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.
+js','text/javascript');
+// Attach jQuery UI Styles
+$this->headLink()->appendStylesheet('http://code.jquery.com/
+ui/1.10.0/themes/base/jquery-ui.css');
+$this->headScript()->appendScript(
+'$(function() {
+$("a.buy_add,.buy_less").button();
+});', 'text/javascript');/* 
+    
+    $this->headScript()->appendScript(
+		
+'$(function() {
+    $("#buy_less").click(function()
+    {("form ").hide();}});', 'text/javascript'); */
+?>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$(".buy_less").click(function(){
+	$(this).siblings(".qty").val(parseInt($(this).siblings(".qty").val())-1);
+});
+});
+</script>
+<script type="text/javascript"> 
+$(document).ready(function(){
+$(".buy_add").click(function(){
+	$(this).siblings(".qty").val(parseInt($(this).siblings(".qty").val())+1);
+});
+});</script>
+<script type="text/javascript">
+$(function(){
+var $category = $('ul#phone li:gt(0):not(:last)');
+$category.hide();
+var $toggleBtn = $('div.showmore>a');
+$toggleBtn.click(function(){
+	$category.toggle();
+});
+
+
+
+});
+</script>
+hello 2014
 <div id ='title'><h1 >Abble Store</h1></div>
 
 <div id='name'><h2>welcome liansheng</h2></div>
