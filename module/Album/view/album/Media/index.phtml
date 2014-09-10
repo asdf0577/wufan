@@ -1,0 +1,20 @@
+<h3>Gallery</h3>
+<table class="table">
+  <tr>
+    <th>Image</th>
+    <th>Actions</th>
+  </tr>
+<?php foreach ($myUploads as $upload) : ?>
+  <tr>
+    <td><a href="<?php echo $this->url('media',
+        array('action'=>'view','id'=>$upload->id));?>"><img src="<?php echo $this->url('media',
+        array('action'=>'showImage','id'=>$upload->id,'subaction'=>'thumb'));?>"/>
+        <br/>
+        <?php echo $this->escapehtml($upload->label);?>
+        </a></td>
+    <td><a href="<?php echo $this->url('media',array('action'=>'delete','id'=>$upload->id));?>" onclick="return confirm('Are you sure?')">Delete</a></td>
+  </tr>
+  <?php endforeach;?>
+</table>
+<a href="<?php echo $this->url('media',array('action'=>'upload'));?>">Upload Image </a>
+

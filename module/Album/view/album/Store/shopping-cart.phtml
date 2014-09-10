@@ -1,0 +1,26 @@
+<h1>Shopping Cart</h1>
+
+<h5>Order Details</h5>
+
+<table class="table" >
+    <Tr>
+        <th>Name</th>
+        <th>Qty</th>
+        <th>Unit Cost</th>
+        <th>Total</th>
+    </Tr>
+    <tr>
+        <td><?php echo $this->productName;?></td>
+        <td><?php echo $this->productQty;?></td>
+        <td><?php echo $this->unitCost;?></td>
+        <td><?php echo $this->total;?></td>
+    </tr>
+
+
+</table>
+
+<h5>Payment Options</h5>
+<form action="<?php echo $this->url(NULL, array('controller'=>'Store', 'action' => 'paypalExpressCheckout')); ?>" METHOD='POST'>
+<input type="hidden" name='orderId' value="<?php echo $order->id; ?>">
+<input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+</form>

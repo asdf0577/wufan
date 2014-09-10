@@ -1,0 +1,234 @@
+<?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/Album for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
+
+namespace Album;
+
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\Mvc\ModuleRouteListener;
+use Zend\Mvc\MvcEvent;
+use Album\Model\Album;
+use Album\Model\AlbumTable;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Authentication\Result;
+use Album\Model\ImageUploadTable;
+use Album\Model\UserTable;
+use Album\Model\UploadTable;
+use Album\Model\User;
+
+use Album\Model\StoreOrder;
+use Album\Model\StoreProduct ;
+
+use Album\Model\StoreOrderTable;
+use Album\Model\StoreProductTable;
+
+
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Adapter\DbTable as DbTableAuthAdaper;
+class Module implements AutoloaderProviderInterface
+{
+    public function getAutoloaderConfig()
+    {
+        return array(
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/autoload_classmap.php',
+            ),
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+		    // if we're in a namespace deeper than one level we need to fix the \ in the path
+                    __NAMESPACE__ => __DIR__ . '/src/' . str_replace('\\', '/' , __NAMESPACE__),
+                ),
+            ),
+        );
+    }
+
+    public function getConfig()
+    {
+        return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function onBootstrap(MvcEvent $e)
+    {
+        // You may not need to do this if you're doing it elsewhere in your
+        // application
+        $eventManager        = $e->getApplication()->getEventManager();
+        $moduleRouteListener = new ModuleRouteListener();
+        $moduleRouteListener->attach($eventManager);
+        $sharedEventManager = $eventManager->getSharedManager();
+        $sharedEventManager->attach(__NAMESPACE__,MvcEvent::EVENT_DISPATCH,
+                function ($e){
+                    $controller = $e->getTarget();
+                    $controllerName = $controller->getEvent()->getRouteMatch()->getParam('controller');//获 取当前路由的控制器名称
+                    if (!in_array($controllerName, array('Album\Controller\Register','Album\Controller\Usermanager','Album\Controller\Usermanager',))) 
+                    {
+                    $controller->layout('layout/myaccount')	;
+                    }//如果当前的控制器名称不在Register、Login、UserManager三个中，那么设置当前控制器的layout模板为myaccount
+                    
+                }
+    ); 
+        
+    }
+
+    public function getServiceConfig(){
+        return array(
+        		'factories' => array(
+        		    //table
+        				'Album\Model\AlbumTable' =>  function($sm) {
+        					$tableGateway = $sm->get('AlbumTableGateway');
+        					//$table=new albumTable($sm->get('AlbumTableGateway')
+        					$table = new AlbumTable($tableGateway);
+        					return $table;
+        				},
+        				'AlbumTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					$resultSetPrototype = new ResultSet();
+        					$resultSetPrototype->setArrayObjectPrototype(new Album());//set 依赖注入
+        					return new TableGateway('albums', $dbAdapter, null, $resultSetPrototype);
+        				},
+        				'Album\Model\UserTable'=>function ($sm){
+        				    $tableGateway=$sm->get('UserTableGateway');
+        				    $table =new UserTable($tableGateway);
+        				    return $table;
+        				},
+        				
+        				'UserTableGateway'=>function($sm){
+        				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        				    $resultSetPrototype = new ResultSet();
+        				    $resultSetPrototype->setArrayObjectPrototype(new User());
+        				    return new TableGateway('user',$dbAdapter,null,$resultSetPrototype);
+        				} ,
+        				'Album\Model\ImageUploadTable'=>function ($sm){
+        					$tableGateway=$sm->get('ImageUploadTableGateway');
+        					$table =new ImageUploadTable($tableGateway);
+        					return $table;
+        				},
+        				'ImageUploadTableGateway'=>function($sm){
+        					$dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('image_uploads',$dbAdapter);
+        				} ,
+        				'ChatMessageTableGateway'=>function($sm){ 
+        				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        				    return new TableGateway('chat_message',$dbAdapter);
+        				} ,
+        				'Album\Model\UploadTable'=>function ($sm){
+        					$tableGateway=$sm->get('UploadTableGateway');
+        					$UploadsSharingtableGateway=$sm->get('UploadsSharingTableGateway');
+        					$table =new UploadTable($tableGateway,$UploadsSharingtableGateway);
+        					return $table;
+        				},
+        				'UploadTableGateway'=>function($sm){
+        					$dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('upload',$dbAdapter);
+        				} ,
+        				'UploadsSharingTableGateway'=>function($sm){
+        					$dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('uploads_sharing',$dbAdapter);
+        				} ,
+        				
+        				'ChatMessagesTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('chat_messages', $dbAdapter);
+        				},
+        				
+        				'Album\Model\StoreProductTable' =>  function($sm) {
+        					$tableGateway = $sm->get('StoreProductTableGateway');
+        					$table = new StoreProductTable($tableGateway);
+        					return $table;
+        				},
+        				'StoreProductTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					$resultSetPrototype = new ResultSet();
+        					$resultSetPrototype->setArrayObjectPrototype(new StoreProduct());
+        					return new TableGateway('store_products', $dbAdapter, null, $resultSetPrototype);
+        				},
+        				'Album\Model\StoreOrderTable' =>  function($sm) {
+        					$tableGateway = $sm->get('StoreOrderTableGateway');
+        					$productTableGateway = $sm->get('StoreProductTableGateway');
+        					$table = new StoreOrderTable($tableGateway, $productTableGateway);
+        					return $table;
+        				},
+        				'StoreOrderTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					$resultSetPrototype = new ResultSet();
+        					$resultSetPrototype->setArrayObjectPrototype(new StoreOrder());
+        					return new TableGateway('store_orders', $dbAdapter, null, $resultSetPrototype);
+        				},
+        				
+        				
+        				//Form
+        				
+        				
+        				'RegisterForm'=>function($sm){
+        				    $form=new \Album\Form\RegisterForm();
+        				    $form->setInputFilter($sm->get('RegisterFilter'));
+        				    return $form;//注意 要返回 
+        				}, 
+        				'UserEditForm'=>function($sm){
+        				    $form=new \Album\Form\UserEditForm();
+        				    $form->setInputFilter($sm->get('UserEditFilter'));
+        				    return $form;//注意 要返回 
+        				}, 
+        				'UploadForm'=>function($sm){
+        					$form=new \Album\Form\UploadForm();
+        					//$form->setInputFilter($sm->get('UserEditFilter'));
+        					return $form;//注意 要返回
+        				},
+        				'UploadEditForm' => function($sm){
+        				    $form= new \Album\Form\UploadEditForm();
+        				    return $form;
+        				},
+        				
+        				'ImageUploadForm' => function ($sm) {
+        				    $form =new \Album\Form\ImageUploadForm();
+        				    return $form;
+        				    
+        				},
+        				'UploadShareForm'=>function($sm){
+        					$form=new \Album\Form\UploadShareForm();
+        					//$form->setInputFilter($sm->get('UserEditFilter'));
+        					return $form;//注意 要返回
+        				},
+        				'OrderForm'=>function($sm){
+        					$form=new \Album\Form\OrderForm();
+        					//$form->setInputFilter($sm->get('UserEditFilter'));
+        					return $form;//注意 要返回
+        				},    
+        				'ProductForm'=>function($sm){
+        					$form=new \Album\Form\ProductForm();
+        					//$form->setInputFilter($sm->get('UserEditFilter'));
+        					return $form;//注意 要返回
+        				},
+        				
+        				//Filter
+        				
+        				
+            			'UploadFilter'=>function ($sm){
+        					return new \Album\Form\UploadFilter();
+        				},
+        				
+        			    'UserEditFilter'=>function($sm){
+        			      return new \Album\Form\UserEditFilter();  
+        			    },
+        				'RegisterFilter'=>function ($sm){
+        				  return new \Album\Form\registerFilter();  
+            				},
+            			'AuthService()'=>function ($sm){
+        				 
+        				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        				    $dbTableAuthAdapter = new DbTableAuthAdaper($dbAdapter,'user','email','password','MD5(?)');
+        				    $authservice = new AuthenticationService();
+        				    $authservice->setAdapter($dbTableAuthAdapter);
+        				   return $authservice;
+        				},
+        		),
+        );
+        
+    }
+
+}

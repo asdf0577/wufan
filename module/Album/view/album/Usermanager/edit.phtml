@@ -1,0 +1,25 @@
+<h2>Edit Form</h2>
+<?php 
+$form=$this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'Usermanager','action'=>'process','id'=>$this->user_id,)));
+$form->setAttribute('method','post');  
+echo $this->form()->openTag($form);
+?>
+<dl class='zend_form'>
+
+<dt><?php echo $this->formlabel($form->get('name'));?></dt>
+<dd><?php echo $this->FormElement($form->get('name'));
+          echo $this->FormElementerrors($form->get('name'));
+?>
+</dd>
+<dt><?php echo $this->formlabel($form->get('email'));?></dt>
+<dd><?php echo $this->FormElement($form->get('email'));
+          echo $this->FormElementerrors($form->get('email'));
+?>
+</dd>
+
+<dd><?php echo $this->FormElement($form->get('submit'));?></dd>
+
+<?php $this->form()->closeTag();?>
+</dl>

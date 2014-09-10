@@ -1,0 +1,37 @@
+ <?php 
+// Attached jQuery UI Scripts
+ $this->headScript()->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/javascript');
+ $this->headScript()->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.js','text/javascript');
+// Attach jQuery UI Styles 
+ $this->headLink()->appendStylesheet('http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css');
+ 
+ // UI Initializer for buttons
+ $this->headScript()->appendScript(
+'$(function() {
+ 	$("a.ui-button").button();
+  });', 'text/javascript');
+  
+?>
+<table class="table">
+<tr>
+<th>ID</th>
+<th>name</th>
+<th>email</th>
+<th>RegisterTime</th>
+<th>edit</th>
+<th>delete</th>
+</tr>
+<?php  foreach ($this->users as $user):?>
+<tr>
+<td><?php echo $this->escapehtml($user->id);?></td>
+<td><?php echo $this->escapehtml($user->name);?></td>
+<td><?php echo $this->escapehtml($user->email);?></td>
+<td><?php echo $this->escapehtml($user->time_reg);?></td>
+<td>
+<A href="<?php echo $this->url('usermanager',array('action'=>'edit','id'=>$user->id));?>" class = 'ui-button' >edit</A></td>
+<td><A href="<?php echo $this->url('usermanager',array('action'=>'delete','id'=>$user->id));?>"class = 'ui-button'>delete</A>
+</td>
+</tr>
+<?php endforeach;?>
+</table>
+<td><A href="<?php echo $this->url('usermanager',array('action'=>'add',));?>">Add User</A>

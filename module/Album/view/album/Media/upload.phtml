@@ -1,0 +1,35 @@
+<h2>Upload</h2>
+
+<?php if($this->error):?>
+<p> There were one or more isues with your submission. Please correct them as 
+    indicated below.</p>
+<?php endif?>    
+
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'Media','action'=>'processupload')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+?>
+<table>
+<tr>
+<td><?php echo $this->formlabel($form->get('label'));?></td>
+<td><?php echo $this->formelement($form->get('label'))?>
+<?php echo $this->formelementerrors($form->get('label'))?></td>
+</tr>
+
+<tr>
+<td><?php echo $this->formlabel($form->get('imageUpload'));?></td>
+<td><?php echo $this->formelement($form->get('imageUpload'))?>
+<?php echo $this->formelementerrors($form->get('imageUpload'))?></td>
+</tr>
+<Tr>
+
+<td>
+<?php echo $this->formelement($form->get('submit'));
+      echo $this->formelementerrors($form->get('submit'));?>
+</td>
+</Tr>
+</table>
+<?php echo $this->form()->closeTag();?>

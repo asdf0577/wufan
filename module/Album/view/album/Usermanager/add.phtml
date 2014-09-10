@@ -1,0 +1,36 @@
+<h2>Add User</h2>
+<?php $form=$this->form ;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'usermanager','action'=>'addprocess',)));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+?>
+<dl class='zend_form'>
+<dt><?php echo $this->formlabel($form->get('name'));?></dt>
+<dd><?php echo $this->FormElement($form->get('name'));
+          echo $this->FormElementerrors($form->get('name'));
+?>
+</dd>
+<dt><?php echo $this->formlabel($form->get('email'));?></dt>
+<dd><?php echo $this->FormElement($form->get('email'));
+          echo $this->FormElementerrors($form->get('email'));
+?>
+</dd>
+
+<dt><?php echo $this->formlabel($form->get('password'));?></dt>
+<dd><?php echo $this->FormElement($form->get('password'));
+          echo $this->FormElementErrors($form->get('password'));
+?>
+</dd>
+<dt><?php echo $this->formlabel($form->get('confirm_password'));?></dt>
+<dd><?php echo $this->FormElement($form->get('confirm_password'));
+          echo $this->FormElementErrors($form->get('confirm_password'));
+?>
+</dd>
+<dd><?php echo $this->FormElement($form->get('submit'));
+          
+?>
+</dd>
+</dl>
+<?php $this->form()->closeTag();?>
+</section>

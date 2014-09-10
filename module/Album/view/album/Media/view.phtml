@@ -1,0 +1,10 @@
+<section >
+
+<h2><?php echo $this->escapehtml($upload->label);?></h2>
+<h4><?php echo $this->escapehtml($upload->filename);?></h4>
+
+<img  src="<?php echo $this->url('media',array('action'=>'showImage','id'=>$upload->id,'subaction'=>'full'));?>"/>
+
+</section>
+
+<a href="<?php echo $this-> url('media');?>">Show Gallery</a>

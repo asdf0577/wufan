@@ -1,0 +1,35 @@
+<?php 
+$title='My Albums';
+$this->headtitle($title);
+?>
+<h1><?php echo $this->escapehtml($title)?></h1>
+<p>
+<a href="<?php echo $this->url('album',array('action'=>'add'));?>">Add new Album</a>
+
+</p>
+<table class="table">
+<tr>
+<th>Title</th>
+<th>Artist</th>
+<th>Image<th>
+<th>&nbsp</th>
+</tr>
+<?php foreach ($this->paginator as $album):?> 
+
+<TR>
+<TD><?php echo $this->escapehtml($album->title);?></TD>
+<TD><?php echo $this->escapehtml($album->artist);?></TD>
+<TD><?php echo $this->escapehtml($album->avatar);?></TD>
+<td>
+<A href="<?php echo $this->url('album',array('action'=>'edit','id'=>$album->id));?>">edit</A>
+<A href="<?php echo $this->url('album',array('action'=>'delete','id'=>$album->id));?>">delete</A>
+</td>
+</TR>
+
+
+<?php endforeach;?>	
+
+
+
+
+</table>

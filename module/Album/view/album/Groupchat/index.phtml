@@ -1,0 +1,36 @@
+ <?php 
+/* $this->headScript()->appendScript(
+'$(function() {
+    $( "#btnRefresh" )
+      .click(function( event ) {
+ 		document.getElementById("messageListFrame").contentWindow.location.reload(true);
+ 	})
+  });', 'text/javascript'); */
+ 
+$this->headStyle()->appendStyle('
+	#userName { width:100px; margin-top:10px; display: inline}
+	#messageText { width:700px; margin-top:10px;}
+');
+  
+?>
+<H3>GROUP CHAT</H3>
+
+<iframe src = "<?php echo $this->url('groupchat',array(
+	'action' => 'messageList'
+))?>" width="80%" height="400px" id="messagelistFrame">
+</iframe>
+
+<?php 
+$form=$this->form;
+$form->prepare();
+echo $this->form()->openTag($form);
+
+echo $username;
+        echo $this->formelement($form->get('message'));
+        echo $this->formelementerrors($form->get('message'));
+        echo $this->formelement($form->get('submit'));
+        echo $this->formelementerrors($form->get('submit'));
+        echo $this->formelement($form->get('refresh'));
+
+echo $this->form()->closeTag();
+?>

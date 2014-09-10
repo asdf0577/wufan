@@ -1,0 +1,48 @@
+<?php $this->headScript()
+->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/
+javascript');
+?>
+
+
+<script type="text/javascript">
+
+$(function(){
+	$('#email').focus(function(){
+	var txt_value = $(this).val();
+    if(txt_value==this.defaultValue){
+	$(this).val("");
+}
+		});
+	$('#email').blur(function(){
+	var txt_value = $(this).val();
+    if(txt_value==""){
+	$(this).val(this.defaultValue);
+}
+		});
+});
+
+</script>
+<h2>Login Form</h2>
+<?php 
+$form=$this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'login','action'=>'process')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);?>
+<dl class='zend_form'>
+<dt><?php echo $this->formlabel($form->get('email'));?></dt>
+<dd>
+<?php 
+          echo $this->formelement($form->get('email'));
+          echo $this->formelementerrors($form->get('email'));?>
+</dd>
+
+<dt><?php echo $this->formlabel($form->get('password'));?></dt>
+<dd id="password">
+<?php 
+          echo $this->formelement($form->get('password'));
+          echo $this->formelementerrors($form->get('password'));?>
+</dd>
+<dd><?php echo $this->formelement($form->get('submit'));?></dd>
+</dl>
+<?php echo $this->form()->closeTag();?>

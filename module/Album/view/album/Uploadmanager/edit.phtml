@@ -1,0 +1,68 @@
+<section>
+	<?php 
+	$form = $this->form;
+	$form->prepare();
+	$form->setAttribute('action', $this->url(NULL, array('controller'=>'uploadmanager', 'action' => 'editprocess','id' => $this->upload_id,)));
+	$form->setAttribute('method', 'post');
+	
+	echo $this->form()->openTag($form);
+	?>
+
+<table class='table'>
+	<tr>
+		    <td> <?php  echo $this->formLabel($form->get('label')); ?> </td>
+			<td> <?php  echo $this->formElement($form->get('label'));
+		    	        echo $this->formElementErrors($form->get('label'));	?> </Td>
+		    <td><?php echo $this->formelement($form->get('filename'))?></td>
+            <td><?php echo $this->formelement($form->get('user_id'))?></td>
+		
+		</tr>
+<tr>
+<td><?php echo $this->formelement($form->get('submit'))?></td>
+</tr>
+</table>
+<?php echo $this->form()->closeTag();?>
+
+
+
+</section>
+<section>
+<table class="table">
+<tr>
+<th>Shared User</th>
+<th>Actions</th>
+</tr>
+<?php foreach ($sharedUsers as $shareId => $userName ):?>
+<tr>
+<td><?php  echo $this->escapehtml($userName);?></td>
+<td><a href = "<?php echo $this->url('uploadmanager',array('action'=>'deleteshare','id'=>$shareId));?>" onclick ="return confirm('Are you sure?')">Delete</a></td>
+</tr>
+<?php endforeach;?>
+</table>
+</section>
+
+<section>
+<h3>Add Sharing</h3>
+<?php 
+$uploadShareForm = $this->uploadShareForm;
+$uploadShareForm->prepare();
+$uploadShareForm->setAttribute('action',$this->url(Null,array('controller'=>'Uploadmanager','action'=>'processUploadSharing'))); 
+$uploadShareForm->setAttribute('method','post');
+echo $this->form()->openTag($uploadShareForm);
+?>
+
+<table>
+<tr>
+    <td>Choose User:</td>
+    </td>
+    <td><?php echo $this->formelement($uploadShareForm->get('user_id'));?>
+    <td><?php echo $this->formelement($uploadShareForm->get('upload_id'));?>
+</tr>
+<tr>
+<td>
+<?php echo $this->formelement($uploadShareForm->get('submit'));?>
+</td></tr>
+</table>
+
+<?php echo $this->form()->closeTag();?>
+</section>

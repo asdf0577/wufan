@@ -1,0 +1,27 @@
+<?php
+
+$title='New User Register';
+$this->headtitle($title);
+?>
+<h1><?php echo $this->escapehtml($title);?></h1>
+
+<?php 
+$form=$this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url('album',array('action'=>'inputform')));
+$form->setAttribute('method','post');
+/* $fileElement($string)=$form->get('$string'); */
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id')); 
+echo $this->formRow($form->get('username'));
+echo $this->formRow($form->get('password'));
+echo $this->formRow($form->get('email'));
+echo $this->formRow($form->get('captcha'));
+echo $this->formRow($form->get('security'));
+echo $this->formrow($form->get('image-file'));
+echo $this->formbutton($form->get('reset'));
+echo $this->formcolor($form->get('color'));
+echo $this->formdate($form->get('date'));
+echo $this->formsubmit($form->get('submit'));
+echo $this->form()->closeTag($form);
+

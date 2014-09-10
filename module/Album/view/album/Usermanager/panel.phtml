@@ -1,0 +1,11 @@
+<div id ="userpanel">
+<?php
+if($this->identity){
+    echo "hello" .$this->identity->name;
+}
+
+else{
+echo "<a href='/album/login'>µÇÂ¼</a>";
+}
+?>
+</div>

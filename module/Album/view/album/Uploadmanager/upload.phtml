@@ -1,0 +1,28 @@
+<h2>File Upload </h2>
+This is <?php echo $userEmail;?>'s file upload
+<?php $form=$this->form ;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'uploadmanager','action'=>'uploadprocess',)));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+?>
+<dl class='zend_form'>
+
+<dt><?php echo $this->formlabel($form->get('label'));?></dt>
+<dd><?php echo $this->FormElement($form->get('label'));
+       
+?>
+</dd>
+
+<dt><?php echo $this->formlabel($form->get('fileUpload'));?></dt>
+<dd><?php echo $this->FormElement($form->get('fileUpload'));
+         
+?>
+</dd>
+
+<dd><?php echo $this->FormElement($form->get('submit'));
+          
+?>
+</dd>
+</dl>
+<?php $this->form()->closeTag();?>

@@ -1,0 +1,15 @@
+<html>
+<body>
+<section>
+<?php foreach($messageList as $mesg): ?>
+<div>
+
+<span><?php echo $this->escapehtml($mesg['time']);?></span>
+<span><?php echo $this->escapehtml($mesg['user']);?></span>:
+<span><?php echo $this->escapehtml($mesg['data']);?></span>
+
+</div>
+<?php endforeach;?>
+</section>
+</body>
+</html>

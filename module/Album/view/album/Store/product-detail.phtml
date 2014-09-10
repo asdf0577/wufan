@@ -1,0 +1,76 @@
+<?php $this->headScript()
+->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/
+javascript');
+$this->headScript()
+->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.
+js','text/javascript');
+// Attach jQuery UI Styles
+$this->headLink()->appendStylesheet('http://code.jquery.com/
+ui/1.10.0/themes/base/jquery-ui.css');
+$this->headScript()->appendScript(
+'$(function() {
+$("a.ui-button").button();
+});', 'text/javascript');/* 
+
+$this->headScript()->appendScript(
+		
+'$(function() {
+    $("#buy_less").click(function()
+    {("form ").hide();}});', 'text/javascript'); */
+?>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$("#buy_less").click(function(){
+	qty=$("#qty").val();
+$("#qty").val(qty-1);
+});
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#buy_add").click(function(){
+	qty=$("#qty").val();
+$("#qty").val(parseInt(qty)+1);
+});
+});
+</script>
+<h1 id="title"><?php echo $this->escapehtml($Product->name);?></h1>
+<table class = "table">
+<tr>
+     <TD width ="50%">
+        <?php echo $this->escapehtml($Product->desc);?><br/>
+        Cost:<strong>
+        <?php echo $this->escapehtml($Product->cost);?></strong><br />
+    </TD>    
+<img  src="<?php echo $this->url('store',array('action'=>'showImage','id'=>$Product->id,'subaction'=>'full'));?>"/>
+</table>
+
+<?php 
+$form = $this->form;
+$form->prepare() ;
+$form->setAttribute('action',$this->url(Null,array('controller'=>'store','action'=>'shoppingCart')));
+$form->setAttribute('method','post');   
+
+echo $this->form()->openTag($form)
+
+?>
+
+<Table class="table">
+    <tr>
+        <td><?php echo $this->formlabel($form->get('qty'));?></td>
+        <td><a class='ui-button' id ='buy_less'>-</a><?php echo $this->formelement($form->get('qty'));?><a class='ui-button' id ='buy_add'>+</a>
+            <?php echo $this->formelementerrors($form->get('qty'));?>
+            <?php echo $this->formelement($form->get('product_id'));?></td>
+    </tr>
+    <tr>
+        <td><?php echo $this->formelement($form->get('submit'));?>
+            <?php echo $this->formelementerrors($form->get('submit'));?>
+            </td>
+    </tr>
+</Table>
+<?php echo $this->form()->closeTag();?>
+
+
+
+

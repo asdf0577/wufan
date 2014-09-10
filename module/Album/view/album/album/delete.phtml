@@ -1,0 +1,21 @@
+<?php 
+$title='Delete Album';
+$this->headtitle($title);
+?>
+<h1><?php echo $this->escapehtml($title);?></h1>
+<p>Are you want sure to delete <h3>
+'<?php echo $this->escapehtml($album->title);?>'</h3>By
+<h3>'<?php echo $this->escapehtml($album->artist);?>'</h3>
+</p>
+<?php 
+$url=$this->url('album',array(
+'action'=>'delete',
+'id'=>$this->id,));
+?>
+<form action="<?php echo $url;?>" method="post">
+<input type="hidden"name="id"value="<?php echo(int)$album->id;?>"/>
+<input type="submit"name="del" value ="Yes"/>
+<input type="submit"name="del" value ="No"/>
+
+
+</form>
