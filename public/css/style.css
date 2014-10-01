@@ -1,8 +1,11 @@
-body {
+   	body {
     padding-top: 60px;
     padding-bottom: 40px;
 }
-
+li,ul{
+	margin:0;
+	padding:0;
+}
 .zf-green {
     color: #68b604;
 }
@@ -35,6 +38,10 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+.search{
+	margin:10px 0px 0px 0px;
+	font-size:20px;
+}
 #title{
 	color:333;
 	font-family:  "Myriad Set Pro","Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
@@ -53,4 +60,131 @@ div.container a.brand {
 #buy_add{
 	width:20px;
 	font:14px;
+}
+
+#proitem{
+	float:left;
+	width:312px;
+	height:560px;
+	display:inline;
+}
+#jqzoomWrap{
+	border:1px solid #BBBBBB;
+	cursor:pointer;
+	float:left;
+	padding:0;
+	position:relative;
+}
+#jqzoomWrap img{
+	max-height:70%;
+	max-width:70%;
+	padding:10px 10px 10px 50px;
+	margin:auto;
+}
+#proitem span{
+	background: url("../img/look.gif")no-repeat ;
+	clear:both;
+	display:block;
+	width:320px;
+	text-align:center;
+}
+#proitem ul.imgList{
+	height£º 80px;
+}
+#proitem ul.imgList li{
+	float:left;
+	margin-right:10px;
+	list-style-type:none
+}
+#proitem ul.imgList li img{
+	width:60px;
+	height:60px;
+	background:#EEE;
+	cursor:pointer;
+	padding:1px;
+	
+}
+#proitem ul.imgList li img:hover{
+	padding:1px;
+	background:#999;
+}
+
+.tab{
+	clear:both;
+	float:left;
+	height:230px;
+	width:310px;
+	overflow:hidden;
+	margin-top:20px;
+}
+.tab .tab_menu li{
+	float:left;
+	list-style:none;
+	text-align:center;
+	padding:1px 6px;
+	margin-right:4px;
+	background:#F1F1F1;
+	border:1px solid #898989;
+	
+	border-bottom:none;
+}
+.tab .tab_menu li:hover{
+	background:#DFDFDF;
+}
+.tab .tab_menu li:selected{
+	color:#FFF;
+	background:#6D84B5;
+}
+.tab .tab_box{
+	clear:both;
+	border:1px solid #898989;
+}
+.tab .hide{
+	display:none;
+}	
+#details{
+	float:left;
+	display:inline;
+	overflow:hidden;
+	width:468px;
+	margin-left:20px;
+}
+#prodetail li{
+	
+	list-style:none;
+}
+li.color_change li{
+	float:left;
+}
+li.color_change li img{
+	width:30px;
+	height:30px;
+	background:#EEE;
+	cursor:pointer;
+	padding:1px;
+	margin-top:10px;
+	margin-right:3px;
+	margin-bottom:10px;
+}
+li.color_change li img:hover{
+	padding:1px;
+	background:#999;
+}
+li.pro_size {
+	clear:both;
+}
+li.pro_size li{
+	float:left;
+	text-align:center;
+	padding:1px 6px;
+	margin-top:10px;
+	margin-right:4px;
+	border:1px solid #898989;
+}
+li.pro_size li:hover{
+	background:#DFDFDF;
+}
+li.pro_size li:selected{
+	color:#FFF;
+	background:#6D84B5;
 }

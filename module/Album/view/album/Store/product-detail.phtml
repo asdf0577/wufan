@@ -1,12 +1,7 @@
-<?php $this->headScript()
-->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/
-javascript');
-$this->headScript()
-->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.
-js','text/javascript');
+<?php $this->headScript()->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/javascript');
+$this->headScript()->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.js','text/javascript');
 // Attach jQuery UI Styles
-$this->headLink()->appendStylesheet('http://code.jquery.com/
-ui/1.10.0/themes/base/jquery-ui.css');
+$this->headLink()->appendStylesheet('http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css');
 $this->headScript()->appendScript(
 '$(function() {
 $("a.ui-button").button();
@@ -18,6 +13,12 @@ $this->headScript()->appendScript(
     $("#buy_less").click(function()
     {("form ").hide();}});', 'text/javascript'); */
 ?>
+
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.jqzoom.js')
+                              ->prependFile($this->basePath() . '/js/use_jqzoom.js')
+      ?>
+
+
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -35,42 +36,79 @@ $("#qty").val(parseInt(qty)+1);
 });
 });
 </script>
-<h1 id="title"><?php echo $this->escapehtml($Product->name);?></h1>
-<table class = "table">
-<tr>
-     <TD width ="50%">
-        <?php echo $this->escapehtml($Product->desc);?><br/>
-        Cost:<strong>
-        <?php echo $this->escapehtml($Product->cost);?></strong><br />
-    </TD>    
-<img  src="<?php echo $this->url('store',array('action'=>'showImage','id'=>$Product->id,'subaction'=>'full'));?>"/>
-</table>
 
-<?php 
-$form = $this->form;
-$form->prepare() ;
-$form->setAttribute('action',$this->url(Null,array('controller'=>'store','action'=>'shoppingCart')));
-$form->setAttribute('method','post');   
+        
+<div id="proitem">
+    
+    <div class="jqzoomWrap">
+		        <a href="<?php echo $this->basepath(). '/images/pro_img/blue_one_big.jpg'?>" class="jqzoom" rel='gal1' title="iphone" >
+		            <img src="<?php echo  $this->basepath(). '/images/pro_img/blue_one_small.jpg'?>" title="iphone" alt="iphone" id="bigImg" />
+		        </a>
+			</div>
+    
+    
+    <span ><a title="introduce"  id ="thickImg" href="#" class="thickbox">1</a></span>
+    <ul class="imgList">
+    <li class="imglist_blue"><a href='javascript:void(0)' rel=""><img src="<?php echo $this->url('media',
+        array('action'=>'showImage','id'=>10,'subaction'=>'thumb'));?>"/></a></li>
+    <li class="imglist_blue"><a href='javascript:void(0)' rel=""><img src="<?php echo $this->url('media',
+        array('action'=>'showImage','id'=>11,'subaction'=>'thumb'));?>"/></a></li>
+    <li class="imglist_blue"><a href='javascript:void(0)' rel=""><img src="<?php echo $this->url('media',
+        array('action'=>'showImage','id'=>11,'subaction'=>'thumb'));?>"/></a></li>
+    </ul>
+    <div class="tab">
+        <div class="tab_menu">
+        <ul>
+        <li class="selected">property</li>
+        <li>type</li>
+        <li>introduce</li>
+        </ul>
+         <div class="tab_box">
+            <div>balbalalba</div>
+            <div class="hide">kasjldfjals</div>
+            <div class="hide">kasjldddddfjals</div>
+        </div>
+        </div>
+       
+    </div>
+</div>
+<div id="details">
+    <div id="prodetail">
+    <h4><?php echo $this->escapehtml($Product->name);?></h4>
+    <ul class="plist">
+    <li><?php echo $this->escapehtml($Product->desc);?></li>
+    <li>Cost:<?php echo $this->escapehtml($Product->cost);?></li>
+    <li>Discount:<?php echo $this->escapehtml($Product->cost);?></li>
+    <li class="color_change">
+        <span>Color:</span>
+        <strong>Gold</strong>
+        <ul>
+            <li><img src="<?php echo $this->url('media',array('action'=>'showImage','id'=>12,));?>"/></li>
+            <li><img src="<?php echo $this->url('media',array('action'=>'showImage','id'=>13,));?>"/></li>
+            <li><img src="<?php echo $this->url('media',array('action'=>'showImage','id'=>14,));?>"/></li>
+           
+        </ul>
+    </li>
+    
+    <li class="pro_size">
+        <span>Storage:</span>
+        <strong>16GB</strong>
+        <ul>
+        <li>16GB</li>
+        <li>32GB</li>
+        <li>128GB</li>
+        </ul>
+    </li>
+    </ul>
+    </div></div>    
 
-echo $this->form()->openTag($form)
+        
 
-?>
 
-<Table class="table">
-    <tr>
-        <td><?php echo $this->formlabel($form->get('qty'));?></td>
-        <td><a class='ui-button' id ='buy_less'>-</a><?php echo $this->formelement($form->get('qty'));?><a class='ui-button' id ='buy_add'>+</a>
-            <?php echo $this->formelementerrors($form->get('qty'));?>
-            <?php echo $this->formelement($form->get('product_id'));?></td>
-    </tr>
-    <tr>
-        <td><?php echo $this->formelement($form->get('submit'));?>
-            <?php echo $this->formelementerrors($form->get('submit'));?>
-            </td>
-    </tr>
-</Table>
-<?php echo $this->form()->closeTag();?>
-
+<div id="jqzoomWrap2">
+    <a href="<?php echo $this->url('store',array('action'=>'showImage','id'=>$Product->id,'subaction'=>'full'));?> " class="jqzoom" rel="gall" title="iPhone6 gold">
+    <img  src="<?php echo $this->url('store',array('action'=>'showImage','id'=>$Product->id,'subaction'=>'thumb'));?>" title="iPhone6 gold"  id="bigimg  "/></a>
+    </div>
 
 
 

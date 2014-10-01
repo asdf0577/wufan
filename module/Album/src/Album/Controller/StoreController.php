@@ -19,10 +19,7 @@ class StoreController extends AbstractActionController
     /**
      * The default action - show the home page
      */
-    
-    public function bookandnotebookAction(){
-        
-    }
+   
     public function indexAction()
     {
         $storeProductTable = $this->getServiceLocator()->get('Album\Model\StoreProductTable');
@@ -86,7 +83,6 @@ class StoreController extends AbstractActionController
         $id = $this->params()->fromRoute('id');
         $id2=$id+1;
         $product = $StoreProductTable->getProduct($id);
-        $product2 = $StoreProductTable->getProduct($id2);
        
          $form =new OrderForm; 
          $form->add(
@@ -103,7 +99,6 @@ class StoreController extends AbstractActionController
       return new ViewModel(array(
           'Product' => $product,
           'form' => $form ,
-          'Product2'=>$product2
       ))  ;
         
         
