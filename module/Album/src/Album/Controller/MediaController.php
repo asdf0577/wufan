@@ -69,18 +69,20 @@ class MediaController extends AbstractActionController
     public function generateThumbnail($imageFileName)
     {
         $uploadPath = 'E:/movie/photos';
-        $sourceImageFileName = $uploadPath. '/' .$imageFileName;
+        $sourceImageFileName = $uploadPath. '/' .$imageFileName.'_large';
         $thumbnailFileName = 'tn_' . $imageFileName;
-        echo $sourceImageFileName;
-        
+        $smallFileName=$imageFileName.'_small';        
         
         
         $imageThumb = $this->getServiceLocator()->get('WebinoImageThumb');
         $thumb = $imageThumb->create($sourceImageFileName,$options=array());
+        $small = $thumb;
         $thumb->resize(75,75);
+        $small->resize(200,200);
         $thumb->save($uploadPath. '/' .$thumbnailFileName);
-        
+        $small->save($uploadPath.'/'.$smallFileName);
         return $thumbnailFileName;
+        return $smallFileName;
         
     }
     

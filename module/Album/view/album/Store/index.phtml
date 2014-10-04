@@ -7,25 +7,10 @@ js','text/javascript');
 // Attach jQuery UI Styles
 $this->headLink()->appendStylesheet('http://code.jquery.com/
 ui/1.10.0/themes/base/jquery-ui.css');
-$this->headScript()->appendScript(
-'$(function() {
-$("a.buy_add,.buy_less").button();
-});', 'text/javascript');
+$this->headScript()->appendFile($this->basePath() . '/js/quantity.js','text/javascript');
 ?>
 
-<script type="text/javascript">
-$(document).ready(function(){
-$(".buy_less").click(function(){
-	$(this).siblings(".qty").val(parseInt($(this).siblings(".qty").val())-1);
-});
-});
-</script>
-<script type="text/javascript"> 
-$(document).ready(function(){
-$(".buy_add").click(function(){
-	$(this).siblings(".qty").val(parseInt($(this).siblings(".qty").val())+1);
-});
-});</script>
+
 <script type="text/javascript">
 $(function(){
 var $category = $('ul#phone li:gt(0):not(:last)');

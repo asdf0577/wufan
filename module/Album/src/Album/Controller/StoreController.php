@@ -1,6 +1,5 @@
 <?php
 namespace Album\Controller;
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Album\Model\StoreOrder;
@@ -93,7 +92,15 @@ class StoreController extends AbstractActionController
              				'value' => $product->id
              		),
          ));
-        
+         $form->add(
+         		array(
+         				'name' => 'submit',
+         				'attributes' => array(
+         						'class'  => 'purchase',
+         				        'type'=>'submit',
+         				        'value'=>'purchase'
+         				),
+         		));
         
         
       return new ViewModel(array(

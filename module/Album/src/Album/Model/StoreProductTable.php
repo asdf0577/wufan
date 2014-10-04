@@ -18,6 +18,7 @@ class StoreProductTable
     			'cost'=>$storeProduct->cost,
     			'filename'=>$storeProduct->filename,
     			'thumbnail'=>$storeProduct->thumbnail,
+    			'small'=>$storeProduct->small,
     	    
     	);
     	$id=(int)$storeProduct->id;

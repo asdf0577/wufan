@@ -329,7 +329,7 @@
    						<strong>À¶°×</strong>
 						<ul>
 							<li><img alt="À¶°×" src="images/pro_img/blue.jpg" /></li>
-							<li><img alt="»Æ°×" src="images/pro_img/yellow.jpg" /></li>
+							<li><img alt="»Æ°×"     src="images/pro_img/yellow.jpg" /></li>
 							<li><img alt="·ÛÂÌ" src="images/pro_img/green.jpg" /></li>
 						</ul>
    					</li>

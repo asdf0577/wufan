@@ -15,6 +15,9 @@ use Album\Model\StoreProduct;
  */
 class StoreadminController extends AbstractActionController
 {
+    
+   
+    
 
     /**
      * The default action - show the home page
@@ -62,11 +65,12 @@ class StoreadminController extends AbstractActionController
                     $exchange_data['name'] = $request->getPost()->get('name');
                     $exchange_data['filename'] = $uploadFile['name'];
                     $exchange_data['thumbnail'] = $this->generateThumbnail($uploadFile['name']); 
+                    $exchange_data['small'] = $this->generateSmall($uploadFile['name']); 
                     $exchange_data['desc'] = $request->getPost()->get('desc');
                     $exchange_data['cost'] = $request->getPost()->get('cost');
 
                     $product->exchangeArray($exchange_data);
-                    
+                     
                     $productTable = $sm->get('Album\Model\StoreProductTable');
                     
                     $productTable->saveStoreProduct($product);    
@@ -81,15 +85,26 @@ class StoreadminController extends AbstractActionController
     	$uploadPath = 'E:/movie/photos';
     	$sourceImageFileName = $uploadPath. '/' .$imageFileName;
     	$thumbnailFileName = 'tn_' . $imageFileName;
-    
-    
-    
     	$imageThumb = $this->getServiceLocator()->get('WebinoImageThumb');
     	$thumb = $imageThumb->create($sourceImageFileName,$options=array());
     	$thumb->resize(75,75);
     	$thumb->save($uploadPath. '/' .$thumbnailFileName);
-    
     	return $thumbnailFileName;
     
     }
+    public function generateSmall($imageFileName)
+    {
+        
+    	$uploadPath = 'E:/movie/photos';
+    	$sourceImageFileName = $uploadPath. '/' .$imageFileName;
+    	$smallFileName = $imageFileName.'_small';
+    	$imageThumb = $this->getServiceLocator()->get('WebinoImageThumb');
+    	$thumb = $imageThumb->create($sourceImageFileName,$options=array());
+    	$thumb->resize(150,150);
+    	$thumb->save($uploadPath. '/' .$smallFileName);
+    	return $smallFileName;
+    
+    } 
+    
+    
 }

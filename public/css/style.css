@@ -51,15 +51,20 @@ div.container a.brand {
 
 #qty{
 	width:50px;
+	height:20px;
+	margin-top:7px;
+	margin-right:2px;
 	text-align:center;
 }
 #buy_less{
-	width:20px;
+	width:15px;
+	height:15px;
 	font:15px;
 }
 #buy_add{
-	width:20px;
-	font:14px;
+	width:15px;
+	font:15px;
+	height:15px;
 }
 
 #proitem{
@@ -68,28 +73,25 @@ div.container a.brand {
 	height:560px;
 	display:inline;
 }
-#jqzoomWrap{
+.jqzoomWrap{
 	border:1px solid #BBBBBB;
 	cursor:pointer;
 	float:left;
 	padding:0;
 	position:relative;
 }
-#jqzoomWrap img{
-	max-height:70%;
-	max-width:70%;
+.jqzoomWrap img{
 	padding:10px 10px 10px 50px;
 	margin:auto;
 }
 #proitem span{
-	background: url("../img/look.gif")no-repeat ;
 	clear:both;
 	display:block;
 	width:320px;
 	text-align:center;
 }
 #proitem ul.imgList{
-	height£º 80px;
+	heightï¼š 80px;
 }
 #proitem ul.imgList li{
 	float:left;
@@ -97,11 +99,14 @@ div.container a.brand {
 	list-style-type:none
 }
 #proitem ul.imgList li img{
-	width:60px;
-	height:60px;
+	max-width:60px;
+	width:eÂ­xpression(this.width>60?"60px":this.width);
+	max-height:60px;
+	height:eÂ­xpression(this.height>60?"60px":this.height);
 	background:#EEE;
 	cursor:pointer;
 	padding:1px;
+	display:inline;
 	
 }
 #proitem ul.imgList li img:hover{
@@ -131,9 +136,10 @@ div.container a.brand {
 .tab .tab_menu li:hover{
 	background:#DFDFDF;
 }
-.tab .tab_menu li:selected{
-	color:#FFF;
-	background:#6D84B5;
+
+.tab .tab_menu li.selected { 
+	color:#FFF; 
+	background:#6D84B4;
 }
 .tab .tab_box{
 	clear:both;
@@ -166,12 +172,13 @@ li.color_change li img{
 	margin-right:3px;
 	margin-bottom:10px;
 }
-li.color_change li img:hover{
+li.color_change li img:hover,li.color_change li img.hover{
 	padding:1px;
 	background:#999;
 }
 li.pro_size {
 	clear:both;
+	
 }
 li.pro_size li{
 	float:left;
@@ -180,11 +187,135 @@ li.pro_size li{
 	margin-top:10px;
 	margin-right:4px;
 	border:1px solid #898989;
+	margin-bottom:40px;
 }
-li.pro_size li:hover{
+li.pro_size li:hover,li.pro_size li.hover{
 	background:#DFDFDF;
 }
 li.pro_size li:selected{
 	color:#FFF;
 	background:#6D84B5;
+}
+
+/* jquery zoom */
+.zoomPad{
+	position:relative;
+	float:left;
+	z-index:99;
+	cursor:crosshair;
+}
+.zoomPreload{
+   -moz-opacity:0.8;
+   opacity: 0.8;
+   filter: alpha(opacity = 80);
+   color: #333;
+   font-size: 12px;
+   font-family: Tahoma;
+   text-decoration: none;
+   border: 1px solid #CCC;
+   background-color: white;
+   padding: 8px;
+   text-align:center;
+   background-image: url(../images/zoomloader.gif);
+   background-repeat: no-repeat;
+   background-position: 43px 30px;
+   z-index:110;
+   width:90px;
+   height:43px;
+   position:absolute;
+   top:0px;
+   left:0px;
+    * width:100px;
+    * height:49px;
+}
+.zoomPup{
+	overflow:hidden;
+	background-color: #FFF;
+	-moz-opacity:0.6;
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+	z-index:120;
+	position:absolute;
+	border:1px solid #CCC;
+	z-index:101;
+	cursor:crosshair;
+}
+.zoomOverlay{
+	position:absolute;
+	left:0px;
+	top:0px;
+	background:#FFF;
+	/*opacity:0.5;*/
+	z-index:5000;
+	width:100%;
+	height:100%;
+	display:none;
+    z-index:101;
+}
+.zoomWindow{
+	position:absolute;
+	left:110%;
+	top:40px;
+	background:#FFF;
+	z-index:6000;
+	height:auto;
+  z-index:10000;
+  z-index:110;
+}
+.zoomWrapper{
+	position:relative;
+	border:1px solid #999;
+  z-index:110;
+}
+.zoomWrapperTitle{
+	display:block;
+	background:#999;
+	color:#FFF;
+	height:18px;
+	line-height:18px;
+	width:100%;
+  overflow:hidden;
+	text-align:center;
+	font-size:12px;
+  position:absolute;
+  top:0px;
+  left:0px;
+  z-index:120;
+  -moz-opacity:0.6;
+  opacity: 0.6;
+  filter: alpha(opacity = 60);
+}
+.zoomWrapperImage{
+	display:block;
+  position:relative;
+  overflow:hidden;
+  z-index:110;
+
+}
+.zoomWrapperImage img{
+  border:0px;
+  display:block;
+  position:absolute;
+  z-index:101;
+}
+.zoomIframe{
+  z-index: -1;
+  filter:alpha(opacity=0);
+  -moz-opacity: 0.80;
+  opacity: 0.80;
+  position:absolute;
+  display:block;
+}
+
+.purchase{
+	border:0px;
+	background:none;
+	margin-top:5px;
+}
+
+#Catalog{
+	float:left;
+	overflow:hidden;
+	width:187px;
+	height:560px;
 }

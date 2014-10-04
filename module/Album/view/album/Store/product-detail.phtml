@@ -1,72 +1,70 @@
-<?php $this->headScript()->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/javascript');
+<?php 
+$this->headScript()->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/javascript');
 $this->headScript()->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.js','text/javascript');
-// Attach jQuery UI Styles
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.jqzoom.js','text/javascript');
+$this->headScript()->appendFile($this->basePath() . '/js/use_jqzoom.js','text/javascript');
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.thickbox.js','text/javascript');
+$this->headScript()->appendFile($this->basePath() . '/js/switchImg.js','text/javascript');
+ $this->headScript()->appendFile($this->basePath() . '/js/tab.js','text/javascript'); 
+ $this->headScript()->appendFile($this->basePath() . '/js/switchColor.js','text/javascript'); 
+ $this->headScript()->appendFile($this->basePath() . '/js/sizeAndprice.js','text/javascript'); 
+ $this->headScript()->appendFile($this->basePath() . '/js/quantity.js','text/javascript'); 
 $this->headLink()->appendStylesheet('http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css');
-$this->headScript()->appendScript(
-'$(function() {
-$("a.ui-button").button();
-});', 'text/javascript');/* 
-
-$this->headScript()->appendScript(
-		
-'$(function() {
-    $("#buy_less").click(function()
-    {("form ").hide();}});', 'text/javascript'); */
+$this->headLink()->appendStylesheet($this->basePath() . '/css/thickbox.css');
 ?>
 
-<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.jqzoom.js')
-                              ->prependFile($this->basePath() . '/js/use_jqzoom.js')
-      ?>
-
-
-
-<script type="text/javascript">
-$(document).ready(function(){
-$("#buy_less").click(function(){
-	qty=$("#qty").val();
-$("#qty").val(qty-1);
-});
-});
-</script>
-<script type="text/javascript">
-$(document).ready(function(){
-$("#buy_add").click(function(){
-	qty=$("#qty").val();
-$("#qty").val(parseInt(qty)+1);
-});
-});
-</script>
-
+<div id="Catalog">
+<h2 title="Catalog">Category</h2>
+    <div class="cataInfo">
+        <h3>CellPhone</h3>
+        <ul>
+            <li><a href="#">Apple</a></li>
+            <li><a href="#">Google</a></li>
+            <li><a href="#">Samsung</a></li>
+            <li><a href="#">Xiaomi</a></li>
+            <li><a href="#">Huawei</a></li>
+            <li><a href="#">LG</a></li>
+            <li><a href="#">Nokia</a></li>
+        </ul>
+        <br class="clear">
         
+    </div>
+</div>     
 <div id="proitem">
     
     <div class="jqzoomWrap">
-		        <a href="<?php echo $this->basepath(). '/images/pro_img/blue_one_big.jpg'?>" class="jqzoom" rel='gal1' title="iphone" >
-		            <img src="<?php echo  $this->basepath(). '/images/pro_img/blue_one_small.jpg'?>" title="iphone" alt="iphone" id="bigImg" />
-		        </a>
-			</div>
+		<a href="<?php echo $this->basepath(). '/images/pro_img/6_silver_two_large.jpg'?>" class="jqzoom" rel='gal1' title="iPhone 6" >
+            <img src="<?php echo  $this->basepath(). '/images/pro_img/6_silver_two_small.jpg'?>" title="iphone" alt="iphone" id="bigImg" />
+		</a>
+	</div>
     
     
-    <span ><a title="introduce"  id ="thickImg" href="#" class="thickbox">1</a></span>
+    <span >
+        <a title="iPhone 6"  id ="thickImg" href="<?php echo $this->basepath(). '/images/pro_img/6_silver_two_large.jpg'?>" class="thickbox">
+            <img src="<?php echo  $this->basepath(). '/img/look.gif '?>" alt="点击查看大图"/>
+        </a>
+    </span>
+    
     <ul class="imgList">
-    <li class="imglist_blue"><a href='javascript:void(0)' rel=""><img src="<?php echo $this->url('media',
-        array('action'=>'showImage','id'=>10,'subaction'=>'thumb'));?>"/></a></li>
-    <li class="imglist_blue"><a href='javascript:void(0)' rel=""><img src="<?php echo $this->url('media',
-        array('action'=>'showImage','id'=>11,'subaction'=>'thumb'));?>"/></a></li>
-    <li class="imglist_blue"><a href='javascript:void(0)' rel=""><img src="<?php echo $this->url('media',
-        array('action'=>'showImage','id'=>11,'subaction'=>'thumb'));?>"/></a></li>
+	   <li class="imgList_6_silver"><a href='javascript:void(0);' rel="{gallery: 'gal1',smallimage:'/images/pro_img/6_silver_one_small.jpg',largeimage:'/images/pro_img/6_silver_one_large.jpg'}"><img src='/images/pro_img/6_silver_one.jpg' alt=""/></a></li>
+	   <li class="imgList_6_silver"><a href='javascript:void(0);' rel="{gallery: 'gal1',smallimage:'/images/pro_img/6_silver_two_small.jpg',largeimage:'/images/pro_img/6_silver_two_large.jpg'}"><img src='/images/pro_img/6_silver_two.jpg' alt=""/></a></li>
+	   <li class="imgList_6_gold hide"><a href='javascript:void(0);' rel="{gallery: 'gal1',smallimage:'/images/pro_img/6_gold_one_small.jpg',largeimage:'/images/pro_img/6_gold_one_large.jpg'}"><img src='/images/pro_img/6_gold_one.jpg' alt=""/></a></li>
+	   <li class="imgList_6_gold hide"><a href='javascript:void(0);' rel="{gallery: 'gal1',smallimage:'/images/pro_img/6_gold_two_small.jpg',largeimage:'/images/pro_img/6_gold_two_large.jpg'}"><img src='/images/pro_img/6_gold_two.jpg' alt=""/></a></li>
+	   <li class="imgList_6_spacegray hide"><a href='javascript:void(0);' rel="{gallery: 'gal1',smallimage:'/images/pro_img/6_spacegray_one_small.jpg',largeimage:'/images/pro_img/6_spacegray_one_large.jpg'}"><img src='/images/pro_img/6_spacegray_one.jpg' alt=""/></a></li>
+	   <li class="imgList_6_spacegray hide"><a href='javascript:void(0);' rel="{gallery: 'gal1',smallimage:'/images/pro_img/6_spacegray_two_small.jpg',largeimage:'/images/pro_img/6_spacegray_two_large.jpg'}"><img src='/images/pro_img/6_spacegray_two.jpg' alt=""/></a></li>
     </ul>
     <div class="tab">
         <div class="tab_menu">
-        <ul>
-        <li class="selected">property</li>
-        <li>type</li>
-        <li>introduce</li>
-        </ul>
+            <ul>
+                <li class="selected">Core</li>
+                <li>display</li>
+                <li>Camera</li>
+             </ul>
          <div class="tab_box">
-            <div>balbalalba</div>
-            <div class="hide">kasjldfjals</div>
-            <div class="hide">kasjldddddfjals</div>
+            <div>iPhone 6 features an A8 chip built on second-generation 64-bit desktop-class architecture. Its incredible power is enhanced by an M8 motion coprocessor that efficiently measures your activity from advanced sensors, including a new barometer. So you can do more, for longer periods of time, with better performance and battery life.</div>
+            <div class="hide">A better display. 
+The size of the new, higher-resolution Retina HD displays on iPhone 6 and iPhone 6 Plus may be the first thing you notice. But what you experience is so much more. With innovations that deliver higher contrast, dual‑domain pixels for more accurate color at wider viewing angles, and an improved polarizer, these are the thinnest, most advanced Multi‑Touch displays we’ve ever made.</div>
+            <div class="hide">Every day, people take more photos with iPhone than with any other camera. That’s because the iSight camera makes it so remarkably easy. Now, in addition to its large 1.5-micron pixels and ƒ/2.2 aperture, the world’s most popular camera is packed with new technologies to help everyone take more great photos</div>
         </div>
         </div>
        
@@ -78,14 +76,14 @@ $("#qty").val(parseInt(qty)+1);
     <ul class="plist">
     <li><?php echo $this->escapehtml($Product->desc);?></li>
     <li>Cost:<?php echo $this->escapehtml($Product->cost);?></li>
-    <li>Discount:<?php echo $this->escapehtml($Product->cost);?></li>
+    <li class="pro_price">Discount:<strong><?php echo $this->escapehtml($Product->cost);?></strong></li>
     <li class="color_change">
         <span>Color:</span>
         <strong>Gold</strong>
         <ul>
-            <li><img src="<?php echo $this->url('media',array('action'=>'showImage','id'=>12,));?>"/></li>
-            <li><img src="<?php echo $this->url('media',array('action'=>'showImage','id'=>13,));?>"/></li>
-            <li><img src="<?php echo $this->url('media',array('action'=>'showImage','id'=>14,));?>"/></li>
+            <li><img  alt="Gold" src="/images/pro_img/6_gold.jpg"/></li>
+            <li><img  alt="silver" src="/images/pro_img/6_silver.jpg"/></li>
+            <li><img  alt="spacegray" src="/images/pro_img/6_spacegray.jpg"/></li>
            
         </ul>
     </li>
@@ -94,21 +92,39 @@ $("#qty").val(parseInt(qty)+1);
         <span>Storage:</span>
         <strong>16GB</strong>
         <ul>
-        <li>16GB</li>
-        <li>32GB</li>
-        <li>128GB</li>
+        <li alt="5288">16GB</li>
+        <li alt="6088">32GB</li>
+        <li alt="6888">128GB</li>
         </ul>
     </li>
     </ul>
-    </div></div>    
-
-        
-
-
-<div id="jqzoomWrap2">
-    <a href="<?php echo $this->url('store',array('action'=>'showImage','id'=>$Product->id,'subaction'=>'full'));?> " class="jqzoom" rel="gall" title="iPhone6 gold">
-    <img  src="<?php echo $this->url('store',array('action'=>'showImage','id'=>$Product->id,'subaction'=>'thumb'));?>" title="iPhone6 gold"  id="bigimg  "/></a>
     </div>
+    <?php $form=$this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'store','action'=>'shoppingcart')));
+$form->setAttribute('method','post');
+$form->get('product_id')->setAttribute('value',$Product->id);
+echo $this->form()->openTag($form);
+?>
+    <div><Table class="table">
+    <tr>
+        <td ><?php echo $this->formlabel($form->get('qty'));?></td>
+        <td ><a class='buy_less'>-</a><?php echo $this->formelement($form->get('qty'));?><a class='buy_add'>+</a>
+            <?php echo $this->formelementerrors($form->get('qty'));?>
+            <?php echo $this->formelement($form->get('product_id'));?></td>
+    
+    
+        <td class="purchase"><?php echo $this->formelement($form->get('submit'));?>
+            <?php echo $this->formelementerrors($form->get('submit'));?>
+            </td>
+    </tr>
+</Table></div> 
+<?php echo $this->form()->closeTag();?></td>
+ </div>    
+
+
+
+
 
 
 
