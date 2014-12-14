@@ -8,6 +8,7 @@ use Zend\Stdlib\ArrayUtils;
 use ZendGData\HttpClient;
 use ZendGdata\Photos;
 use ZendGdata\ClientLogin;
+use Zend\Debug\Debug;
 /**
  * MediaManagerController
  *

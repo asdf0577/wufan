@@ -87,7 +87,7 @@ class StoreadminController extends AbstractActionController
     	$thumbnailFileName = 'tn_' . $imageFileName;
     	$imageThumb = $this->getServiceLocator()->get('WebinoImageThumb');
     	$thumb = $imageThumb->create($sourceImageFileName,$options=array());
-    	$thumb->resize(75,75);
+    	$thumb->resize(183,164);
     	$thumb->save($uploadPath. '/' .$thumbnailFileName);
     	return $thumbnailFileName;
     

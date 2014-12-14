@@ -1,0 +1,27 @@
+<h3>预约洗车</h3></br>
+  
+<table class = "table">
+   <tr class="testpapertr">  
+<th>时段</th>
+<th>空位</th>
+<th>预约</th>
+</tr>
+
+
+<?php 
+$form->prepare();
+
+$form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+?>
+<?php for($i=6;$i<18;$i++){?>
+<tr>
+<td><?php echo $i."点";?></td>
+<td>24位</td>
+<td><?php echo $this->formelement($form->get('submit'));?></td>
+</tr>
+          
+<?php }echo $this->form()->closeTag(); 
+?>
+</table>

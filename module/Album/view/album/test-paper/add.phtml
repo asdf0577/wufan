@@ -1,0 +1,65 @@
+<?php  $this->headScript()->appendFile($this->basePath() . '/js/selectbox.js','text/javascript');?>
+<?php  $this->headScript()->appendFile($this->basePath() . '/js/jquery-ui-1.9.2.custom.min.js','text/javascript');?>
+
+<h3>增加试卷</h3>
+<?php 
+$form=$this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'add')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);?>
+       <div id ="testPaperForm">
+       <dl class='zend_form'>
+     
+      <div id="formApart1">
+        <dt><?php echo $this->formlabel($form->get('year'));?></dt>
+        <dd>
+        <?php 
+                  echo $this->formelement($form->get('year'));
+                  echo $this->formelementerrors($form->get('year'));?>
+        </dd>
+        
+        <dt><?php echo $this->formlabel($form->get('termNum'));?></dt>
+        <dd>
+        <?php 
+                  echo $this->formelement($form->get('termNum'));
+                  echo $this->formelementerrors($form->get('termNum'));?>
+        </dd>
+        <dt><?php echo $this->formlabel($form->get('unitNum'));?></dt>
+        <dd>
+        <?php 
+                  echo $this->formelement($form->get('unitNum'));
+                  echo $this->formelementerrors($form->get('unitNum'));?>
+        </dd>
+        <dt><?php echo $this->formlabel($form->get('questionAmount'));?></dt>
+        <dd>
+        <?php 
+                  echo $this->formelement($form->get('questionAmount'));
+                  echo $this->formelementerrors($form->get('questionAmount'));?>
+        </dd>
+        <span  id="next">下一步</span>
+       </div>
+       <div id ='selectbox'>
+           <div class="selectboxtiny">
+                <?php 
+                          echo $this->formelement($form->get('questionType'));
+                          echo $this->formelementerrors($form->get('questionType'));?>
+                <div>
+        			<span  id="add" >双击添加到右边&gt;&gt;</span>
+        			<span  id="add_all" >右边全部清空&gt;&gt;</span>
+        		</div>    
+                 <dd><?php echo $this->formelement($form->get('submit'));?></dd>      
+            </div>
+            <div class="selectboxtiny" >
+                <div id ="selectBoxTiny2info"><span>题型&nbsp&nbsp</span><span id="totalscore">&nbsp&nbsp已选总分：</span>&nbsp&nbsp&nbsp当前题数：<span id ="total"></span></div>
+                <div id="selectBoxTiny2"></div>
+           </div> 
+           </div>
+           
+        </div>
+        
+       
+        </dl>
+        
+<?php echo $this->form()->closeTag();?>
+</div>   

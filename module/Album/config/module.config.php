@@ -14,6 +14,9 @@ return array(
             'Album\Controller\Search' => 'Album\Controller\SearchController',
             'Album\Controller\Store' => 'Album\Controller\StoreController',
             'Album\Controller\Storeadmin' => 'Album\Controller\StoreadminController',
+            'Album\Controller\TestPaper' => 'Album\Controller\TestPaperController',
+            'Album\Controller\Grammar' => 'Album\Controller\GrammarController',
+            'Album\Controller\CarWash' => 'Album\Controller\CarWashController',
         ),
     ),
     'router' => array(
@@ -21,7 +24,7 @@ return array(
             'album' => array(
                 'type'    => 'Segment',
                 'options' => array(
-                    'route'    => '/album',
+                    'route'    => '/album[/:action]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Album\Controller',
                         'controller'    => 'Album',
@@ -55,7 +58,8 @@ return array(
                     ),
                   ),
                 ),
-       
+         
+            
             'usermanager'=>array( 
             		'type'=>'Segment',
             		'options'=>array(
@@ -154,12 +158,50 @@ return array(
             				),
             		),
             ),
-            
+            'TestPaper' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/testpaper[/:action[/:id]]',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\TestPaper',
+            						'action' => 'index',
+            				),
+            		),
+            ),
+            'Grammar' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/grammar[/:action[/:id]]  ',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\Grammar',
+            						'action' => 'index',
+            				),
+            		),
+            ),
+            'CarWash' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/carwash[/:action[/:id]]',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\CarWash',
+            						'action' => 'index',
+            				),
+            		),
+            ),
         		),
         						),
-        				
-        		
-       
    
     'view_manager' => array(
         'template_path_stack' => array(
@@ -181,10 +223,10 @@ return array(
             'image_upload_location' => __DIR__ .'/../data',
             'search_index' => __DIR__.'/../data',
     ),
-    //¶¨ÒåÒ»¸öservice manager
+    //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½service manager
     'service_manager'=>array(
     	/* 'cache-service'=>function (){
-    	    //·µ»ØÒ»¸ö»º´æÊÊÅäÆ÷
+    	    //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     	    return \zend\cache\StorageFactory::factory(array(
     	    	'adapter'=>array(
     	    	 //we want to use the cache that is being 

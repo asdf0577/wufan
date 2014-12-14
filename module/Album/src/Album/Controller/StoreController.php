@@ -38,7 +38,9 @@ class StoreController extends AbstractActionController
         	'storeProducts' => $storeProducts,
             'form' =>$form
         ));    }
-    
+    public function index2Action(){
+        return new viewmodel();
+    }
   
          public function showimageAction()
         {

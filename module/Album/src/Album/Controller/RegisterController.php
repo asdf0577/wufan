@@ -32,7 +32,9 @@ class RegisterController extends AbstractActionController
         $post=$this->request->getPost();
         $form=$this->getServiceLocator()->get('RegisterForm'); 
         $form->setData($post);
-        if(!$form->isValid()){
+       /*  print_r($post);$
+        return new viewmodel(); */
+         if(!$form->isValid()){
             $model=new ViewModel(array('error'=>true,'form'=>$form));
             $model->setTemplate('album/register/index');
             return $model;

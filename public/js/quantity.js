@@ -1,0 +1,9 @@
+$(function(){
+	$("a.buy_less,a.buy_add,td.purchase").button();
+	$(".buy_less").click(function(){
+			$(this).siblings(".qty").val(parseInt($(this).siblings(".qty").val())-1);
+		});
+	$(".buy_add").click(function(){
+		$(this).siblings(".qty").val(parseInt($(this).siblings(".qty").val())+1);
+	});
+})

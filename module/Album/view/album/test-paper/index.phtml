@@ -1,0 +1,80 @@
+<?php  $this->headScript()->appendFile($this->basePath() . '/js/login.js','text/javascript');?>
+<div id="Catalog">
+    <div id="CataInfo">
+       
+             <div class="item fore1">
+                 <span class="testPaperCataInfoSpan">
+                     <h3>
+                        <a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">试题首页</a>
+                     </h3>
+                 </span>
+             </div>   
+             
+             <div class="item fore2">
+                 <span  class="testPaperCataInfoSpan">
+                     <h3>
+                        <a class="loginWindow"href="<?php echo $this->url('TestPaper',array('action'=>'add'));?>">创建试卷</a>
+                     </h3>
+                 </span>
+            </div>
+            
+             <div class="item fore2">
+                <span  class="testPaperCataInfoSpan">
+                    <h3>
+                        <a href="<?php echo $this->url('Grammar',array('action'=>'index'));?>">试题管理</a>
+                    </h3>
+                </span>
+                 <div class="testPaperSubitem">
+                    <dd>
+                        <h3><a href="#">知识点创建</a></h3>
+                        <h3><a href="#">搜索试题</a></h3>
+                    </dd>
+                 </div>
+            </div>
+             <div class="item fore2">
+                 <span  class="testPaperCataInfoSpan">
+                     <h3>
+                        <a href="#">学生管理</a>
+                     </h3>
+                 </span>
+                 <div class="testPaperSubitem">
+                    <dd>
+                        <h3><a href="#">新生录入</a></h3>
+                        <h3><a href="#">xls录入</a></h3>
+                        <h3><a href="#">个体分析</a></h3>
+                        <h3><a href="#">整体分析</a></h3>
+                    </dd>
+                 </div>
+            </div>
+            
+    </div>
+</div>
+<div id ="testContent">      
+<table class="table">
+<tr class ="testpapertr">
+<th width="10%">学年</th>
+<th width="10%">学期 </th>
+<th width="10%">单元</th>
+<th width="10%">题数</th>
+<th width="10%">创建时间</th>
+<th width="10%">平均分</th>
+<th width="20%">操作</th>
+</tr>
+<?php foreach ($this->TestPapers as $TestPaper):?>
+<tr>
+<td width="10%" ><?php echo $TestPaper->year;?></td>
+<td width="10%"><?php echo $this->escapehtml($TestPaper->termNum);?></td>
+<td width="10%"><?php echo $this->escapehtml($TestPaper->unitNum);?></td>
+<td width="10%"><?php echo $this->escapehtml($TestPaper->questionAmount);?></td>
+<td width="10%"></td>
+<td width="10%"></td>
+
+<td width="20%">
+<?php if($TestPaper->created == 0){?>
+<a href ="<?php echo $this->url('TestPaper',array('action'=>'create','id'=>$TestPaper->id));?>">创建</a>&nbsp<?php }?>
+<a href ="<?php echo $this->url('TestPaper',array('action'=>'edit','id'=>$TestPaper->id));?>">编辑</a>
+<a href ="<?php echo $this->url('TestPaper',array('action'=>'delete','id'=>$TestPaper->id));?>">删除</a></td>
+</tr>
+<?php endforeach;?>
+</table>
+</div>

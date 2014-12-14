@@ -25,6 +25,12 @@ use Album\Model\User;
 use Album\Model\StoreOrder;
 use Album\Model\StoreProduct ;
 
+//試卷分析系統
+use Album\Model\Question;
+use Album\Model\QuestionTable ;
+use Album\Model\TestPaper;
+use Album\Model\TestPaperTable ;
+
 use Album\Model\StoreOrderTable;
 use Album\Model\StoreProductTable;
 
@@ -160,6 +166,31 @@ class Module implements AutoloaderProviderInterface
         					return new TableGateway('store_orders', $dbAdapter, null, $resultSetPrototype);
         				},
         				
+        				//試卷測試系統
+        				
+        				'QuestionTable' =>  function($sm) {
+        					$tableGateway = $sm->get('QuestionTableGateway');
+        					$table = new QuestionTable($tableGateway);
+        					return $table;
+        				},
+        				'QuestionTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					/* $resultSetPrototype = new ResultSet();
+        					$resultSetPrototype->setArrayObjectPrototype(new Question()); */
+        					return new TableGateway('question', $dbAdapter/* , null, $resultSetPrototype */);
+        				},
+        				'TestPaperTable' =>  function($sm) {
+        					$tableGateway = $sm->get('TestPaperTableGateway');
+        					$table = new TestPaperTable($tableGateway);
+        					return $table;
+        				},
+        				'TestPaperTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					/* $resultSetPrototype = new ResultSet();
+        					$resultSetPrototype->setArrayObjectPrototype(new TestPaper()); */
+        					return new TableGateway('test_paper', $dbAdapter/* , null, $resultSetPrototype */);
+        				},
+        				
         				
         				//Form
         				
@@ -167,6 +198,16 @@ class Module implements AutoloaderProviderInterface
         				'RegisterForm'=>function($sm){
         				    $form=new \Album\Form\RegisterForm();
         				    $form->setInputFilter($sm->get('RegisterFilter'));
+        				    return $form;//注意 要返回 
+        				}, 
+        				//試卷測試系統
+        				
+        				'QuestionForm'=>function($sm){
+        				    $form=new \Album\Form\QuestionForm();
+        				    return $form;//注意 要返回 
+        				}, 
+        				'testPaperForm'=>function($sm){
+        				    $form=new \Album\Form\TestPaperForm();
         				    return $form;//注意 要返回 
         				}, 
         				'UserEditForm'=>function($sm){

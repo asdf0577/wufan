@@ -19,10 +19,14 @@ echo $this->doctype();
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
                                       ->prependFile($this->basePath() . '/js/bootstrap.min.js')
-                                      ->prependFile($this->basePath() . '/js/jquery.min.js') ?>
+                                      ->prependFile($this->basePath() . '/js/jquery.min.js')
+                                      ->prependFile($this->basePath() . '/js/login.js','text/javascript')
+          ?>
 
     </head>
     <body>
+    <?php  $this->headScript()->appendFile($this->basePath() . '/js/login.js','text/javascript');
+?>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
@@ -36,7 +40,7 @@ echo $this->doctype();
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('home') ?></a></li>
-                            <li><a href="<?php echo $this->url('album/login',array('action' => 'index')) ?>"><?php echo $this->translate('login') ?></a></li>
+                            <li ><a class="loginWindow" href="<?php echo $this->url('album/login',array('action' => 'index')) ?>"><?php echo $this->translate('login') ?></a></li>
                             <li><a href="<?php echo $this->url('album/register',array('action' => 'index')) ?>"><?php echo $this->translate('Register') ?></a></li>     
                         </ul>
                     </div><!--/.nav-collapse -->

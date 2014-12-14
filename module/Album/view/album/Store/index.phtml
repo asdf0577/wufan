@@ -1,89 +1,160 @@
-<?php $this->headScript()
-->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/
-javascript');
-$this->headScript()
-->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.
-js','text/javascript');
+<?php $this->headScript()->appendFile('http://code.jquery.com/jquery-1.8.3.js','text/javascript');
+      $this->headScript()->appendFile('http://code.jquery.com/ui/1.10.0/jquery-ui.js','text/javascript');
 // Attach jQuery UI Styles
-$this->headLink()->appendStylesheet('http://code.jquery.com/
-ui/1.10.0/themes/base/jquery-ui.css');
-$this->headScript()->appendFile($this->basePath() . '/js/quantity.js','text/javascript');
+      $this->headLink()->appendStylesheet('http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css');
+      $this->headScript()->appendFile($this->basePath() . '/js/quantity.js','text/javascript');
+      $this->headScript()->appendFile($this->basePath() . '/js/nav.js','text/javascript');
+      $this->headScript()->appendFile($this->basePath() . '/js/add.js','text/javascript');
+      $this->headScript()->appendFile($this->basePath() . '/js/tooltips.js','text/javascript'); 
+      $this->headScript()->appendFile($this->basePath() . '/js/imgSlide.js','text/javascript');
 ?>
+<div id="Catalog">
+    <div id="CataInfo">
+       
+            <div class="item fore1"><span><h3><a href="#">CellPhone</a></h3></span>
+             <div class="i-mc">
+               <div class="subitem">
+                        <dl class= "fore1">
+                            <dt>apple</dt>
+                            <dd>
+                           <em><a href="#">iphone</a></em> 
+                           <em><a href="#">iphone 3G</a></em> 
+                           <em><a href="#">iphone 3GS</a></em> 
+                           <em><a href="#">iphone 3GS</a></em> 
+                           <em><a href="#">iphone 4</a></em> 
+                           <em><a href="#">iphone 4S</a></em> 
+                           <em><a href="#">iphone 5</a></em> 
+                           <em><a href="#">iphone 5S</a></em> 
+                           <em><a href="#">iphone 6</a></em> 
+                           <em><a href="#">iphone 6 Plus</a></em> 
+                            </dd>
+                        </dl>
+                        <dl class= "fore">
+                            <dt>Google</dt>
+                            <dd>
+                           <em><a href="#">Nexus</a></em> 
+                           <em><a href="#">Nexus 2</a></em> 
+                           <em><a href="#">Nexus 3</a></em> 
+                           <em><a href="#">Nexus 4</a></em> 
+                           <em><a href="#">Nexus 5</a></em> 
+                           <em><a href="#">Nexus 6</a></em> 
+                            </dd>
+                        </dl>
+                        <dl class= "fore">
+                            <dt>Xiaomi</dt>
+                            <dd>
+                           <em><a href="#">Xiaomi</a></em> 
+                           <em><a href="#">Xiaomi 2</a></em> 
+                           <em><a href="#">Xiaomi 3</a></em> 
+                           <em><a href="#">Xiaomi 4</a></em> 
+                            </dd>
+                        </dl>
+                    </div>
+                    </div>
+            </div>   
+             <div class="item fore2"><span><h3><a href="#">Laptop</a></h3></span>
+             <div class="i-mc">
+               <div class="subitem">
+                        <dl class= "fore">
+                            <dt>apple</dt>
+                            <dd>
+                           <em><a href="#">Apple</a></em> 
+                           <em><a href="#">Google</a></em> 
+                           <em><a href="#">Samsung</a></em> 
+                           <em><a href="#">Lenover</a></em> 
+                            </dd>
+                        </dl>
+                    </div>
+                    </div>
+            </div>
+             <div class="item fore2"><span><h3><a href="#">music</a></h3></span>
+             <div class="i-mc">
+               <div class="subitem">
+                        <dl class= "fore">
+                            <dt>apple</dt>
+                            <dd>
+                           <em><a href="#">Apple</a></em> 
+                           <em><a href="#">Google</a></em> 
+                           <em><a href="#">Samsung</a></em>     
+                           <em><a href="#">Lenover</a></em> 
+                            </dd>
+                        </dl>
+                    </div>
+                    </div>
+            </div>
+            <div class="item fore2"><span><h3><a href="#">books</a></h3></span>
+             <div class="i-mc">
+               <div class="subitem">
+                        <dl class= "fore">
+                            <dt>apple</dt>
+                            <dd>
+                           <em><a href="#">Apple</a></em> 
+                           <em><a href="#">Google</a></em> 
+                           <em><a href="#">Samsung</a></em> 
+                           <em><a href="#">Lenover</a></em> 
+                            </dd>
+                        </dl>
+                    </div>
+                    </div>
+            </div>
+    </div>
+</div>     
+<div id="Imageroll">
+    <a href="#nogo" id="JS_imgWrap">
+        <img src="<?php echo  $this->basepath(). '/images/pro_img/iphone.jpg'?>"/>
+        <img src="<?php echo  $this->basepath(). '/images/pro_img/imac.jpg'?>"/>
+        <img src="<?php echo  $this->basepath(). '/images/pro_img/ipad.jpg'?>"/>
+    </a>
+    <div>
+        <a href="###1">iPhone 6</a>
+        <a href="###2">iMac</a>
+        <a href="###3">iPad Air</a>
+    </div>
 
-
-<script type="text/javascript">
-$(function(){
-var $category = $('ul#phone li:gt(0):not(:last)');
-$category.hide();
-var $toggleBtn = $('div.showmore>a');
-$toggleBtn.click(function(){
-	$category.toggle();
-});
-
-
-
-});
-</script>
-
-<div id ='title'><h1 >Abble Store</h1></div>
-
-<div class="table2"><table class="table"  >
-
-<?php foreach($storeProducts as $Product) :?>
-    <tr> 
-     <td width="50%">
-        <strong>
-        <?php echo $this->escapehtml($Product->name);?></strong><br/>4  
-        
-        <?php echo $this->escapehtml($Product->desc);?><br/>
-        Cost:<strong>
-        <?php echo $this->escapehtml($Product->cost);?></strong><br /><br/>
-        
-    </td>
-   <Td> <a href="<?php echo $this->url('store',array('action'=>'product-detail','id'=>$Product->id));?>"><img src="<?php echo $this->url('store',array('action'=>'showimage','id'=>$Product->id,'subaction'=>'thumb'));?>" /></a>
-    </Td>
-    <td>
-   <?php 
-$form = $this->form;
-$form->prepare() ;
-$form->setAttribute('action',$this->url(Null,array('controller'=>'store','action'=>'shoppingCart')));
-$form->setAttribute('method','post');   
-$form->get('product_id')->setAttribute('value',$Product->id);   
-
-echo $this->form()->openTag($form)
-
-?>
-
-<div><Table class="table">
-    <tr>
-        <td ><?php echo $this->formlabel($form->get('qty'));?></td>
-        <td ><a class='buy_less'>-</a><?php echo $this->formelement($form->get('qty'));?><a class='buy_add'>+</a>
-            <?php echo $this->formelementerrors($form->get('qty'));?>
-            <?php echo $this->formelement($form->get('product_id'));?></td>
-    
-    
-        <td class="purchase"><?php echo $this->formelement($form->get('submit'));?>
-            <?php echo $this->formelementerrors($form->get('submit'));?>
-            </td>
-    </tr>
-</Table></div>
-<?php echo $this->form()->closeTag();?></td>
-<?php endforeach;?>
-
-</table>
 </div>
-
-
-
-<div class="SubCategoryBox">
-<ul id="phone">
-<li><a href="#">Apple</a></li>
-<li><a href="#">Samsumg</a></li>
-<li><a href="#">OPPO</a></li>
-<li><a href="#">zhuizi</a></li>
-<li><a href="#">xiaomi</a></li>
-<li><a href="#">other brands</a></li>
-</ul>
-
-<div class="showmore"><a href="#  "><span>show all</span></a></div></div>
+<div id="Notice">
+    <div id="Miaosha">
+         <a href="#nogo" id="JS_imgWrap">
+            <img src="<?php echo  $this->basepath(). '/images/pro_img/iwatch2.jpg'?>"/>
+        </a>
+    
+    </div>
+    <div id="NoticeInfo">
+        <h4>New Arrivels</h4>
+<!--         <ul> -->
+<!--             <li><a href="###" class="tooltips" title="APPLE EarPods">Apple EarPods with Remote and Mic</a></li> -->
+<!--             <li><a href="###" class="tooltips" title="iphone">Apple iPhone 5s 16GB (Silver)</a></li> -->
+<!--             <li><a href="###" class="tooltips" title="usb">Apple Lightning to USB Cable</a></li> -->
+<!--             <li><a href="###" class="tooltips" title="AirPort">Apple AirPort Extreme Base Station (ME918LL/A)</a></li> -->
+<!--         </ul> -->
+    </div>
+</div>
+<div id="Brand">
+    <div id="BrandTab">
+        <h5>Commercial Promotion</h5>
+        <ul>
+            <li><a href="#nogo">Apple</a></li>
+            <li><a href="#nogo">Google</a></li>
+            <li><a href="#nogo">Microsoft</a></li>
+            <li><a href="#nogo">Xiaomi</a></li>
+        </ul>
+     </div> 
+     <div id="BrandContent">
+        <div id="BrandList">
+            <ul>
+            <?php 
+                $listnum=1;
+                foreach($storeProducts as $Product) :?>
+                    <li> 
+                        <a href="<?php echo $this->url('store',array('action'=>'product-detail','id'=>$Product->id));?>" class="JS_live">
+                        <img alt=" <?php echo $this->escapehtml($Product->name);?>"
+                         src="<?php echo $this->url('store',array('action'=>'showimage','id'=>$Product->id,'subaction'=>'thumb'));?>" />
+                        </a>
+                        <span><a href="###<?php echo $listnum++;?>"> <?php echo $this->escapehtml($Product->name);?></a></span>
+                    </li>
+            <?php endforeach;?>
+            </ul>
+        </div>
+     </div>
+</div>
 

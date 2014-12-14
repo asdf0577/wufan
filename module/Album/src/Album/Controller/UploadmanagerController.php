@@ -6,7 +6,7 @@ use Zend\View\Model\ViewModel;
 use Album\Form\RegisterForm;
 use Album\Form\UploadForm;
 use Album\Model\Upload;
-
+use Zend\Debug\Debug;
 /**
  * NewZendController
  *
@@ -49,11 +49,11 @@ class UploadmanagerController extends AbstractActionController
     		$sharedUploadInfo['owner'] = $uploadOwner->name;
     		$sharedUploadsList[$sharedUpload->id] = $sharedUploadInfo;
     	} 
-     
     	
     	$viewModel = new ViewModel(array(
     			'user_email' =>$userEmail,
     			'myupload'=> $uploadTable->getUploadsByUserId($user->id),
+    	   
     	        'sharedUploadsList'=>$sharedUploadsList
     	     
     	));
@@ -89,9 +89,10 @@ class UploadmanagerController extends AbstractActionController
     	        	$exchange_data['filename'] = $uploadFile['name'];
     	        	$exchange_data['user_id'] = $user->id;
     	        	$upload->exchangeArray($exchange_data);
-    	        	$uploadTable=$this->getServiceLocator()->get('Album\Model\UploadTable');
+    	        	print_r($upload);
+    	        	/* $uploadTable=$this->getServiceLocator()->get('Album\Model\UploadTable');
     	        	$uploadTable->SaveUpload($upload);
-    	        	return $this->redirect()->toRoute(Null,array('controller'=>'Uploadmanager','action'=>'index'));
+    	        	return $this->redirect()->toRoute(Null,array('controller'=>'Uploadmanager','action'=>'index')) */;
     	        
     	        }}}}
     public function loginAction()
