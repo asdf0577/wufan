@@ -1,7 +1,7 @@
 $(function(){
 	$("a.loginWindow").click(function(e){
 		 $.ajax({
-		       url:'../album/testpaper/add',
+		       url:'../testpaper/add',
 		       async:false, 
 		       success: function(html) {
 		    	   var htm = "<div id='tooltips2'><div class='close'>X</div>"+html+"</div>";
@@ -25,7 +25,7 @@ $(function(){
 	},function(){$(this).find('.testPaperSubitem').slideUp(200);})
 	
 	$("div.item.fore1").click(function(){
-		$('.testPaperSubitem').slideDown(200);
+		$('.testPaperSubitem').slideToggle("400");
 	}
 	/*,function(){
 		$('.testPaperSubitem').slideUp(200);

@@ -25,9 +25,13 @@ use Album\Model\User;
 use Album\Model\StoreOrder;
 use Album\Model\StoreProduct ;
 
-//Ô‡¾í·ÖÎöÏµ½y
+//è¯•å·
 use Album\Model\Question;
 use Album\Model\QuestionTable ;
+
+use Album\Model\QuestionType;
+use Album\Model\QuestionTypeTable;
+
 use Album\Model\TestPaper;
 use Album\Model\TestPaperTable ;
 
@@ -70,11 +74,11 @@ class Module implements AutoloaderProviderInterface
         $sharedEventManager->attach(__NAMESPACE__,MvcEvent::EVENT_DISPATCH,
                 function ($e){
                     $controller = $e->getTarget();
-                    $controllerName = $controller->getEvent()->getRouteMatch()->getParam('controller');//»ñ È¡µ±Ç°Â·ÓÉµÄ¿ØÖÆÆ÷Ãû³Æ
+                    $controllerName = $controller->getEvent()->getRouteMatch()->getParam('controller');//ï¿½ï¿½ È¡ï¿½ï¿½Ç°Â·ï¿½ÉµÄ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if (!in_array($controllerName, array('Album\Controller\Register','Album\Controller\Usermanager','Album\Controller\Usermanager',))) 
                     {
                     $controller->layout('layout/myaccount')	;
-                    }//Èç¹ûµ±Ç°µÄ¿ØÖÆÆ÷Ãû³Æ²»ÔÚRegister¡¢Login¡¢UserManagerÈý¸öÖÐ£¬ÄÇÃ´ÉèÖÃµ±Ç°¿ØÖÆÆ÷µÄlayoutÄ£°åÎªmyaccount
+                    }//ï¿½ï¿½ï¿½Ç°ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ²ï¿½ï¿½ï¿½Registerï¿½ï¿½Loginï¿½ï¿½UserManagerï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½layoutÄ£ï¿½ï¿½Îªmyaccount
                     
                 }
     ); 
@@ -94,7 +98,7 @@ class Module implements AutoloaderProviderInterface
         				'AlbumTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					$resultSetPrototype = new ResultSet();
-        					$resultSetPrototype->setArrayObjectPrototype(new Album());//set ÒÀÀµ×¢Èë
+        					$resultSetPrototype->setArrayObjectPrototype(new Album());//set ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
         					return new TableGateway('albums', $dbAdapter, null, $resultSetPrototype);
         				},
         				'Album\Model\UserTable'=>function ($sm){
@@ -166,20 +170,28 @@ class Module implements AutoloaderProviderInterface
         					return new TableGateway('store_orders', $dbAdapter, null, $resultSetPrototype);
         				},
         				
-        				//Ô‡¾íœyÔ‡Ïµ½y
         				
         				'QuestionTable' =>  function($sm) {
         					$tableGateway = $sm->get('QuestionTableGateway');
         					$table = new QuestionTable($tableGateway);
         					return $table;
         				},
+        				
         				'QuestionTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-        					/* $resultSetPrototype = new ResultSet();
-        					$resultSetPrototype->setArrayObjectPrototype(new Question()); */
-        					return new TableGateway('question', $dbAdapter/* , null, $resultSetPrototype */);
+        					return new TableGateway('question', $dbAdapter);
         				},
-        				'TestPaperTable' =>  function($sm) {
+        				'QuestionTypeTable' =>  function($sm) {
+        					$tableGateway = $sm->get('QuestionTypeTableGateway');
+        					$table = new QuestionTypeTable($tableGateway);
+        					return $table;
+        				},
+        				
+        				'QuestionTypeTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('question_type', $dbAdapter);
+        				},
+        				'TestPaperTable'=>function($sm){
         					$tableGateway = $sm->get('TestPaperTableGateway');
         					$table = new TestPaperTable($tableGateway);
         					return $table;
@@ -198,27 +210,26 @@ class Module implements AutoloaderProviderInterface
         				'RegisterForm'=>function($sm){
         				    $form=new \Album\Form\RegisterForm();
         				    $form->setInputFilter($sm->get('RegisterFilter'));
-        				    return $form;//×¢Òâ Òª·µ»Ø 
-        				}, 
-        				//Ô‡¾íœyÔ‡Ïµ½y
+        				    return $form;
+        				},
         				
         				'QuestionForm'=>function($sm){
         				    $form=new \Album\Form\QuestionForm();
-        				    return $form;//×¢Òâ Òª·µ»Ø 
+        				    return $form;
         				}, 
         				'testPaperForm'=>function($sm){
         				    $form=new \Album\Form\TestPaperForm();
-        				    return $form;//×¢Òâ Òª·µ»Ø 
+        				    return $form;//×¢ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½ 
         				}, 
         				'UserEditForm'=>function($sm){
         				    $form=new \Album\Form\UserEditForm();
         				    $form->setInputFilter($sm->get('UserEditFilter'));
-        				    return $form;//×¢Òâ Òª·µ»Ø 
+        				    return $form;//×¢ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½ 
         				}, 
         				'UploadForm'=>function($sm){
         					$form=new \Album\Form\UploadForm();
         					//$form->setInputFilter($sm->get('UserEditFilter'));
-        					return $form;//×¢Òâ Òª·µ»Ø
+        					return $form;//×¢ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½
         				},
         				'UploadEditForm' => function($sm){
         				    $form= new \Album\Form\UploadEditForm();
@@ -233,17 +244,17 @@ class Module implements AutoloaderProviderInterface
         				'UploadShareForm'=>function($sm){
         					$form=new \Album\Form\UploadShareForm();
         					//$form->setInputFilter($sm->get('UserEditFilter'));
-        					return $form;//×¢Òâ Òª·µ»Ø
+        					return $form;//×¢ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½
         				},
         				'OrderForm'=>function($sm){
         					$form=new \Album\Form\OrderForm();
         					//$form->setInputFilter($sm->get('UserEditFilter'));
-        					return $form;//×¢Òâ Òª·µ»Ø
+        					return $form;//×¢ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½
         				},    
         				'ProductForm'=>function($sm){
         					$form=new \Album\Form\ProductForm();
         					//$form->setInputFilter($sm->get('UserEditFilter'));
-        					return $form;//×¢Òâ Òª·µ»Ø
+        					return $form;//×¢ï¿½ï¿½ Òªï¿½ï¿½ï¿½ï¿½
         				},
         				
         				//Filter

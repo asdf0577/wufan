@@ -7,6 +7,7 @@
                      <h3>
                         <a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">试题首页</a>
                      </h3>
+                     
                  </span>
              </div>   
              
@@ -16,6 +17,12 @@
                         <a class="loginWindow"href="<?php echo $this->url('TestPaper',array('action'=>'add'));?>">创建试卷</a>
                      </h3>
                  </span>
+                 <div class="testPaperSubitem">
+                    <dd>
+                        <h3><a href="<?php echo $this->url('TestPaper',array('action'=>'QuestionType'));?>">科目目录</a></h3>
+                        <h3><a href="#">科目试题创建</a></h3>
+                    </dd>
+                 </div>
             </div>
             
              <div class="item fore2">
@@ -57,7 +64,7 @@
 <th width="10%">单元</th>
 <th width="10%">题数</th>
 <th width="10%">创建时间</th>
-<th width="10%">平均分</th>
+<th width="10%">答案总数</th>
 <th width="20%">操作</th>
 </tr>
 <?php foreach ($this->TestPapers as $TestPaper):?>
@@ -66,7 +73,7 @@
 <td width="10%"><?php echo $this->escapehtml($TestPaper->termNum);?></td>
 <td width="10%"><?php echo $this->escapehtml($TestPaper->unitNum);?></td>
 <td width="10%"><?php echo $this->escapehtml($TestPaper->questionAmount);?></td>
-<td width="10%"></td>
+<td width="10%"><?php echo date('Y-m-d',$this->escapehtml($TestPaper->createtime));?></td>
 <td width="10%"></td>
 
 <td width="20%">

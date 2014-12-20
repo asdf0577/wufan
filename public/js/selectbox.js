@@ -29,6 +29,30 @@ $(function(){
 	  });
 	  
 	
+	//考试类别列表下拉
+	/*$('#testPaperType').on('change',function(){
+		alert('111');
+	});*/
+	$('#testPaperType').change(function(){
+		$('#selectType1').empty();
+		$('#selectType1').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> loading...');
+		var fid = $('#testPaperType').val();
+		
+		$.ajax({
+			type:"post",
+			url:"../testpaper/getTypes",
+			data:{fid:fid},
+			success:function(data){
+				var opts = $.parseJSON(data);
+				$.each(opts,function(i,d){
+					$('#selectType1').append('<option value ="'+d.id+'">'+d.name+'</option>');
+				})
+			}
+		}) 
+		
+	});
+	
+	
 		//移到左边
 		$('#remove').click(function() {
 			$('#selectType2 option:selected').remove();
@@ -62,6 +86,8 @@ $(function(){
 			$('#selectbox').fadeIn(1000);
 			$('#next').css('display','none')
 		})
+		
+		
 
 })
 

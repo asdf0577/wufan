@@ -57,7 +57,7 @@ protected $albumTable;
                 $sm=$this->getServiceLocator();
                 $gc=$sm->get('ApplicationConfig');
                 $upload_dir=$gc['upload_dir'];
-                //±£´æÍ¼Æ¬£¬Èç¹ûÊÇ¶àÕÅÍ¼Æ¬£¬×¢Òâ´òÓ¡$postµÄÐÅÏ¢²é¿´ÎÄ¼þÉÏ´«µÄ¸ñÊ½
+                //ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½×¢ï¿½ï¿½ï¿½Ó¡$postï¿½ï¿½ï¿½ï¿½Ï¢ï¿½é¿´ï¿½Ä¼ï¿½ï¿½Ï´ï¿½ï¿½Ä¸ï¿½Ê½
                 $requestData=(array)$post;
                 move_uploaded_file($requestData['image']['tmp_name'], $upload_dir.'/'.$requestData['image']['name']);
         		// Redirect to list of albums 
@@ -104,8 +104,8 @@ protected $albumTable;
      	$request = $this->getRequest();
      	if ($request->isPost()) {
      	  
-     		/* $form->setInputFilter($album->getInputFilter());//ÉèÁ¢¹ýÂËÆ÷ */
-     		$form->setData($request->getPost());//»ñÈ¡±íµ¥Ìá½»µÄÊý¾Ý
+     		/* $form->setInputFilter($album->getInputFilter());//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+     		$form->setData($request->getPost());//ï¿½ï¿½È¡ï¿½?ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½
      
      		if ($form->isValid()) {
      			

@@ -41,7 +41,8 @@ echo $this->form()->openTag($form);?>
        </div>
        <div id ='selectbox'>
            <div class="selectboxtiny">
-                <?php 
+                <?php  echo $this->formelement($form->get('testPaperType'));?>
+                <?php    
                           echo $this->formelement($form->get('questionType'));
                           echo $this->formelementerrors($form->get('questionType'));?>
                 <div>

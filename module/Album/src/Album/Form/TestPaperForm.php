@@ -55,7 +55,10 @@ class TestPaperForm extends Form
         $questionAmount = new Element\text('questionAmount');
         $questionAmount->setLabel('试题总数');
         $this->add($questionAmount);
-     
+        /*TestPaperType  */
+        $testPaperType = new Element\select('testPaperType');
+        $testPaperType->setAttribute('id', 'testPaperType');
+        $this->add($testPaperType);     
         /* QuestionType */
         $questionType = new Element\Select('questionType');
         $questionType->setAttribute('class', 'selectType');

@@ -21,6 +21,7 @@ class TestPaperController extends AbstractActionController
 {
     protected $TestPaperTable;
     protected $QuestionTable;
+    
     public function getTestPaperTable(){
         if(!$this->TestPaperTable){
             $this->TestPaperTable = $this->getServiceLocator()->get('TestPaperTable');
@@ -42,7 +43,16 @@ class TestPaperController extends AbstractActionController
     }
     public function addAction()
     {
+       /* 增加试卷  */
+        $questionTypeTable = $this->getServiceLocator()->get('questionTypeTable');
+        $questionType = $questionTypeTable->getQuestionTypes(0);
+        $questionTypeArray = array();
+        //二维数组转一维数组
+            foreach ($questionType as $Type){
+               $questionTypeArray[$Type['id']] = $Type['name'];
+            }   
         $form = new TestPaperForm();
+        $form->get('testPaperType')->setValueOptions($questionTypeArray);// 在這裏注入 select的 option 
         $request = $this->getRequest();
         
         if($request->isPost()){
@@ -53,7 +63,7 @@ class TestPaperController extends AbstractActionController
             $form->setData($request->getPost());
             
             if($form->isValid()){
-               
+                // TODO 试题类型存入数据库
                /*  $testPaper->exchangeArray($form->getData());
                 debug::dump($testPaper);
                 die();  
@@ -68,7 +78,23 @@ class TestPaperController extends AbstractActionController
         $viewModel->setVariables(array('form' => $form));
         return $viewModel;
     }
+    
+    public function getTypesAction(){
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $fid = $_POST['fid'];
+            $questionTypeTable = $this->getServiceLocator()->get('questionTypeTable');
+            $questionType = $questionTypeTable->getQuestionTypes($fid);
+            echo json_encode($questionType);
+            die();
+        }
+        else{
+            echo "error";
+        }
+    }
+    
     public function createAction(){
+        // TODO 试题知识点联动
         $id = (int)$this->params()->fromRoute('id');
         $testPaper = $this->getTestPaperTable()->getTestPaper($id);
         if($testPaper->created == "0"){
@@ -85,6 +111,7 @@ class TestPaperController extends AbstractActionController
         }  
     }
     public function editAction(){
+        // TODO 试题知识点联动
         $tid = $this->params()->fromRoute('id');
         $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
         $Questions = $this->getQuestionTable()->getQuestions($tid);
@@ -189,27 +216,37 @@ class TestPaperController extends AbstractActionController
         
         }
     }
-    
-    
-    public function deleteAction(){
-        $tid = (int)$this->params()->fromRoute('id');
-        $this->getQuestionTable()->delete($tid);
-        $this->getTestPaperTable()->delete($tid);
-        return $this->redirect()->toRoute('TestPaper');
-        //Ҫ���һ�������� ��ʾ �Ƿ�ȷ����
+    //试卷题型
+    public function QuestionTypeAction(){
+        $QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
+        $QuestionType = $QuestionTypeTable->fetchAll();
+        debug::dump($QuestionType);
+        die();
+        return new ViewModel();
     }
+    public function a(){
     
+    }
+    public function deleteAction(){
+    	$tid = (int)$this->params()->fromRoute('id');
+    	$this->getQuestionTable()->delete($tid);
+    	$this->getTestPaperTable()->delete($tid);
+    	return $this->redirect()->toRoute('TestPaper');
+    }
     public function washAction(){
-    	 $form = new QuestionForm();
-        
-        return new ViewModel(array('form'=>$form,));
-        
+    	$form = new QuestionForm();
+    
+    	return new ViewModel(array('form'=>$form,));
+    
     }
     public function testAction(){
-        return new viewmodel();
+    	return new viewmodel();
     }
     public function dragAction(){
-        return new viewmodel();
+    	return new viewmodel();
     }
-
-}
+    public function createQuestionTypeAction(){
+    	// @TODO 创建试题类型
+    }
+    }
+    
