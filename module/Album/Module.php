@@ -26,15 +26,19 @@ use Album\Model\StoreOrder;
 use Album\Model\StoreProduct ;
 
 //试卷
-use Album\Model\Question;
+use Album\Model\ClassName; //班级
+use Album\Model\ClassNameTable ;
+
+use Album\Model\Question;//试题
 use Album\Model\QuestionTable ;
 
-use Album\Model\QuestionType;
+use Album\Model\QuestionType;//试题类型
 use Album\Model\QuestionTypeTable;
 
-use Album\Model\TestPaper;
+use Album\Model\TestPaper;//试卷
 use Album\Model\TestPaperTable ;
 
+//商店
 use Album\Model\StoreOrderTable;
 use Album\Model\StoreProductTable;
 
@@ -169,8 +173,18 @@ class Module implements AutoloaderProviderInterface
         					$resultSetPrototype->setArrayObjectPrototype(new StoreOrder());
         					return new TableGateway('store_orders', $dbAdapter, null, $resultSetPrototype);
         				},
+        				//考试管理系统
+
+        				'ClassNameTable' =>  function($sm) {
+        					$tableGateway = $sm->get('ClassNameTableGateway');
+        					$table = new ClassNameTable($tableGateway);
+        					return $table;
+        				},
         				
-        				
+        				'ClassNameTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('class_name', $dbAdapter);
+        				},
         				'QuestionTable' =>  function($sm) {
         					$tableGateway = $sm->get('QuestionTableGateway');
         					$table = new QuestionTable($tableGateway);

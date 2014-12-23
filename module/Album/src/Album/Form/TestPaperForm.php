@@ -64,15 +64,14 @@ class TestPaperForm extends Form
         $questionType->setAttribute('class', 'selectType');
         $questionType->setAttribute('id', 'selectType1');
         $questionType->setAttribute('multiple', 'multiple   ');
-        $questionType->setValueOptions(array(
-        		'listen'=>'听力',
-        		'select'=>'选择',
-        		'cloze'=>'完形填空',
-        		'reading'=>'阅读理解',
-        		'writing'=>'作文',
-        ));
+        $questionType->setUnselectedValue('请选择科目');
+        $questionType->set('请选择科目');
+        
+        //@todo 设立optgroup
+        
         $this->add($questionType);
-        $questionTypeselect = new Element\Select('questionTypeselect');
+        
+        $questionTypeselect = new Element\Select('questionTypeSelect'); 
         $questionTypeselect->setAttribute('class', 'selectType');
         $questionTypeselect->setAttribute('id', 'selectType2');
         $questionTypeselect->setAttribute('multiple', 'multiple   ');
@@ -80,7 +79,9 @@ class TestPaperForm extends Form
         ));
         $this->add($questionTypeselect);
         /*QuestionTypeInput  */
-        
+        $QuestionTypeInput = new Element\Text('QuestionTypeInput');
+        $QuestionTypeInput->setLabel('输入题型');
+        $this->add($QuestionTypeInput);
         /* submit */
         $submit = new Element\Submit('submit');
         $submit->setAttribute('value',' 创建 ')

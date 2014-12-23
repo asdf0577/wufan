@@ -14,8 +14,14 @@ return array(
             'Album\Controller\Search' => 'Album\Controller\SearchController',
             'Album\Controller\Store' => 'Album\Controller\StoreController',
             'Album\Controller\Storeadmin' => 'Album\Controller\StoreadminController',
-            'Album\Controller\TestPaper' => 'Album\Controller\TestPaperController',
+            //试卷分析
+            'Album\Controller\TestPaper' => 'Album\Controller\TestPaper\TestPaperController',
+            'Album\Controller\ClassManager' => 'Album\Controller\TestPaper\ClassManagerController',
+            'Album\Controller\Student' => 'Album\Controller\TestPaper\StudentController',
+            'Album\Controller\Question' => 'Album\Controller\TestPaper\QuestionController',
             'Album\Controller\Grammar' => 'Album\Controller\GrammarController',
+            
+            
             'Album\Controller\CarWash' => 'Album\Controller\CarWashController',
         ),
     ),
@@ -172,6 +178,22 @@ return array(
             				),
             		),
             ),
+            
+            'ClassManager' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/class-manager[/:action[/:id]]',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\ClassManager',
+            						'action' => 'index',
+            				),
+            		),
+            ),
+            
             'Grammar' => array(
             		'type' => 'Segment',
             		'options' => array(
@@ -204,6 +226,9 @@ return array(
         						),
    
     'view_manager' => array(
+        'strategies' => array(
+        		'ViewJsonStrategy',
+        ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
@@ -240,5 +265,6 @@ return array(
     	    ),
     	    ));
     	}, */
-    )
+    ),
+   
 );

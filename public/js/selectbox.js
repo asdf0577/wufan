@@ -1,11 +1,40 @@
 $(function(){
-		//selectbox排列任意组合
-	$('#selectBoxTiny2').sortable();
-		//点击selectbox内的delete元素，删除当前的div
-	$('#selectBoxTiny2').on('click','.delete',function(){
+		
+	$('#selectBoxTiny2').sortable();//selectbox排列任意组合
+		
+	$('#selectBoxTiny2').on('click','.delete',function(){//点击selectbox内的delete元素，删除当前的div
 		$(this).parent().remove();
 		return false;
 	});
+	
+	
+	$('form#TestPaper').submit(function(){
+		var type = "";
+		var num;
+		var name;
+		$('.draglistbox>input').each(function(){
+			num = parseInt($(this).val());
+			name =$(this).attr('name'); 
+			type += name+':'+num+',';
+		});
+		$('#selectType1,.draglist').attr("disabled","true");
+		$('.draglist').attr("disabled","true");
+		var data = $('form').serialize();
+		data += "&QuestionTypeInput="+type;
+		 $.ajax({
+	           type: "POST",
+	           url: "../testpaper/add",
+	           data: data,
+	         });
+		 return false;
+	})
+	
+	//让部分表单元素无法提交
+	
+	
+	
+	
+	
 	
 	
 	//获取总数
@@ -18,7 +47,7 @@ $(function(){
 				
 			})
 			$('#total').text(total);
-		
+			
 	}
 	//初始化总数值 0
 	setTotal();
@@ -35,7 +64,6 @@ $(function(){
 	});*/
 	$('#testPaperType').change(function(){
 		$('#selectType1').empty();
-		$('#selectType1').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> loading...');
 		var fid = $('#testPaperType').val();
 		
 		$.ajax({
@@ -57,23 +85,19 @@ $(function(){
 		$('#remove').click(function() {
 			$('#selectType2 option:selected').remove();
 		});
-		//全部移到右边
+		//右边全部清空
 		$('#add_all').click(function() {
 			//获取全部的选项,删除并追加给对方
-			$('.draglistbox').remove()
+			$('.draglistbox').remove();
 			$('#total').text(0);
-		});
-		//全部移到左边
-		$('#remove_all').click(function() {
-			$('#selectType2 option').remove();
-			
+			$('#selectType1').prop("disabled", false);
 		});
 		//双击选项
 		$('#selectType1').dblclick(function(){ //绑定双击事件
 			//获取全部的选项,删除并追加给对方
 			$val = $('#selectType1 option:selected').val();
 			$text =  $('#selectType1 option:selected').text();
-			var input = "<div class='draglistbox'id='listbox'><span>"+$text+"</span><input class='draglist' type='text'name = '"+$val+"[]' id="+$val+" ><span class='delete'>x</span></div>"
+			var input = "<div class='draglistbox'id='listbox'><span>"+$text+"</span><input class='draglist' type='text'name = '"+$val+"' id="+$val+" ><span class='delete'>x</span></div>"
 			$('#selectBoxTiny2').append(input);
 		});
 
@@ -89,5 +113,5 @@ $(function(){
 		
 		
 
-})
 
+})

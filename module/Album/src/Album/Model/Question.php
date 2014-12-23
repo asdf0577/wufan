@@ -1,4 +1,4 @@
-1<?php
+<?php
 namespace Album\Model;
 class Question {
     public $id;

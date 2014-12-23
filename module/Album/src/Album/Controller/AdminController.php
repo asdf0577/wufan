@@ -1,5 +1,5 @@
 <?php
-namespace Album\Controller;
+namespace Album\Controller\TestPaper;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
