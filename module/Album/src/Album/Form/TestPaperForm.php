@@ -23,6 +23,7 @@ class TestPaperForm extends Form
         /* termNum */
         $termNum = new Element\select('termNum');
         $termNum->setLabel('学期');
+        $termNum->setEmptyOption('选择学期');
         $termNum ->setValueOptions(array(
         	                           '1'=>'1',
         	                           '2'=>'2',
@@ -36,6 +37,7 @@ class TestPaperForm extends Form
         /* unitNum */
         $unitNum = new Element\select('unitNum');
         $unitNum->setLabel('单元');
+        $unitNum->setEmptyOption('选择单元');
         $unitNum ->setValueOptions(array(
         	                           '1'=>'1',
         	                           '2'=>'2',
@@ -58,14 +60,14 @@ class TestPaperForm extends Form
         /*TestPaperType  */
         $testPaperType = new Element\select('testPaperType');
         $testPaperType->setAttribute('id', 'testPaperType');
+        $testPaperType->setEmptyOption('选择试卷科目');
         $this->add($testPaperType);     
         /* QuestionType */
         $questionType = new Element\Select('questionType');
         $questionType->setAttribute('class', 'selectType');
         $questionType->setAttribute('id', 'selectType1');
         $questionType->setAttribute('multiple', 'multiple   ');
-        $questionType->setUnselectedValue('请选择科目');
-        $questionType->set('请选择科目');
+      
         
         //@todo 设立optgroup
         
@@ -78,6 +80,8 @@ class TestPaperForm extends Form
         $questionTypeselect->setValueOptions(array(
         ));
         $this->add($questionTypeselect);
+        
+        
         /*QuestionTypeInput  */
         $QuestionTypeInput = new Element\Text('QuestionTypeInput');
         $QuestionTypeInput->setLabel('输入题型');

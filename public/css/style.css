@@ -317,7 +317,7 @@ li.pro_size li:selected{
 	float:left;
 	width:187px;
 	height:560px;
-	margin:0 11px 0 0;
+	margin:0 11px 0 0px;
 	top:0;
 	left:0;
 }
@@ -367,6 +367,7 @@ overflow:visible;
 /*
 testPaperCatainfo
 */
+
 .testPaperSubitem{
 	background-color:#d1d1d1;
 	border-top:1px solid #8e8e8e;
@@ -495,14 +496,50 @@ table
 /*
 TestPaper
 */
+
+#sidebar{
+display: block;
+top: 100px;
+right: 20px;
+width: 50px;
+height: 100px;
+background-color: black;
+position: fixed
+}
+
+/*
+ * ajax跳出页面
+*/
 #testContent{
 	float:left;
 	height:530px;
 	width:70%;
-	
+	overflow-y:auto;
+	overflow-x: hidden;
 	margin:0 11px 0 0;
 	position:relative;
 	background-color:#f3f3f3;
+	
+}
+#questionContent{
+	float:left;
+	height:530px;
+	width:65%;
+	margin:0 11px 0 0;
+	position:relative;
+	background-color:#f3f3f3;
+	overflow:auto;
+}
+#information{
+	padding:5px;
+	display:block;
+	float:left;
+	height:530px;
+	width:15%;
+	margin:0 11px 0 0;
+	position:relative;
+	background-color:#f3f3f3;
+	overflow:auto;
 	
 }
 .testpapertr{
@@ -510,6 +547,156 @@ TestPaper
 	font-size:18px;
 	font-weight:lighter;
 	background-color:#ebebeb;
+	
+}
+.classSquare{
+	display:block;
+	width:150px;
+	height:150px;
+	background-color:#b5acb3;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:20px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}
+.classSquare a{
+	color:#400040;
+}
+.classSquare:hover{
+	background-color:#847581;
+	color:white;}
+.questionSquare-0{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#bfbeef;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-1{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#87e0d8;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-2{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#e2d985;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-3{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#e38984;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+
+.questionSquare-4{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#87e08d;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-5{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#85e2e0;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionTr-0{
+	background-color:#bfbeef;
+}	
+
+.questionTr-1{
+	background-color:#87e0d8;
+}	
+.questionTr-2{
+	background-color:#e2d985;
+}	
+.questionTr-3{
+	background-color:#e38984;
+}	
+
+.questionTr-4{
+	background-color:#87e08d;
+}	
+.questionTr-5{
+	background-color:#85e2e0;
+}	
+
+.TypeContain{
+	display:block;
+	float:left;
+
+}
+
+#informationContain
+{
+	display:block;
+	float:left;
+	width:150px;
+	margin:0 0 0 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #selectable .ui-selecting { background: #FECA40; }
+  #selectable .ui-selected { background: #F39814; color: white; }
+
+	/*
+IE7以上支持
+*/
 }
 /*
 imageRoll

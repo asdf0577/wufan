@@ -25,15 +25,13 @@ use Album\Form\ClassManagerForm;
  *
  *
  */
-class TestPaperController extends AbstractActionController
+class QuestionController extends AbstractActionController
 {
 
     protected $TestPaperTable;
 
     protected $QuestionTable;
-    
-    protected $QuestionTypeTable;
-    
+
     public function getTestPaperTable()
     {
         if (! $this->TestPaperTable) {
@@ -49,24 +47,11 @@ class TestPaperController extends AbstractActionController
             return $this->QuestionTable;
         }
     }
-    public function getQuestionTypeTable()
-    {
-    	if (! $this->QuestionTypeTable) {
-    		$this->QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
-    		return $this->QuestionTypeTable;
-    	}
-    }
-    
     //主页
     public function indexAction()
     {
         
         $TestPapers = $this->getTestPaperTable()->fetchAll();
-        
-        
-        
-      
-        
         return array('TestPapers'=>$TestPapers);
     }
     //添加试卷
@@ -82,7 +67,7 @@ class TestPaperController extends AbstractActionController
             $questionTypeArray[$Type['id']] = $Type['name'];
         }
         // 实例化一个新的TestPaper 表格，并把题型一维数组放入下拉列表2中
-        $form = new TestPaperForm('TestPaper');  
+        $form = new TestPaperForm('TestPaper');
         
         $form->get('testPaperType')->setValueOptions($questionTypeArray); // 在這裏注入 select的 option
         $request = $this->getRequest();
@@ -145,9 +130,7 @@ class TestPaperController extends AbstractActionController
     }
     //编辑试题
     public function editAction()
-    
     {
-        $this->layout('layout/myaccount');
         // @TODO 试题知识点联动
         $tid = $this->params()->fromRoute('id');
         $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
@@ -158,23 +141,11 @@ class TestPaperController extends AbstractActionController
         $form = new QuestionForm();
         /* $form->bind($Questions); */
         $form->get('submit')->setAttribute('value', 'Edit');
-        
-       /*  return array(
+        return new ViewModel(array(
             'TestPaper' => $TestPaper,
             'Questions' => $Questions,
-            'form' => $form,
-        ); */
-        $view = new ViewModel();
-        $view->setTerminal(true);
-        $view->setTemplate('layout/myaccount');
-        $viewContent = new ViewModel(array(
-            'TestPaper' => $TestPaper,
-            'Questions' => $Questions,
-            'form' => $form,
+            'form' => $form
         ));
-        $viewContent->setTemplate('album/test-paper/edit');
-        $view->addChild($viewContent,'content');
-        return $view;   
     }
     //创建处理
     public function processAction()
@@ -267,10 +238,10 @@ class TestPaperController extends AbstractActionController
             }
         }
     }
-    //试卷题型
+    // 试卷题型
     public function QuestionTypeAction()
     {
-        $QuestionTypeTable = $this->getQuestionTypeTable();
+        $QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
         $QuestionType = $QuestionTypeTable->fetchAll();
         debug::dump($QuestionType);
         die();
@@ -343,30 +314,5 @@ class TestPaperController extends AbstractActionController
             'form' => $form
         ));
     }
-    
-    public function detailAction(){
-            
-            $id = (int) $this->params()->fromRoute('id');
-            $testPaper = $this->getTestPaperTable()->getTestPaper($id);//根据tid获取试卷
-            $Questions= $this->getQuestionTable()->getQuestions($id);  //根据tid获取试题
-            $questionTypeTable = $this->getQuestionTypeTable();
-            //获取该试卷的试题类型
-            //解读试题类型
-            $questionType = $testPaper->questionType; 
-            $typeList = explode(',', $questionType);
-            $count = count($typeList); 
-            $questionNames = array();
-            for($i=0;$i<$count-1;$i++){
-                list($type,$numInfo) = explode(":", $typeList[$i]);
-                $questionNames[$i] = $questionTypeTable->getQuestionType($type)->name;
-            } 
-            
-            $view = new ViewModel(array(
-                'questionNames'=>$questionNames,
-                'testPaper'=>$testPaper,
-                'Questions'=>$Questions));
-            return $view;
-            
-        }
 }
     

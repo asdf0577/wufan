@@ -4,31 +4,65 @@
 <button>因天气原因免责申明</button></br></br>
 
 
-<table class = "table">
-   <tr class="testpapertr">  
-<th>今日|明日|后日</th>
-<th>空位</th>
-<th>预约</th>
-</tr>
-
-
-<?php 
+<?php
+$form = $this->form;
 $form->prepare();
-
-$form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
-$form->setAttribute('method','post');
+$form->setAttribute('action', $this->url(Null, array(
+    
+    'controller' => 'ClassManager',
+    'action' => 'add',
+)));
+$form->setAttribute('method', 'post');
 echo $this->form()->openTag($form);
 ?>
-<tr>手机 &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp<input type="text">车牌号 &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp&nbsp<input type="text">车色<select name ="select" value="1" text ="南京市">   </tr></br>
-<tr>小区选择 &nbsp&nbsp<select name ="select" value="1" text ="南京市"></select>楼|幢|区路名 &nbsp&nbsp<select name ="select" value="1" text ="南京市"></select>自主填寫地址<input type="text"></tr>
-<?php for($i=6;$i<18;$i++){?>
+<div id="testPaperForm">
+	<dl class='zend_form'>
 
-<tr>
-<td><?php echo $i."点";?></td>
-<td>24位 </td>
-<td><?php echo $this->formelement($form->get('submit'));?></td>
-</tr>
-          
-<?php }echo $this->form()->closeTag(); 
-?>
-</table>
+		<div id="formApart1">
+			<dt><?php echo $this->formlabel($form->get('name'));?></dt>
+			<dd>
+        <?php
+        echo $this->formelement($form->get('name'));
+        echo $this->formelementerrors($form->get('name'));
+        ?>
+        </dd>
+			<dt><?php echo $this->formlabel($form->get('carNum'));?></dt>
+			<dd>
+        <?php
+        echo $this->formelement($form->get('carNum'));
+        echo $this->formelementerrors($form->get('carNum'));
+        ?>
+        </dd>
+			<dt><?php echo $this->formlabel($form->get('address'));?></dt>
+			<dd>
+        <?php
+        echo $this->formelement($form->get('address'));
+        echo $this->formelementerrors($form->get('address'));
+        ?>
+        </dd>
+        <dt><?php echo $this->formlabel($form->get('classType'));?></dt>
+			<dd>
+        <?php
+        echo $this->formelement($form->get('classType'));
+        echo $this->formelementerrors($form->get('classType'));
+        ?>
+        </dd>
+			
+		 <dt><?php echo $this->formlabel($form->get('time'));?></dt>
+        
+        <dd>
+         <?php
+        echo  $this->formelement($form->get('time'));
+       
+        ?>
+        </dd>
+<?php
+        echo $this->formelement($form->get('submit'));?>
+		</div>
+
+</div>
+
+
+</dl>
+<?php echo $this->form()->closeTag();?>
+</div>

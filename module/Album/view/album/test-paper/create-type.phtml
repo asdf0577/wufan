@@ -1,0 +1,25 @@
+<?php  $this->headScript()->appendFile($this->basePath() . '/js/questionType.js','text/javascript');?>
+<h3>增加试卷题型</h3>
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action', $this->url(Null, array(
+    
+    'controller' => 'TestPaper',
+    'action' => 'createType',
+)));
+$form->setAttribute('method', 'post');
+echo $this->form()->openTag($form);
+?>
+
+	<dl class='zend_form'>
+
+		
+                <?php  echo $this->formelement($form->get('testPaperType'));?></br>
+                <?php
+                echo $this->formelement($form->get('QuestionTypeInput'));
+                echo $this->formelement($form->get('submit'));
+                ?>
+
+</dl>
+<?php echo $this->form()->closeTag();?>

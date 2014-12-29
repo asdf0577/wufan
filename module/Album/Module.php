@@ -29,6 +29,9 @@ use Album\Model\StoreProduct ;
 use Album\Model\ClassName; //班级
 use Album\Model\ClassNameTable ;
 
+use Album\Model\Student; //学生
+use Album\Model\StudentTable ;
+
 use Album\Model\Question;//试题
 use Album\Model\QuestionTable ;
 
@@ -78,15 +81,30 @@ class Module implements AutoloaderProviderInterface
         $sharedEventManager->attach(__NAMESPACE__,MvcEvent::EVENT_DISPATCH,
                 function ($e){
                     $controller = $e->getTarget();
-                    $controllerName = $controller->getEvent()->getRouteMatch()->getParam('controller');//�� ȡ��ǰ·�ɵĿ��������
-                    if (!in_array($controllerName, array('Album\Controller\Register','Album\Controller\Usermanager','Album\Controller\Usermanager',))) 
+                    $controllerName = $controller->getEvent()->getRouteMatch()->getParam('controller');
+                    if (in_array($controllerName, array(
+                        'Album\Controller\Register',
+                        'Album\Controller\Usermanager',
+                        'Album\Controller\Store',
+                        'Album\Controller\StoreAdmin',
+                        'Album\Controller\UploadManager',
+                    ))) 
                     {
                     $controller->layout('layout/myaccount')	;
-                    }//���ǰ�Ŀ�������Ʋ���Register��Login��UserManager����У���ô���õ�ǰ��������layoutģ��Ϊmyaccount
+                    }
+                     if(in_array($controllerName,array(
+                        'Album\Controller\TestPaper', 
+                        'Album\Controller\ClassManager',
+                        'Album\Controller\Student',
+                        'Album\Controller\Question',
+                    ))){
+                        $controller->layout('layout/testPaper')	;
+                    } 
+                        
                     
                 }
-    ); 
-        
+    );  
+      
     }
 
     public function getServiceConfig(){
@@ -174,8 +192,8 @@ class Module implements AutoloaderProviderInterface
         					return new TableGateway('store_orders', $dbAdapter, null, $resultSetPrototype);
         				},
         				//考试管理系统
-
-        				'ClassNameTable' =>  function($sm) {
+                        
+        				'ClassNameTable' =>  function($sm) {//班級
         					$tableGateway = $sm->get('ClassNameTableGateway');
         					$table = new ClassNameTable($tableGateway);
         					return $table;
@@ -183,9 +201,9 @@ class Module implements AutoloaderProviderInterface
         				
         				'ClassNameTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-        					return new TableGateway('class_name', $dbAdapter);
+        					return new TableGateway('class_manager', $dbAdapter);
         				},
-        				'QuestionTable' =>  function($sm) {
+        				'QuestionTable' =>  function($sm) {//试题
         					$tableGateway = $sm->get('QuestionTableGateway');
         					$table = new QuestionTable($tableGateway);
         					return $table;
@@ -195,7 +213,7 @@ class Module implements AutoloaderProviderInterface
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					return new TableGateway('question', $dbAdapter);
         				},
-        				'QuestionTypeTable' =>  function($sm) {
+        				'QuestionTypeTable' =>  function($sm) {//题型
         					$tableGateway = $sm->get('QuestionTypeTableGateway');
         					$table = new QuestionTypeTable($tableGateway);
         					return $table;
@@ -205,7 +223,7 @@ class Module implements AutoloaderProviderInterface
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					return new TableGateway('question_type', $dbAdapter);
         				},
-        				'TestPaperTable'=>function($sm){
+        				'TestPaperTable'=>function($sm){//试卷
         					$tableGateway = $sm->get('TestPaperTableGateway');
         					$table = new TestPaperTable($tableGateway);
         					return $table;
@@ -216,10 +234,24 @@ class Module implements AutoloaderProviderInterface
         					$resultSetPrototype->setArrayObjectPrototype(new TestPaper()); */
         					return new TableGateway('test_paper', $dbAdapter/* , null, $resultSetPrototype */);
         				},
+        				'StudentTable' =>  function($sm) {//试题
+        				$tableGateway = $sm->get('StudentTableGateway');
+        				$table = new StudentTable($tableGateway);
+        				return $table;
+        				},
+        				
+        				'StudentTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('student', $dbAdapter);
+        				},
         				
         				
         				//Form
-        				
+
+        				'StudentForm'=>function($sm){
+        					$form=new \Album\Form\StudentForm();
+        					return $form;
+        				},
         				
         				'RegisterForm'=>function($sm){
         				    $form=new \Album\Form\RegisterForm();

@@ -1,10 +1,10 @@
 <?php
 namespace Album\Model;
 
-use Album\Model\TestPaper;
+use Album\Model\Student;
 use Zend\Db\TableGateway\TableGateway;
 
-class TestPaperTable{
+class StudentTable{
     protected $tableGateway;
     
     public function __construct(TableGateway $tableGateway)
@@ -17,7 +17,7 @@ class TestPaperTable{
         return $resultSet;
     }
     
-    public function getTestPaper($id){
+    public function getStudent($id){
         $id=(int)$id;
         $result=$this->tableGateway->select(array('id'=>$id));
         $row=$result->current();
@@ -27,18 +27,21 @@ class TestPaperTable{
         }
         return $row;
     }
-    public function saveTestPaper($testPaper)
+    public function getStudentsByClass($cid){
+        $cid=(int)$cid;
+        $resultSet=$this->tableGateway->select(array('cid'=>$cid));
+        return $resultSet;
+    }
+    public function saveStudent($Student)
     {
         $data = array(
-            'year' => $testPaper->year,
-            'termNum' => $testPaper->termNum,
-            'unitNum' => $testPaper->unitNum,
-            'questionAmount' => $testPaper->questionAmount,
-            'created' => $testPaper->created,
-            'createtime'=>date(),
-            
+                'name'=>$Student->name,            
+                'gender'=>$Student->gender,            
+                'cid'=>$Student->cid,            
+                'studentNum'=>$Student->studentNum,            
+                'password'=>md5($Student->studentNum),            
         );
-        $id = (int)$testPaper->id;
+        $id = (int)$Student->id;
         if($id == 0)
         {
             $this->tableGateway->insert($data);  
@@ -51,9 +54,9 @@ class TestPaperTable{
             }
         }
     }
-    public function delete($tid){
-    	$tid = (int)$tid;
-    	$this->tableGateway->delete(array('id'=>$tid));
+    public function delete($id){
+    	$id = (int)$id;
+    	$this->tableGateway->delete(array('id'=>$id));
     }
     
     

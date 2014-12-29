@@ -178,6 +178,20 @@ return array(
             				),
             		),
             ),
+            'Question' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/question[/:action[/:id]]',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\Question',
+            						'action' => 'index',
+            				),
+            		),
+            ),
             
             'ClassManager' => array(
             		'type' => 'Segment',
@@ -189,6 +203,20 @@ return array(
             				),
             				'defaults' => array(
             						'controller' => 'Album\Controller\ClassManager',
+            						'action' => 'index',
+            				),
+            		),
+            ),
+            'Student' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/Student[/:action[/:id]]',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\Student',
             						'action' => 'index',
             				),
             		),
@@ -234,37 +262,19 @@ return array(
         ),
         'template_map' => array(
         	'layout/myaccount' => __DIR__.'/../view/layout/myaccount-layout.phtml',
+        	'layout/testPaper' => __DIR__.'/../view/layout/testPaper-layout.phtml',
         ),
-        // We want to show the user if the page is not found
         'display_not_found_reason' => true,
-        // We want to display exceptions when the occur
         'display_exceptions' => true,
-        // This defines the doctype we want to use in our
-        // output
         'doctype' => 'HTML5',
     ),
+    
     'module_config' => array(
     		'upload_location' => __DIR__ . '/../data',
             'image_upload_location' => __DIR__ .'/../data',
             'search_index' => __DIR__.'/../data',
     ),
-    //����һ��service manager
     'service_manager'=>array(
-    	/* 'cache-service'=>function (){
-    	    //����һ������������
-    	    return \zend\cache\StorageFactory::factory(array(
-    	    	'adapter'=>array(
-    	    	 //we want to use the cache that is being 
-    	    	 //stored on the filesystem   
-    	    	'name'=>'filesystem',
-    	    	'options'=>array(
-    	    		'cache_dir'=>'data/cache/',
-    	    	    //This is the amout in minutes the cache is valid
-    	    	    'ttl'=>100
-    	    	)   
-    	    ),
-    	    ));
-    	}, */
     ),
    
 );

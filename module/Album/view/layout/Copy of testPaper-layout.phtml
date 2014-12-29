@@ -1,4 +1,4 @@
-    <?php echo $this->doctype(); ?>
+<?php echo $this->doctype(); ?>
 
 <html lang="zh-CN">
     <head>
@@ -11,6 +11,7 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.min.css')
+                        
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
 
         <!-- Scripts -->
@@ -50,14 +51,90 @@
                 </div>
             </div>
         </div>
+   <div id="Catalog">
+	<div id="CataInfo">
+
+		<div class="item fore1">
+			<span class="testPaperCataInfoSpan">
+				<h3>
+					<a
+						href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">试题首页</a>
+				</h3>
+
+			</span>
+		</div>
+
+		<div class="item fore2">
+			<span class="testPaperCataInfoSpan">
+				<h3>
+					<a class="loginWindow"
+						href="<?php echo $this->url('TestPaper',array('action'=>'add'));?>">创建试卷</a>
+				</h3>
+			</span>
+			<div class="testPaperSubitem">
+				<dd>
+					<h3>
+						<a
+							href="<?php echo $this->url('TestPaper',array('action'=>'QuestionType'));?>">科目目录</a>
+					</h3>
+					<h3>
+						<a href="<?php echo $this->url('TestPaper',array('action'=>'createType'));?>">科目试题创建</a>
+					</h3>
+				</dd>
+			</div>
+		</div>
+
+		<div class="item fore2">
+			<span class="testPaperCataInfoSpan">
+				<h3>
+					<a
+						href="<?php echo $this->url('Grammar',array('action'=>'index'));?>">试题管理</a>
+				</h3>
+			</span>
+			<div class="testPaperSubitem">
+				<dd>
+					<h3>
+						<a href="#">知识点创建</a>
+					</h3>
+					<h3>
+						<a href="#">搜索试题</a>
+					</h3>
+				</dd>
+			</div>
+		</div>
+		<div class="item fore2">
+			<span class="testPaperCataInfoSpan">
+				<h3>
+					<a href="<?php echo $this->url('ClassManager',array('action'=>'index'));?>">班级管理</a>
+				</h3>
+			</span>
+			<div class="testPaperSubitem">
+				<dd>
+					<h3>
+						<a href="<?php echo $this->url('ClassManager',array('action'=>'add'));?>">班级创建</a>
+					</h3>
+					<h3>
+						<a href="#">新生录入</a>
+					</h3>
+					<h3>
+						<a href="#">xls录入</a>
+					</h3>
+					<h3>
+						<a href="#">个体分析</a>
+					</h3>
+					<h3>
+						<a href="#">整体分析</a>
+					</h3>
+				</dd>
+			</div>
+		</div>
+
+	</div>
+</div>
         <div class="container">
             <?php echo $this->content; ?>
            
-        </div>
-         <div id="sidebar">
-            <?php echo $this->sidebar ;?>
-         </div>
-         <!-- /container -->
+        </div> <!-- /container -->
         <?php echo $this->inlineScript() ?>
     </body>
 </html>

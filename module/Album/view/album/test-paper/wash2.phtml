@@ -1,0 +1,34 @@
+<h3>【LOGO】南京预约上门洗车&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp我的服务&nbsp&nbsp|&nbsp&nbsp积分&nbsp&nbsp|&nbsp&nbsp汽车生活管理</h3></br>
+
+<h5>&nbsp&nbsp&nbsp晴&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp阴&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp雨&nbsp&nbsp&nbsp数据来源：中国天气 year：month：day：hour</h5>
+<button>因天气原因免责申明</button></br></br>
+
+
+<table class = "table">
+   <tr class="testpapertr">  
+<th>今日|明日|后日</th>
+<th>空位</th>
+<th>预约</th>
+</tr>
+
+
+<?php 
+$form->prepare();
+
+$form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+?>
+<tr>手机 &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp<input type="text">车牌号 &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp&nbsp<input type="text">车色<select name ="select" value="1" text ="南京市">   </tr></br>
+<tr>小区选择 &nbsp&nbsp<select name ="select" value="1" text ="南京市"></select>楼|幢|区路名 &nbsp&nbsp<select name ="select" value="1" text ="南京市"></select>自主填寫地址<input type="text"></tr>
+<?php for($i=6;$i<18;$i++){?>
+
+<tr>
+<td><?php echo $i."点";?></td>
+<td>24位 </td>
+<td><?php echo $this->formelement($form->get('submit'));?></td>
+</tr>
+          
+<?php }echo $this->form()->closeTag(); 
+?>
+</table>

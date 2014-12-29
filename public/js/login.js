@@ -1,7 +1,7 @@
 $(function(){
 	$("a.loginWindow").click(function(e){
 		 $.ajax({
-		       url:'../testpaper/add',
+		       url:'../album/testpaper/add',
 		       async:false, 
 		       success: function(html) {
 		    	   var htm = "<div id='tooltips2'><div class='close'>X</div>"+html+"</div>";

@@ -1,0 +1,38 @@
+
+<div id="testContent">
+	
+    <table class="table">
+		<tr class="testpapertr">
+			<th width="10%">班级</th>
+			<th width="10%">性别</th>
+			<th width="10%">姓名</th>
+			<th width="10%">学号</th>
+			<th width="10%">登记次数</th>
+			<th width="10%">答案总数</th>
+			<th width="20%">操作</th>
+		</tr>
+<?php foreach ($this->students as $student):?>
+<tr>
+			<td width="10%"><?php echo $className->name;?></td>
+			<td width="10%">
+			<?php if($this->escapehtml($student->gender)== 1)
+			         {echo "男";}
+			         else{echo "女";} ?></td>
+			<td width="10%"><?php echo $this->escapehtml($student->name);?></td>
+			<td width="10%"><?php echo $this->escapehtml($student->studentNum);?></td>
+			<td width="10%"></td>
+			<td width="10%"></td>
+
+			<td width="20%">
+
+				<a href="<?php echo $this->url('Student',array('action'=>'edit','id'=>$student->id));?>">编辑</a>
+				<a href="<?php echo $this->url('Student',array('action'=>'delete','id'=>$student->id));?>">删除</a>
+			</td>
+		</tr>
+<?php endforeach;?>
+</table>
+    
+    
+
+</div>
+

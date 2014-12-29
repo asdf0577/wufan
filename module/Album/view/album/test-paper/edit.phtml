@@ -14,39 +14,49 @@ echo "单元:".$testPaper->unitNum;
 <a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">返回主页</a></h3>
 </h4>  
 <table class = "table">
-   <tr class="testpapertr">  
-<th>试题号</th>
-<th>所属类型</th>
+   <tr class="testpapertr"> 
+<th>题号</th>
+<th>所属类型/知识点</th>
 <th>详细</th>
 <th>难度</th>
 <th>保存</th>
 </tr>
 
-
-<?php 
-foreach ($Questions as $Question){
+<?php
 $form->prepare();
-
 $form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
 $form->setAttribute('method','post');
 echo $this->form()->openTag($form);
+
+$a = $testPaper->questionType;
+$b = explode(',', $a); // 分离出题目的格式“题型：起始数-终止数，题型：起始数-终止数”
+
+$count = count($b); // 计算题型总数
+for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
+    list ($type, $num) = explode(":", $b[$i]); // 分离出“题型和起始数-终止数”
+    list ($start, $end) = explode("-", $num); // 分离出“起始数和终止数”
+    for ($qstart = $start; $qstart <= $end; $qstart ++) {
+        
+        echo "<tr class = 'questionTr-" . $i . "'  >" ;
+        echo "<td width = '5%'>".$Questions[$qstart - 1]['questionNum'];
+        echo $this->formelement($form->get('id')->setAttribute('value',$Questions[$qstart - 1]['id']));
+        echo $this->formelement($form->get('tid')->setAttribute('value',$Questions[$qstart - 1]['tid']));
+        echo $this->formelement($form->get('questionNum[]')->setAttribute('value',$Questions[$qstart - 1]['questionNum']))."</td>";
+        echo "<td width = '15%'>";
+        echo $this->formelement($form->get('grammaType[]')->setAttribute('value',$Questions[$qstart - 1]['grammaType']));
+        echo $this->formElementErrors($form->get('grammaType[]'))."</td>";
+        echo "<td width = '40%'>";
+        echo $this->formelement($form->get('content[]')->setAttribute('value',$Questions[$qstart - 1]['content']));
+        echo $this->formElementErrors($form->get('content[]'))."</td>";
+        echo "<td width = '25%'>";
+        echo $this->formelement($form->get('grammaType[]')->setAttribute('value',$Questions[$qstart - 1]['grammaType']));
+        echo "<td width = '10%'>";
+        echo $this->formelement($form->get('submit')->setAttribute('value','保存'))."</td></tr>";
+        echo $this->form()->closeTag();
+    }
+}
 ?>
-<tr>
-<td width="10%"><?php echo $Question['questionNum'];
-                      echo $this->formelement($form->get('id')->setAttribute('value',$Question['id']));
-                      echo $this->formelement($form->get('tid')->setAttribute('value',$Question['tid']));
-                      echo $this->formelement($form->get('questionNum[]')->setAttribute('value',$Question['questionNum']));
-                      echo $this->formElementErrors($form->get('questionNum[]'));?></td>
-<td width="15%"><?php echo $this->formelement($form->get('grammaType[]')->setAttribute('value',$Question['grammaType']));
-                      echo $this->formElementErrors($form->get('grammaType[]')); ?></td>
-<td width="40%"><?php echo $this->formelement($form->get('content[]')->setAttribute('value',$Question['content']));
-                      echo $this->formElementErrors($form->get('content[]')); ?></td>
-<td width="25%"><?php echo $this->formelement($form->get('grade[]')->setAttribute('value',$Question['grade']));
-                      echo $this->formElementErrors($form->get('grade[]'));?></td>
-<td width="10%"><?php echo $this->formelement($form->get('submit'));?></td>	
-          
-          </tr>
-          
-<?php echo $this->form()->closeTag(); }
-?>
+
+
+
 </table>

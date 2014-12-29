@@ -1,40 +1,44 @@
 <?php
 namespace Album\Model;
 
-use Album\Model\Question;
+use Album\Model\QuestionType;
 use Zend\Db\TableGateway\TableGateway;
 
-class QuestionTable{
+class QuestionTypeTable{
     protected $tableGateway;
     
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
-    public function getQuestions($tid)
+    public function fetchAll(){
+        $result = $this->tableGateway->select();
+        $rowset = $result->toArray();
+        return $rowset;
+    }
+    public function getQuestionTypes($fid)
     {
-        $tid=(int)$tid;
-        $result=$this->tableGateway->select(array('tid'=>$tid));
+        $fid=(int)$fid;
+        $result=$this->tableGateway->select(array('fid'=>$fid));
         $rowset=$result->toArray();
         return $rowset;
     }
-    public function getquestion($id){
+    public function getQuestionType($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
         if(!$row){ throw new \Exception("Form id does not exist");}
         return $row;
     }
-    public function saveQuestions($question)
+    public function saveQuestionType($questionType)
     {
+        
         $data = array(
-            'tid' => $question->tid,
-        	'questionNum' => $question->questionNum,
-        	'grammaType' => $question->grammaType,
-            'content' => $question->content,
-            'grade' => $question->grade,
+            'fid' => $questionType->fid,
+            'name' => $questionType->tname,
+            'path' => $questionType->path,
             
         );
-        $id = (int)$question->id;
+        $id = (int)$questionType->id;
         if($id == 0)
         {
             $this->tableGateway->insert($data);  
@@ -47,9 +51,9 @@ class QuestionTable{
             }
         }
     }
-    public function delete($tid){
-        $tid = (int)$tid;
-        $this->tableGateway->delete(array('tid'=>$tid));
+    public function delete($id){
+        $id = (int)$id;
+        $this->tableGateway->delete(array('id'=>$id));
     }
     
     
