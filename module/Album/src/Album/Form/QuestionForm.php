@@ -23,7 +23,7 @@ class QuestionForm extends Form
         $this->add($questionNum);
         /* GrammaType */
         $grammaType = new Element\Select('grammaType[]');
-        $grammaType->setValueOptions(array(
+        $grammaType->setValueOptions(array( 
                                        '1'=>'ADJECTIVES', 
                                        '2'=>'ADVERBS' ,
                                        '3'=>'DETERMINERS', 
@@ -34,11 +34,13 @@ class QuestionForm extends Form
         $this->add($content);
         /* grade */
         $grade = new Element\select('grade[]');
+        $grade->setEmptyOption('默认为空');
         $grade->setValueOptions(array(
-        	                '1'=>'2',
-        	                '2'=>'3',
-        	                '3'=>'4',
-        	                '4'=>'5',
+        	                '1'=>'1星',
+        	                '2'=>'2星',
+        	                '3'=>'3星',
+        	                '4'=>'4星',
+        	                '5'=>'5星',
         ));
         $this->add($grade);
         /* submit */

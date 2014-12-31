@@ -96,13 +96,13 @@ echo $this->headScript()
 					<span class="testPaperCataInfoSpan">
 						<h3>
 							<a
-								href="<?php echo $this->url('Grammar',array('action'=>'index'));?>">试题管理</a>
+								href="<?php echo $this->url('Grammar',array('action'=>'index'));?>">知识点管理</a>
 						</h3>
 					</span>
 					<div class="testPaperSubitem">
 						<dd>
 							<h3>
-								<a href="#">知识点创建</a>
+								<a href="<?php echo $this->url('Grammar',array('action'=>'add'));?>">知识点创建</a>
 							</h3>
 							<h3>
 								<a href="#">搜索试题</a>
@@ -142,7 +142,7 @@ echo $this->headScript()
 					<span class="testPaperCataInfoSpan">
 						<h3>
 							<a
-								href="#">答题</a>
+								href="#">学生提交错题</a>
 						</h3>
 					</span>
 					<div class="testPaperSubitem">

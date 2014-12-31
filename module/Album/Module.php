@@ -41,6 +41,9 @@ use Album\Model\QuestionTypeTable;
 use Album\Model\TestPaper;//试卷
 use Album\Model\TestPaperTable ;
 
+use Album\Model\Grammar;//语法
+use Album\Model\GrammarTable ;
+
 //商店
 use Album\Model\StoreOrderTable;
 use Album\Model\StoreProductTable;
@@ -97,6 +100,7 @@ class Module implements AutoloaderProviderInterface
                         'Album\Controller\ClassManager',
                         'Album\Controller\Student',
                         'Album\Controller\Question',
+                        'Album\Controller\Grammar',
                     ))){
                         $controller->layout('layout/testPaper')	;
                     } 
@@ -243,6 +247,16 @@ class Module implements AutoloaderProviderInterface
         				'StudentTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					return new TableGateway('student', $dbAdapter);
+        				},
+        				'GrammarTable' =>  function($sm) {//试题
+        				$tableGateway = $sm->get('GrammarTableGateway');
+        				$table = new GrammarTable($tableGateway);
+        				return $table;
+        				},
+        				
+        				'GrammarTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('grammar', $dbAdapter);
         				},
         				
         				

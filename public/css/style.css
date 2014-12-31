@@ -352,7 +352,7 @@ overflow:visible;
 	height:34px;
 	line-height:34px;
 	width:164px;
-	font-size:10px;
+	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 	
 }
@@ -499,12 +499,10 @@ TestPaper
 
 #sidebar{
 display: block;
-top: 100px;
+top: 200px;
 right: 20px;
 width: 50px;
-height: 100px;
-background-color: black;
-position: fixed
+position:fixed;
 }
 
 /*
@@ -567,7 +565,7 @@ position: fixed
 	background-color:#847581;
 	color:white;}
 .questionSquare-0{
-	Color:white;
+	Color:black;
 	display:block;
 	width:35px;
 	height:35px;
@@ -575,11 +573,11 @@ position: fixed
 	margin:3px;
 	float:left;
 	padding:10px 10px 10px 10px;
-	font-size:10px;
+	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }	
 .questionSquare-1{
-	Color:white;
+	Color:black;
 	display:block;
 	width:35px;
 	height:35px;
@@ -587,11 +585,11 @@ position: fixed
 	margin:3px;
 	float:left;
 	padding:10px 10px 10px 10px;
-	font-size:10px;
+	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }	
 .questionSquare-2{
-	Color:white;
+	Color:black;
 	display:block;
 	width:35px;
 	height:35px;
@@ -599,11 +597,11 @@ position: fixed
 	margin:3px;
 	float:left;
 	padding:10px 10px 10px 10px;
-	font-size:10px;
+	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }	
 .questionSquare-3{
-	Color:white;
+	Color:black;
 	display:block;
 	width:35px;
 	height:35px;
@@ -611,12 +609,12 @@ position: fixed
 	margin:3px;
 	float:left;
 	padding:10px 10px 10px 10px;
-	font-size:10px;
+	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }	
 
 .questionSquare-4{
-	Color:white;
+	Color:black;
 	display:block;
 	width:35px;
 	height:35px;
@@ -624,10 +622,82 @@ position: fixed
 	margin:3px;
 	float:left;
 	padding:10px 10px 10px 10px;
+	font-size:13px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-6{
+	Color:black;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#85e2e0;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:13px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-7{
+	Color:black;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#85e2e0;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:13px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-8{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#333333;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
 	font-size:10px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }	
-.questionSquare-5{
+.questionSquare-9{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#85e2e0;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-10{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#333333;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-11{
+	Color:white;
+	display:block;
+	width:35px;
+	height:35px;
+	background-color:#85e2e0;
+	margin:3px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}	
+.questionSquare-12{
 	Color:white;
 	display:block;
 	width:35px;
@@ -675,18 +745,53 @@ position: fixed
 }
 
 
+ul.rating.nonstar{
+	width = 100px;
+	display:block;
+	
+}
+
+li.star{
+	font-size:18px;
+	list-style:none;
+	float:left;
+}
+li.star a{
+	color:white;
+	
+}
 
 
+tr.addTr{
+	height:300px;
+	border-top:1px solid #ccc;
+}
+.afterTrDiv{
+	color:white;
+	height:250px;
+	background-color:#ccc;
+	padding:10px;
+	border-top:1px solid #333;
+	display:block;
+}
+.afterTrTd{
+padding:0;	
 
+}
 
+.grammarSelect{
+	height:200px;
+	float:left;
+	margin-left:10px;
+}
 
-
-
-
-
-
-
-
+.grammarTypeDiv{
+	display:block;
+	float:left;
+}
+.subTr{
+	display:none;
+}
 
 
 
@@ -697,8 +802,8 @@ position: fixed
 	/*
 IE7以上支持
 */
-}
 /*
+}
 imageRoll
 */
 #Imageroll{

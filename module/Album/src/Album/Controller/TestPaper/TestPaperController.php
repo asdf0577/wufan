@@ -10,6 +10,7 @@ use Zend\debug\Debug;
 use Album\Form\QuestionForm;
 use Album\Model\Question;
 use Album\Form\ClassManagerForm;
+use Album\Form\GrammarForm;
 
 /**
  * TestPaperController
@@ -33,6 +34,16 @@ class TestPaperController extends AbstractActionController
     protected $QuestionTable;
     
     protected $QuestionTypeTable;
+    
+    protected $GrammarTable;
+    
+    public function getGrammarTable()
+    {
+        if (!$this->GrammarTable) {
+            $this->GrammarTable = $this->getServiceLocator()->get('GrammarTable');
+            return $this->GrammarTable;
+        }
+    }
     
     public function getTestPaperTable()
     {
@@ -74,8 +85,7 @@ class TestPaperController extends AbstractActionController
     {
         
         /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
-        $questionTypeTable = $this->getServiceLocator()->get('questionTypeTable');
-        $questionType = $questionTypeTable->getQuestionTypes(0);
+        $questionType = $this->getQuestionTypeTable()->getQuestionTypes(0);
         $questionTypeArray = array();
         // 将获取的题型从二维数组转一维数组
         foreach ($questionType as $Type) {
@@ -147,23 +157,44 @@ class TestPaperController extends AbstractActionController
     public function editAction()
     
     {
-        $this->layout('layout/myaccount');
         // @TODO 试题知识点联动
         $tid = $this->params()->fromRoute('id');
         $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
         $Questions = $this->getQuestionTable()->getQuestions($tid);
-        /*
-         * debug::dump($TestPaper); debug::dump($Questions);
-         */
+        $questionTypeTable = $this->getQuestionTypeTable();
+        //获取该试卷的试题类型
+        //解读试题类型
+        $questionType = $TestPaper->questionType;
+        $typeList = explode(',', $questionType);
+        $count = count($typeList);
+        $questionNames = array();
+        for($i=0;$i<$count-1;$i++){
+            list($type,$numInfo) = explode(":", $typeList[$i]);
+            $questionNames[$i] = $questionTypeTable->getQuestionType($type)->name;
+        }
+        
+        
         $form = new QuestionForm();
         /* $form->bind($Questions); */
         $form->get('submit')->setAttribute('value', 'Edit');
         
-       /*  return array(
-            'TestPaper' => $TestPaper,
-            'Questions' => $Questions,
-            'form' => $form,
-        ); */
+        
+        ///////////////////////////////
+        
+        /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
+        $Grammars = $this->getGrammarTable()->getGrammars(0);
+        $GrammarArray = array();
+        // 将获取的题型从二维数组转一维数组
+        foreach ($Grammars as $Type) {
+            $conjure="";
+            $conjure = $Type['name']."-".$Type['cn_name'];
+            $GrammarArray[$Type['id']] = $conjure;
+            $conjure="";
+        }
+        $form2 = new GrammarForm('GrammarForm');
+        
+        $form2->get('grammarType')->setValueOptions($GrammarArray );
+        
         $view = new ViewModel();
         $view->setTerminal(true);
         $view->setTemplate('layout/myaccount');
@@ -171,9 +202,13 @@ class TestPaperController extends AbstractActionController
             'TestPaper' => $TestPaper,
             'Questions' => $Questions,
             'form' => $form,
+            'form2'=>$form2,
         ));
         $viewContent->setTemplate('album/test-paper/edit');
+        $viewSidebar = new ViewModel(array('questionNames'=>$questionNames));
+        $viewSidebar->setTemplate('album/test-paper/sidebar');
         $view->addChild($viewContent,'content');
+        $view->addChild($viewSidebar,'sidebar');
         return $view;   
     }
     //创建处理

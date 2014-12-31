@@ -93,8 +93,8 @@ $(function(){
 	
 	//提交
 	$('form#TestPaper').submit(function(){
-		var type = "",name="";
-		var num=0,startNum =0 ,endNum =0 ;	//题号起始数,题号终止数
+		var type = "",name="";				//Type（name：startNum-endNum...）,题型名称
+		var num =0,startNum =0 ,endNum =0 ;	//input框内数值，题号起始数,题号终止数
 		$('.draglistbox>input').each(function(index,value){
 				//计算endNum
 				$('.draglistbox>input').each(function(index2){
@@ -136,6 +136,19 @@ $(function(){
 	           type: "POST",
 	           url: "../album/testpaper/add",
 	           data: data,
+	           success: function(res) {
+	        	   
+	        	        if (! res.url) { //如果未返回目标地址
+	        	            if (location.href!='/user/login') { //判断当前页面是不是登录页面（如果你的登录可能是弹窗方式，也可能是单独页面的时候才需要）
+	        	                location.reload();
+	        	                return true;
+	        	            } else {
+	        	                res.url = '../album/testpaper/index';//设置一个默认地址
+	        	            }
+	        	        }
+	        	        location = res.url;
+	        	    
+	        	}
 	         });
 		 return false;
 	})	

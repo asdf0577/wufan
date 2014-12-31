@@ -10,7 +10,10 @@ $(function(){
 	        });
 	      }
 	    });
+//	$(document).mousemove(function(e){
+//		$("#sidebar").css("top",e.pageY);
+//		$("#mousemove").text(e.pageY-100);
+//	})
+//	var count = 0;
 	
-	
-
 })

@@ -19,9 +19,9 @@ return array(
             'Album\Controller\ClassManager' => 'Album\Controller\TestPaper\ClassManagerController',
             'Album\Controller\Student' => 'Album\Controller\TestPaper\StudentController',
             'Album\Controller\Question' => 'Album\Controller\TestPaper\QuestionController',
-            'Album\Controller\Grammar' => 'Album\Controller\GrammarController',
+            'Album\Controller\Grammar' => 'Album\Controller\TestPaper\GrammarController',
             
-            
+            //洗车
             'Album\Controller\CarWash' => 'Album\Controller\CarWashController',
         ),
     ),
@@ -221,11 +221,10 @@ return array(
             				),
             		),
             ),
-            
             'Grammar' => array(
             		'type' => 'Segment',
             		'options' => array(
-            				'route' => '/album/grammar[/:action[/:id]]  ',
+            				'route' => '/album/grammar[/:action[/:id]]',
             				'constraints' => array(
             						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
             						'id' => '[a-zA-Z0-9_-]*',
