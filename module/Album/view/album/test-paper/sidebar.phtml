@@ -1,0 +1,8 @@
+ <?php
+echo $this->headScript()->appendFile($this->basePath() . '/js/testPaper-ui.js','text/javascript');
+ 
+ 
+        foreach ($this->questionNames as $i => $Name) {
+            echo "<li class = 'questionSquare-" . $i . "'  >" . $Name . "</li>";
+        }
+        ?>
