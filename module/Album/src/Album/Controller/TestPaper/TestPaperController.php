@@ -10,7 +10,7 @@ use Zend\debug\Debug;
 use Album\Form\QuestionForm;
 use Album\Model\Question;
 use Album\Form\ClassManagerForm;
-use Album\Form\GrammarForm;
+use Album\Form\KnowledgeForm;
 
 /**
  * TestPaperController
@@ -35,13 +35,13 @@ class TestPaperController extends AbstractActionController
     
     protected $QuestionTypeTable;
     
-    protected $GrammarTable;
+    protected $KnowledgeTable;
     
-    public function getGrammarTable()
+    public function getKnowledgeTable()
     {
-        if (!$this->GrammarTable) {
-            $this->GrammarTable = $this->getServiceLocator()->get('GrammarTable');
-            return $this->GrammarTable;
+        if (!$this->KnowledgeTable) {
+            $this->KnowledgeTable = $this->getServiceLocator()->get('KnowledgeTable');
+            return $this->KnowledgeTable;
         }
     }
     
@@ -135,6 +135,18 @@ class TestPaperController extends AbstractActionController
             echo "error";
         }
     }
+    public function getKnowledgeTypeAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $fid = $_POST['fid'];
+            $KnowledgeType = $this->getKnowledgeTable()->getKnowledges($fid);
+            echo json_encode($KnowledgeType);
+            die();
+        } else {
+            echo "error";
+        }
+    }
     //创建试题
     public function createAction()
     {
@@ -161,7 +173,14 @@ class TestPaperController extends AbstractActionController
         $tid = $this->params()->fromRoute('id');
         $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
         $Questions = $this->getQuestionTable()->getQuestions($tid);
-        $questionTypeTable = $this->getQuestionTypeTable();
+        $questionTypeTable = $this->getQuestionTypeTable();//根据tid获取试题
+        
+        for($i=0;$i<count($Questions);$i++){
+            $id = $Questions[$i]['knowledge'];
+            $ktable = $this->getServiceLocator()->get('KnowledgeTable');
+            $name = $ktable->getKnowledge($id)->name;
+            $Questions[$i]['knowledge'] = $name;
+        }
         //获取该试卷的试题类型
         //解读试题类型
         $questionType = $TestPaper->questionType;
@@ -181,19 +200,23 @@ class TestPaperController extends AbstractActionController
         
         ///////////////////////////////
         
+        
+        
+        
+        
         /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
-        $Grammars = $this->getGrammarTable()->getGrammars(0);
-        $GrammarArray = array();
+        $Knowledges = $this->getKnowledgeTable()->getKnowledges(0);
+        $KnowledgeArray = array();
         // 将获取的题型从二维数组转一维数组
-        foreach ($Grammars as $Type) {
+        foreach ($Knowledges as $Type) {
             $conjure="";
             $conjure = $Type['name']."-".$Type['cn_name'];
-            $GrammarArray[$Type['id']] = $conjure;
+            $KnowledgeArray[$Type['id']] = $conjure;
             $conjure="";
         }
-        $form2 = new GrammarForm('GrammarForm');
+        $form2 = new KnowledgeForm('KnowledgeForm');
         
-        $form2->get('grammarType')->setValueOptions($GrammarArray );
+        $form2->get('knowledgeType')->setValueOptions($KnowledgeArray );
         
         $view = new ViewModel();
         $view->setTerminal(true);

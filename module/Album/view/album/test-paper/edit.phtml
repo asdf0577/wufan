@@ -1,33 +1,26 @@
 <h3>试卷编辑</h3></br>
-<h4><?php 
-$testPaper = $this->TestPaper;
-$Questions = $this->Questions;
-$form = $this->form;
-$form2 = $this->form2;
-echo"学年: &nbsp".$testPaper->year."&nbsp&nbsp";
-echo"学期:".$testPaper->termNum."&nbsp&nbsp";
-echo "单元:".$testPaper->unitNum;
-?>
-
-<a href="#">点我啊</a>
-
-
-<a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">返回主页</a></h3>
+<h4>
+    <?php 
+        $testPaper = $this->TestPaper;
+        $Questions = $this->Questions;
+        $form = $this->form;
+        $form2 = $this->form2;
+        echo"学年: &nbsp".$testPaper->year."&nbsp&nbsp";
+        echo"学期:".$testPaper->termNum."&nbsp&nbsp";
+        echo "单元:".$testPaper->unitNum;
+        ?>
+    <a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">返回主页</a></h3>
 </h4>  
 <table class = "table">
    <tr class="testpapertr"> 
-<th>题号</th>
-<th>所属类型/知识点</th>
-<th>难度</th>
-<th>备注</th>
-<th>保存</th>
-</tr>
+        <th>题号</th>
+        <th>所属类型/知识点</th>
+        <th>难度</th>
+        <th>标签</th>
+        <th>保存</th>
+    </tr>
 
 <?php
-$form->prepare();
-$form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
-$form->setAttribute('method','post');
-echo $this->form()->openTag($form);
 
 $a = $testPaper->questionType;
 $b = explode(',', $a); // 分离出题目的格式“题型：起始数-终止数，题型：起始数-终止数”
@@ -38,6 +31,12 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
     list ($start, $end) = explode("-", $num); // 分离出“起始数和终止数”
     for ($qstart = $start; $qstart <= $end; $qstart ++) {
         
+        $form->prepare();
+        $form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
+        $form->setAttribute('method','post');
+        echo $this->form()->openTag($form);
+        
+        
         echo "<tr class = 'questionTr-" . $i . "'  >" ;
         echo "<td width = '5%'>".$Questions[$qstart - 1]['questionNum'];
         echo $this->formelement($form->get('id')->setAttribute('value',$Questions[$qstart - 1]['id']));
@@ -45,21 +44,21 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
         echo $this->formelement($form->get('questionNum[]')->setAttribute('value',$Questions[$qstart - 1]['questionNum']))."</td>";
         
         echo "<td class='showType' width = '15%'>";
-       echo $this->formelement($form->get('grammaType[]')->setAttribute('value',$Questions[$qstart - 1]['grammaType']))."</td>";
+        echo $Questions[$qstart - 1]['knowledge']."</td>";
         
         echo "<td width = '25%'>";
         echo "<ul class = 'rating nonstar'>
-      <li class= 'star'><a href='#' title=1;>☆</a></li>
-      <li class= 'star'><a href='#' title=2;>☆</a></li>
-      <li class= 'star'><a href='#' title=3;>☆</a></li>
-      <li class= 'star'><a href='#' title=4;>☆</a></li>
-      <li class= 'star'><a href='#' title=5;>☆</a></li>
-            </ul>";
+                  <li class= 'one'><a  title=1 href='#';>1</a></li>
+                  <li class= 'two'><a href='#' title=2;>2</a></li>
+                  <li class= 'three'><a href='#' title=3;>3</a></li>
+                  <li class= 'four'><a href='#' title=4;>4</a></li>
+                  <li class= 'five'><a href='#' title=5;>5</a></li>
+              </ul>";
         echo"</td>";
         echo "<td width = '40%'>";
-        echo $this->formelement($form->get('content[]')->setAttribute('value',$Questions[$qstart - 1]['content']));
+        echo $this->formelement($form->get('content[]')->setAttribute('value',$Questions[$qstart - 1]['tag']));
         echo $this->formElementErrors($form->get('content[]'))."</td>";
-       //★☆ 
+        
      
       
         
@@ -68,26 +67,43 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
 
         echo "<tr class = subTr><td class = 'afterTrTd' colspan=5>";?>
         <div class = "afterTrDiv">
-            <div class="grammarTypeDiv">
+        
+       <div id = "navBar">
+       <input type="checkbox" name="gradeCheck" /> 取消勾选关闭按年级筛选知识点分类   
+       <input type="checkbox" name="questionTypeCheck" /> 取消勾选关闭题型分类支持</br>   
+       <input type="text" name="questionTypeSearch" /><button>搜索知识点</button>  
+        </div> 
+        
+        
+            <div class="knowledgeTypeDiv">
                         <?php
-                        echo $this->formlabel($form2->get('grammarType'));
-                        echo $this->formelement($form2->get('grammarType'));
-                        echo $this->formelementerrors($form2->get('grammarType'));
+                        echo $this->formlabel($form2->get('knowledgeType'));
+                        echo $this->formelement($form2->get('knowledgeType'));
+                        echo $this->formelementerrors($form2->get('knowledgeType'));
                         ?>
             </div>              
-            <div class="grammarTypeDiv">
+            <div class="knowledgeTypeDiv">
                         <?php
-                        echo $this->formlabel($form2->get('grammarType2'));
-                        echo $this->formelement($form2->get('grammarType2'));
-                        echo $this->formelementerrors($form2->get('grammarType2'));
+                        echo $this->formlabel($form2->get('knowledgeType2nd'));
+                        echo $this->formelement($form2->get('knowledgeType2nd'));
+                        echo $this->formelementerrors($form2->get('knowledgeType2nd'));
                         ?>
             </div>              
-            <div class="grammarTypeDiv">
+            <div class="knowledgeTypeDiv">
                         <?php
-                        echo $this->formlabel($form2->get('grammarType3'));
-                        echo $this->formelement($form2->get('grammarType3'));
-                        echo $this->formelementerrors($form2->get('grammarType3'));
+                        echo $this->formlabel($form2->get('knowledgeType3rd'));
+                        echo $this->formelement($form2->get('knowledgeType3rd'));
+                        echo $this->formelementerrors($form2->get('knowledgeType3rd'));
                         ?>
+            </div>              
+            <div class="knowledgeTypeDiv">
+                        <?php
+                        echo $this->formlabel($form2->get('knowledgeType4'));
+                        echo $this->formelement($form2->get('knowledgeType4'));
+                        echo $this->formelementerrors($form2->get('knowledgeType4'));
+                        ?>
+                        <input type="text" name="addKnowledge" id ="addkonwledge"/>
+                        <button>增加知识点</button>
             </div>              
         </div>      
         
@@ -95,6 +111,7 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
         echo $this->form()->closeTag();
     }
 }
+?>
 ?>
 
 

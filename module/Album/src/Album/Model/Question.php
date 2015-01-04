@@ -5,7 +5,7 @@ class Question {
     public $tid;
     public $questionNum;
     public $questionType;
-    public $grammaType;
+    public $knowledge;
     public $content;
     public $grade;
     public $total;
@@ -17,7 +17,7 @@ class Question {
         $this->tid = (isset($data['tid'])) ? $data['tid'] : null;
         $this->questionNum = (isset($data['questionNum[]'])) ? $data['questionNum[]'] : null;
         $this->questionType = (isset($data['questionType'])) ? $data['questionType'] : null;
-        $this->grammaType = (isset($data['grammaType[]'])) ? $data['grammaType[]'] : null;
+        $this->knowledge= (isset($data['knowledge[]'])) ? $data['knowledge[]'] : null;
         $this->content = (isset($data['content[]'])) ? $data['content[]'] : null; 
         $this->grade = (isset($data['grade[]'])) ? $data['grade[]'] : null;
         

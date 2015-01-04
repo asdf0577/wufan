@@ -41,8 +41,8 @@ use Album\Model\QuestionTypeTable;
 use Album\Model\TestPaper;//试卷
 use Album\Model\TestPaperTable ;
 
-use Album\Model\Grammar;//语法
-use Album\Model\GrammarTable ;
+use Album\Model\Knowledge;//语法
+use Album\Model\KnowledgeTable ;
 
 //商店
 use Album\Model\StoreOrderTable;
@@ -248,15 +248,15 @@ class Module implements AutoloaderProviderInterface
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					return new TableGateway('student', $dbAdapter);
         				},
-        				'GrammarTable' =>  function($sm) {//试题
-        				$tableGateway = $sm->get('GrammarTableGateway');
-        				$table = new GrammarTable($tableGateway);
+        				'KnowledgeTable' =>  function($sm) {//试题
+        				$tableGateway = $sm->get('KnowledgeTableGateway');
+        				$table = new KnowledgeTable($tableGateway);
         				return $table;
         				},
         				
-        				'GrammarTableGateway' => function ($sm) {
+        				'KnowledgeTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-        					return new TableGateway('grammar', $dbAdapter);
+        					return new TableGateway('Knowledge', $dbAdapter);
         				},
         				
         				

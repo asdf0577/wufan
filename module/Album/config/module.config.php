@@ -19,7 +19,7 @@ return array(
             'Album\Controller\ClassManager' => 'Album\Controller\TestPaper\ClassManagerController',
             'Album\Controller\Student' => 'Album\Controller\TestPaper\StudentController',
             'Album\Controller\Question' => 'Album\Controller\TestPaper\QuestionController',
-            'Album\Controller\Grammar' => 'Album\Controller\TestPaper\GrammarController',
+            'Album\Controller\Knowledge' => 'Album\Controller\TestPaper\KnowledgeController',
             
             //洗车
             'Album\Controller\CarWash' => 'Album\Controller\CarWashController',
@@ -221,16 +221,16 @@ return array(
             				),
             		),
             ),
-            'Grammar' => array(
+            'Knowledge' => array(
             		'type' => 'Segment',
             		'options' => array(
-            				'route' => '/album/grammar[/:action[/:id]]',
+            				'route' => '/album/knowledge[/:action[/:id]]',
             				'constraints' => array(
             						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
             						'id' => '[a-zA-Z0-9_-]*',
             				),
             				'defaults' => array(
-            						'controller' => 'Album\Controller\Grammar',
+            						'controller' => 'Album\Controller\Knowledge',
             						'action' => 'index',
             				),
             		),

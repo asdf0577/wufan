@@ -1,10 +1,10 @@
 <?php
 namespace Album\Model;
 
-use Album\Model\Grammar;
+use Album\Model\Knowledge;
 use Zend\Db\TableGateway\TableGateway;
 
-class GrammarTable{
+class KnowledgeTable{
     protected $tableGateway;
     
     public function __construct(TableGateway $tableGateway)
@@ -16,25 +16,30 @@ class GrammarTable{
         $rowset = $result->toArray();
         return $rowset;
     }
-    public function getGrammars($fid)
+    public function getKnowledges($fid)
     {
         $fid=(int)$fid;
         $result=$this->tableGateway->select(array('fid'=>$fid));
         $rowset=$result->toArray();
+        if(!$result){ throw new \Exception("当前类型下没有二级分类");}
         return $rowset;
     }
-    public function getGrammar($id){
+    public function getKnowledge($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
         if(!$row){ throw new \Exception("Form id does not exist");}
         return $row;
     }
-    public function saveGrammar($questionType)
+    public function saveKnowledge($questionType) 
     {
+        //@todo 还未完成
         
         $data = array(
             'fid' => $questionType->fid,
-            'name' => $questionType->tname,
+            'name' => $questionType->name,
+            'cn_name' => $questionType->cn_name,
+            'grade' => $questionType->grade,
+            'questionType' => $questionType->questionType,
             'path' => $questionType->path,
             
         );

@@ -225,8 +225,6 @@ li.pro_size li:selected{
    position:absolute;
    top:0px;
    left:0px;
-    * width:100px;
-    * height:49px;
 }
 .zoomPup{
 	overflow:hidden;
@@ -397,7 +395,7 @@ testPaperCatainfo
 #CataInfo .item:hover{
 border: solid #DDD;
 border-width: 1px 0;
-background-color:#efefef;f
+background-color:#efefef;
 }
 .i-mc{
 	display:none;
@@ -744,23 +742,56 @@ position:fixed;
 	margin:0 0 0 16px;
 }
 
-
-ul.rating.nonstar{
-	width = 100px;
-	display:block;
-	
-}
-
-li.star{
-	font-size:18px;
+/* rating css */
+.rating{
+	overflow:hidden;
+	width:80px;
+	height:16px;
+	margin:0 0 20px 0;
+	padding:0;
 	list-style:none;
+	clear:both;
+	position:relative;
+	background: url(../images/star-matrix.gif) no-repeat 0 0;
+}
+.nostar {background-position:0 0}
+.onestar {background-position:0 -16px}
+.twostar {background-position:0 -32px}
+.threestar {background-position:0 -48px}
+.fourstar {background-position:0 -64px}
+.fivestar {background-position:0 -80px}
+ul.rating li {
+	cursor: pointer;
 	float:left;
+	text-indent:-999em;
 }
-li.star a{
-	color:white;
-	
+ul.rating li a {
+	position:absolute;
+	left:0;
+	top:0;
+	width:16px;
+	height:16px;
+	text-decoration:none;
+	z-index: 200;
 }
-
+ul.rating li.one a {left:0}
+ul.rating li.two a {left:16px;}
+ul.rating li.three a {left:32px;}
+ul.rating li.four a {left:48px;}
+ul.rating li.five a {left:64px;}
+ul.rating li a:hover {
+	z-index:2;
+	width:80px;
+	height:16px;
+	overflow:hidden;
+	left:0;	
+	background: url(../images/star-matrix.gif) no-repeat 0 0
+}
+ul.rating li.one a:hover {background-position:0 -96px;}
+ul.rating li.two a:hover {background-position:0 -112px;}
+ul.rating li.three a:hover {background-position:0 -128px}
+ul.rating li.four a:hover {background-position:0 -144px}
+ul.rating li.five a:hover {background-position:0 -160px}
 
 tr.addTr{
 	height:300px;
@@ -768,29 +799,50 @@ tr.addTr{
 }
 .afterTrDiv{
 	color:white;
-	height:250px;
+	height:350px;
 	background-color:#ccc;
 	padding:10px;
 	border-top:1px solid #333;
 	display:block;
 }
 .afterTrTd{
-padding:0;	
-
+padding:0px 0px 0px 0px;	
+font:white;
+}
+td.showType{
+	background-color:#ccc;
+	font:white;
 }
 
-.grammarSelect{
+
+.knowledgeSelect{
 	height:200px;
 	float:left;
-	margin-left:10px;
+}
+#knowledgeSelect2nd{
+	height:200px;
+	float:left;
+	width:300px;
+}
+#knowledgeSelect3rd{
+	height:200px;
+	float:left;
+}
+#knowledgeSelect4{
+	height:160px;
+	float:left;
 }
 
-.grammarTypeDiv{
+.knowledgeTypeDiv{
 	display:block;
 	float:left;
+	padding:10px;
 }
 .subTr{
 	display:none;
+}
+input#addkonwledge{
+	width:130px;
 }
 
 
@@ -951,7 +1003,6 @@ Brand
 	width:790px;
 	height:230px;
 	overflow:hidden;
-	margin;
 }
 #BrandTab{
 	border-bottom:1px solid #E4E4E4;

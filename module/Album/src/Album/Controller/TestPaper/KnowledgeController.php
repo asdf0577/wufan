@@ -3,27 +3,27 @@ namespace Album\Controller\TestPaper;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Album\form\GrammarForm;
-use Album\Model\Grammar;
+use Album\form\KnowledgeForm;
+use Album\Model\Knowledge;
 use Zend\Debug\Debug;
 use Zend\XmlRpc\Value\String;
 /**
- * GrammarController
+ * KnowledgeController
  *
  * @author
  *
  * @version
  *
  */
-class GrammarController extends AbstractActionController
+class KnowledgeController extends AbstractActionController
 {
-    protected $GrammarTable;
-
-    public function getGrammarTable()
+protected $KnowledgeTable;
+    
+    public function getKnowledgeTable()
     {
-        if (!$this->GrammarTable) {
-            $this->GrammarTable = $this->getServiceLocator()->get('GrammarTable');
-            return $this->GrammarTable;
+        if (!$this->KnowledgeTable) {
+            $this->KnowledgeTable = $this->getServiceLocator()->get('KnowledgeTable');
+            return $this->KnowledgeTable;
         }
     }
     
@@ -36,19 +36,19 @@ class GrammarController extends AbstractActionController
     public function addAction(){
         
         /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
-        $Grammars = $this->getGrammarTable()->getGrammars(0);
-        $GrammarArray = array();
+        $Knowledges = $this->getKnowledgeTable()->getKnowledges(0);
+        $KnowledgeArray = array();
         // 将获取的题型从二维数组转一维数组
-        foreach ($Grammars as $Type) {
+        foreach ($Knowledges as $Type) {
             $conjure="";
             $conjure = $Type['name']."-".$Type['cn_name'];
-            $GrammarArray[$Type['id']] = $conjure;
+            $KnowledgeArray[$Type['id']] = $conjure;
             $conjure="";
         }
         
-        $form = new GrammarForm('GrammarForm');
+        $form = new KnowledgeForm('KnowledgeForm');
         
-        $form->get('grammarType')->setValueOptions($GrammarArray );
+        $form->get('knowledgeType')->setValueOptions($KnowledgeArray );
         $view = new ViewModel(array('form'=>$form,));
         $view->setTerminal(true);
         return $view;

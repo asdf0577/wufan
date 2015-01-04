@@ -21,11 +21,12 @@ class QuestionTable{
     public function getquestion($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
-        if(!$row){ throw new \Exception("Form id does not exist");}
+        if(!$row){ throw new \Exception(" id does not exist");}
         return $row;
     }
     public function saveQuestions($question)
     {
+        //@todo 需要修改
         $data = array(
             'tid' => $question->tid,
         	'questionNum' => $question->questionNum,
