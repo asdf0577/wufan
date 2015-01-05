@@ -18,12 +18,18 @@ class QuestionForm extends Form
         /* unitNum */
         $tid = new Element\Hidden('tid');
         $this->add($tid);    
-       /*  QuestionNum */
+       /*  QuestionNum create*/
         $questionNum = new Element\Hidden('questionNum[]');
         $this->add($questionNum);
+        
+        /*  QuestionNum edit*/
+        
+        $questionNum2 = new Element\Hidden('questionNum2');
+        $this->add($questionNum2);
+        
         /* GrammaType */
         $grammaType = new Element\Select('grammaType[]');
-        $grammaType->setValueOptions(array(
+        $grammaType->setValueOptions(array( 
                                        '1'=>'ADJECTIVES', 
                                        '2'=>'ADVERBS' ,
                                        '3'=>'DETERMINERS', 
@@ -34,11 +40,13 @@ class QuestionForm extends Form
         $this->add($content);
         /* grade */
         $grade = new Element\select('grade[]');
+        $grade->setEmptyOption('默认为空');
         $grade->setValueOptions(array(
-        	                '1'=>'2',
-        	                '2'=>'3',
-        	                '3'=>'4',
-        	                '4'=>'5',
+        	                '1'=>'1星',
+        	                '2'=>'2星',
+        	                '3'=>'3星',
+        	                '4'=>'4星',
+        	                '5'=>'5星',
         ));
         $this->add($grade);
         /* submit */

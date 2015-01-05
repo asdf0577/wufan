@@ -3,7 +3,7 @@ namespace Album\Model;
 
 use Album\Model\Question;
 use Zend\Db\TableGateway\TableGateway;
-
+use Zend\Debug\Debug;
 class QuestionTable{
     protected $tableGateway;
     
@@ -21,7 +21,7 @@ class QuestionTable{
     public function getquestion($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
-        if(!$row){ throw new \Exception("Form id does not exist");}
+        if(!$row){ throw new \Exception(" id does not exist");}
         return $row;
     }
     public function saveQuestions($question)
@@ -29,8 +29,8 @@ class QuestionTable{
         $data = array(
             'tid' => $question->tid,
         	'questionNum' => $question->questionNum,
-        	'grammaType' => $question->grammaType,
-            'content' => $question->content,
+        	'knowledge_id' =>$question->knowledge_id,
+            'tag' => $question->tag,
             'grade' => $question->grade,
             
         );
@@ -40,12 +40,27 @@ class QuestionTable{
             $this->tableGateway->insert($data);  
         }else{
             if($this->getquestion($id)){
-                $this->tableGateway->update($data,array('id' => $id));
+                $data['edit_time'] = date('Y-m-d H:i:s');
+                  $this->tableGateway->update($data,array('id' => $id));
+                
             }else 
             {
                 throw new \Exception("Form id does not exist");
             }
         }
+    }
+    
+    public function update($question){
+        $id = (int)$question->id;
+        $data = array(
+        		'tid' => $question->tid,
+        		'questionNum' => $question->questionNum,
+        		'knowledge_id' =>$question->knowledge_id,
+        		'tag' => $question->tag,
+        		'grade' => $question->grade,
+                'edit_time'=>date('Y-m-d H:i:s')
+        );
+        $this->tableGateway->update($data,array('id' => $id));
     }
     public function delete($tid){
         $tid = (int)$tid;
