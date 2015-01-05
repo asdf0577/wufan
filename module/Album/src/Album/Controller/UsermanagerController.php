@@ -67,9 +67,9 @@ class UsermanagerController extends AbstractActionController
        $post = $this->request->getPost();
        $userTable = $this->getServiceLocator()->get('Album\Model\UserTable');
        $id=$this->params()->fromRoute('id');
-        $user = $userTable->getUser($this->params()->fromRoute('id')); 
+       $user = $userTable->getUser($this->params()->fromRoute('id')); 
        $form = $this->getServiceLocator()->get('UserEditForm');
-        $form->bind($user); 
+       $form->bind($user); 
        $form->setData($post);
        if($form->isvalid()){
        $this->getServiceLocator()->get('Album\Model\UserTable')->updateUser($form->getData(),$id);

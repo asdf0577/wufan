@@ -3,7 +3,7 @@ namespace Album\Model;
 
 use Album\Model\Question;
 use Zend\Db\TableGateway\TableGateway;
-
+use Zend\Debug\Debug;
 class QuestionTable{
     protected $tableGateway;
     
@@ -30,18 +30,31 @@ class QuestionTable{
         $data = array(
             'tid' => $question->tid,
         	'questionNum' => $question->questionNum,
-        	'grammaType' => $question->grammaType,
-            'content' => $question->content,
+        	'knowledge_id' =>$question->knowledge_id,
+            'tag' => $question->tag,
             'grade' => $question->grade,
             
         );
+//         debug::dump($data);
+//         die();
         $id = (int)$question->id;
         if($id == 0)
         {
             $this->tableGateway->insert($data);  
         }else{
             if($this->getquestion($id)){
-                $this->tableGateway->update($data,array('id' => $id));
+                $data['edit_time'] = date('Y-m-d H:i:s');
+                $editCount = $this->getquestion($id)->edit_count;
+                $data['edit_count'] =$editCount+1;
+//                 debug::dump($data);
+//                 die();
+                $result = $this->tableGateway->update($data,array('id' => $id));
+                 if($result){
+                     return $result;
+                 }
+                 else{
+                     return false;
+                 }
             }else 
             {
                 throw new \Exception("Form id does not exist");

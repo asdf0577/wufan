@@ -18,9 +18,15 @@ class QuestionForm extends Form
         /* unitNum */
         $tid = new Element\Hidden('tid');
         $this->add($tid);    
-       /*  QuestionNum */
+       /*  QuestionNum create*/
         $questionNum = new Element\Hidden('questionNum[]');
         $this->add($questionNum);
+        
+        /*  QuestionNum edit*/
+        
+        $questionNumEdit = new Element\Hidden('questionNumEdit');
+        $this->add($questionNumEdit);
+        
         /* GrammaType */
         $grammaType = new Element\Select('grammaType[]');
         $grammaType->setValueOptions(array( 

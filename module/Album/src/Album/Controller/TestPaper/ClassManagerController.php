@@ -46,10 +46,6 @@ class ClassManagerController extends AbstractActionController
     public function indexAction()
     {
         $ClassName = $this->getClassNameTable()->fetchAll();
-     /*    foreach($ClassName as $classnames){
-            debug::dump($classnames) ; 
-        }
-        die(); */
         return array('ClassName'=>$ClassName);
     }
     // 添加
@@ -65,7 +61,6 @@ class ClassManagerController extends AbstractActionController
             $form->setData($request->getPost());
             
             if ($form->isValid()) {
-                // @TODO 试题类型存入数据库
                 $validData = $form->getData();
                 $className->exchangeArray($validData);
                 $classNameTable = $this->getClassNameTable;

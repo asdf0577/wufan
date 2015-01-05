@@ -78,48 +78,52 @@ $(function(){
 			}) 
 		});	
 		
-		$('select#knowledgeSelect3rd').click(function(){
-//			var fid = $('select#knowledgeSelect3rd').find("option:selected").val();
-//			var text = $('select#knowledgeSelect3rd').find("option:selected").text();
-//			$text2 =  $('select#knowledgeSelect3rd option:selected').text();//不适用于multiple
-//			alert(text);
-		})
+		
 		$('select#knowledgeSelect3rd').dblclick(function(){
-			$(this).parents().prev().find('td.showType').empty();
+//			$(this).parents().prev().find('td.showType').empty();
 			var fid = $('select#knowledgeSelect3rd').find("option:selected").val();
 			var text = $('select#knowledgeSelect3rd').find("option:selected").text();
-			$(this).parents().prev().find('td.showType').css("background-color","red").text(text);
+//			var html = "<input type='hidden' name='knowledge_id' value='"+fid+"'>"; 
+			$(this).parents().prev().find('td.showType').css("background-color","rgb(161, 159, 159)").text(text);
+			$(this).parents().prev().find( "input[name='knowledge_id']" ).val(fid);
+		
 		})
 		
 		
-//		
-//		var x = 10;
-//		var y = 20;
-//		$('select#knowledgeSelect3rd:option').mouseover(function(e){
-//			alert("heiyo");
-//			return false;
-//			this.myTitle = this.title;
-//			this.title = "";
-//			var tooltip = "<div id='tooltips'>"+this.myTitle+"</div>";
-//			$("body").append(tooltip);
-//			$("#tooltips").css({"top":(e.pageY+y)+"px","left":(e.pageX+x)+"px"}).show("fast");
-//		}).mouseout(function(e){
-//			this.title = this.myTitle;
-//			$("#tooltips").remove();
-//			
-//		}).mousemove(function(e){
-//			$("#tooltips").css({
-//				"top":(e.pageY+y)+"px",
-//				"left":(e.pageX+x)+"px"
-//			});
-//		});
-////		
 		 $("ul.rating li a").click(function(){
 		     var title = $(this).attr("title");
 			 var cl = $(this).parent().attr("class");
-			 $(this).parent().parent().removeClass().addClass("rating "+cl+"star");
+			 $(this).parent().parent().removeAttr('class').addClass("rating "+cl);
+			 $(this).parent().parent().next().val(title);
 			 $(this).blur();//去掉超链接的虚线框
 			 return false;
 		})
+		
+		
+//		$('button#questionSubmit').submit(function(){
+			$('#question').submit(function(){
+			var tid = $(this).parent().parent().find( "input[name='tid']" ).val();
+			var questionNumEdit = $(this).parent().parent().find( "input[name='questionNumEdit']" ).val();
+			var id = $(this).parent().parent().find( "input[name='id']" ).val();
+			var kId = $(this).parent().parent().find( "input[name='knowledge_id']" ).val();
+			var grade = $(this).parent().parent().find( "input[name='grade']" ).val();
+			data = "id="+id+"&tid="+tid+"questionNumEdit="+questionNumEdit+"&knowledge_id="+kId+"&grade="+grade;
+			 $.ajax({
+		           type: "POST",
+		           url: "../editprocess",
+		           data: data,
+		           success: function(res) {
+		        	    if (! res.success) {
+		        	        alert("fail");
+		        	    } else {
+		        	    	alert("success");
+		        	    }
+		        	}
+		        	    
+		           });
+			 return false;
+			
+		})
+		
 	
 })

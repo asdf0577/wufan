@@ -165,75 +165,7 @@ class TestPaperController extends AbstractActionController
             die();
         }
     }
-    //编辑试题
-    public function editAction()
-    
-    {
-        // @TODO 试题知识点联动
-        $tid = $this->params()->fromRoute('id');
-        $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
-        $Questions = $this->getQuestionTable()->getQuestions($tid);
-        $questionTypeTable = $this->getQuestionTypeTable();//根据tid获取试题
-        
-        for($i=0;$i<count($Questions);$i++){
-            $id = $Questions[$i]['knowledge'];
-            $ktable = $this->getServiceLocator()->get('KnowledgeTable');
-            $name = $ktable->getKnowledge($id)->name;
-            $Questions[$i]['knowledge'] = $name;
-        }
-        //获取该试卷的试题类型
-        //解读试题类型
-        $questionType = $TestPaper->questionType;
-        $typeList = explode(',', $questionType);
-        $count = count($typeList);
-        $questionNames = array();
-        for($i=0;$i<$count-1;$i++){
-            list($type,$numInfo) = explode(":", $typeList[$i]);
-            $questionNames[$i] = $questionTypeTable->getQuestionType($type)->name;
-        }
-        
-        
-        $form = new QuestionForm();
-        /* $form->bind($Questions); */
-        $form->get('submit')->setAttribute('value', 'Edit');
-        
-        
-        ///////////////////////////////
-        
-        
-        
-        
-        
-        /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
-        $Knowledges = $this->getKnowledgeTable()->getKnowledges(0);
-        $KnowledgeArray = array();
-        // 将获取的题型从二维数组转一维数组
-        foreach ($Knowledges as $Type) {
-            $conjure="";
-            $conjure = $Type['name']."-".$Type['cn_name'];
-            $KnowledgeArray[$Type['id']] = $conjure;
-            $conjure="";
-        }
-        $form2 = new KnowledgeForm('KnowledgeForm');
-        
-        $form2->get('knowledgeType')->setValueOptions($KnowledgeArray );
-        
-        $view = new ViewModel();
-        $view->setTerminal(true);
-        $view->setTemplate('layout/myaccount');
-        $viewContent = new ViewModel(array(
-            'TestPaper' => $TestPaper,
-            'Questions' => $Questions,
-            'form' => $form,
-            'form2'=>$form2,
-        ));
-        $viewContent->setTemplate('album/test-paper/edit');
-        $viewSidebar = new ViewModel(array('questionNames'=>$questionNames));
-        $viewSidebar->setTemplate('album/test-paper/sidebar');
-        $view->addChild($viewContent,'content');
-        $view->addChild($viewSidebar,'sidebar');
-        return $view;   
-    }
+   
     //创建处理
     public function processAction()
     {
@@ -283,48 +215,93 @@ class TestPaperController extends AbstractActionController
             return $this->redirect()->toRoute('TestPaper');
         }
     }
+    //编辑试题
+    public function editAction()
+    
+    {
+        $tid = $this->params()->fromRoute('id');
+        $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
+        $Questions = $this->getQuestionTable()->getQuestions($tid);
+        $questionTypeTable = $this->getQuestionTypeTable();//根据tid获取试题
+        //             debug::dump($Questions);
+    
+        for($i=0;$i<count($Questions);$i++){
+            $id = $Questions[$i]['knowledge_id'];
+            $ktable = $this->getServiceLocator()->get('KnowledgeTable');
+            $knowledge = $ktable->getKnowledge($id);
+            $Questions[$i]['knowledgeName'] = $knowledge->name;
+            $Questions[$i]['knowledgeCN_Name'] = $knowledge->cn_name;
+        }
+        //获取该试卷的试题类型
+        //解读试题类型
+        $questionType = $TestPaper->questionType;
+        $typeList = explode(',', $questionType);
+        $count = count($typeList);
+        $questionNames = array();
+        for($i=0;$i<$count-1;$i++){
+            list($type,$numInfo) = explode(":", $typeList[$i]);
+            $questionNames[$i] = $questionTypeTable->getQuestionType($type)->name;
+        }
+    
+    
+        $form = new QuestionForm("question");
+        /* $form->bind($Questions); */
+        $form->get('submit')->setAttribute('value', 'Edit');
+    
+        /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
+        $Knowledges = $this->getKnowledgeTable()->getKnowledges(0);
+        $KnowledgeArray = array();
+        // 将获取的题型从二维数组转一维数组
+        foreach ($Knowledges as $Type) {
+            $conjure="";
+            $conjure = $Type['name']."-".$Type['cn_name'];
+            $KnowledgeArray[$Type['id']] = $conjure;
+            $conjure="";
+        }
+        $form2 = new KnowledgeForm('KnowledgeForm');
+    
+        $form2->get('knowledgeType')->setValueOptions($KnowledgeArray );
+    
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        $view->setTemplate('layout/myaccount');
+        $viewContent = new ViewModel(array(
+            'TestPaper' => $TestPaper,
+            'Questions' => $Questions,
+            'form' => $form,
+            'form2'=>$form2,
+        ));
+        $viewContent->setTemplate('album/test-paper/edit');
+        $viewSidebar = new ViewModel(array('questionNames'=>$questionNames));
+        $viewSidebar->setTemplate('album/test-paper/sidebar');
+        $view->addChild($viewContent,'content');
+        $view->addChild($viewSidebar,'sidebar');
+        return $view;
+    }
     //编辑处理
     public function editprocessAction()
     {
+        $knowledgeId = "";
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form = new QuestionForm();
             $question = new Question();
-            $questionNum = $_POST['questionNum'];
-            $grammaType = $_POST['grammaType'];
-            $content = $_POST['content'];
-            $grade = $_POST['grade'];
-            $tid = $_POST['tid'];
-            $items = array();
-            for ($i = 0; $i < count($questionNum); $i ++) {
-                $items[$i] = array(
-                    "id" => $_POST['id'],
-                    "tid" => $tid,
-                    "questionNum[]" => $questionNum[$i],
-                    "grammaType[]" => $grammaType[$i],
-                    "content[]" => $content[$i],
-                    "grade[]" => $grade[$i]
-                );
-            }
-            foreach ($items as $item) {
-                $form->setData($item);
-                if ($form->isValid()) {
-                    
-                    $question->exchangeArray($form->getData());
-                    /*
-                     * debug::dump($question); die();
-                     */
-                    $QuestionTable = $this->getServiceLocator()->get('QuestionTable');
+            $validQuestion = array(
+                'id'=>(int)$_POST['id'],
+                'tid'=>(int)$_POST['tid'],
+                'questionNum'=>(int)$_POST['questionNumEdit'],
+                'grade'=>(int)$_POST['grade'],
+                'knowledge_id'=>(int)$_POST['knowledge_id'],
+                //@todo content tag etc.
+                
+            );
+                    $question->exchangeArray($validQuestion);
+                    debug::dump($question);
+                    $QuestionTable = $this->getQuestionTable();
                     $QuestionTable->saveQuestions($question);
-                    return $this->redirect()->toRoute(Null, array(
-                        'controller' => 'TestPaper',
-                        'action' => 'edit',
-                        'id' => $tid
-                    ));
+//                     $result = $QuestionTable->saveQuestions($question);
+//                     echo $result;
                 }
             }
-        }
-    }
     //试卷题型
     public function QuestionTypeAction()
     {

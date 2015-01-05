@@ -7,9 +7,8 @@
         $form2 = $this->form2;
         echo"学年: &nbsp".$testPaper->year."&nbsp&nbsp";
         echo"学期:".$testPaper->termNum."&nbsp&nbsp";
-        echo "单元:".$testPaper->unitNum;
-        ?>
-    <a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">返回主页</a></h3>
+        echo "单元:".$testPaper->unitNum;?>
+    <a href="<?php echo $this->url('TestPaper',array('action'=>'index'));?>">返回主页</a>
 </h4>  
 <table class = "table">
    <tr class="testpapertr"> 
@@ -17,6 +16,8 @@
         <th>所属类型/知识点</th>
         <th>难度</th>
         <th>标签</th>
+        <th>修改时间</th>
+        <th>修改次数</th>
         <th>保存</th>
     </tr>
 
@@ -31,41 +32,43 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
     list ($start, $end) = explode("-", $num); // 分离出“起始数和终止数”
     for ($qstart = $start; $qstart <= $end; $qstart ++) {
         
+        
+                
+        echo "<tr class = 'questionTr-" . $i . "'  >" ;
         $form->prepare();
         $form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
         $form->setAttribute('method','post');
         echo $this->form()->openTag($form);
         
-        
-        echo "<tr class = 'questionTr-" . $i . "'  >" ;
         echo "<td width = '5%'>".$Questions[$qstart - 1]['questionNum'];
-        echo $this->formelement($form->get('id')->setAttribute('value',$Questions[$qstart - 1]['id']));
-        echo $this->formelement($form->get('tid')->setAttribute('value',$Questions[$qstart - 1]['tid']));
-        echo $this->formelement($form->get('questionNum[]')->setAttribute('value',$Questions[$qstart - 1]['questionNum']))."</td>";
+            echo $this->formelement($form->get('id')->setAttribute('value',$Questions[$qstart - 1]['id']));
+            echo $this->formelement($form->get('tid')->setAttribute('value',$Questions[$qstart - 1]['tid']));
+            echo $this->formelement($form->get('questionNumEdit')->setAttribute('value',$Questions[$qstart - 1]['questionNum']));
+        echo "<input type ='hidden' name ='knowledge_id' value =".$Questions[$qstart - 1]['knowledge_id']."></td>";
+        echo "<td class='showType' width = '15%'>".$Questions[$qstart - 1]['knowledgeName']."</br>".$Questions[$qstart - 1]['knowledgeCN_Name']."</td>";
         
-        echo "<td class='showType' width = '15%'>";
-        echo $Questions[$qstart - 1]['knowledge']."</td>";
-        
-        echo "<td width = '25%'>";
-        echo "<ul class = 'rating nonstar'>
-                  <li class= 'one'><a  title=1 href='#';>1</a></li>
-                  <li class= 'two'><a href='#' title=2;>2</a></li>
-                  <li class= 'three'><a href='#' title=3;>3</a></li>
-                  <li class= 'four'><a href='#' title=4;>4</a></li>
-                  <li class= 'five'><a href='#' title=5;>5</a></li>
+        echo "<td width = '10%'>";
+        echo "<ul class = 'rating star_".$Questions[$qstart - 1]['grade']."'>
+                  <li class= 'star_1'><a href='#' title=1>1</a></li>
+                  <li class= 'star_2'><a href='#' title=2>2</a></li>
+                  <li class= 'star_3'><a href='#' title=3>3</a></li>
+                  <li class= 'star_4'><a href='#' title=4>4</a></li>
+                  <li class= 'star_5'><a href='#' title=5>5</a></li>
               </ul>";
-        echo"</td>";
-        echo "<td width = '40%'>";
+        echo"<input type ='hidden' name ='grade' value ='".$Questions[$qstart - 1]['grade']."'></td>";
+        echo "<td width = '10%'>";
         echo $this->formelement($form->get('content[]')->setAttribute('value',$Questions[$qstart - 1]['tag']));
         echo $this->formElementErrors($form->get('content[]'))."</td>";
         
      
-      
+        echo "<td width = '10%'> ".$Questions[$qstart - 1]['edit_time']."</td>";
+        echo "<td width = '10%'> ".$Questions[$qstart - 1]['edit_count']."</td>";
         
         echo "<td width = '10%'>";
-        echo $this->formelement($form->get('submit')->setAttribute('value','保存'))."</td></tr>";
+        echo "<button id='questionSubmit'>submit</buttno>";
+//         echo $this->formelement($form->get('submit')->setAttribute('value','保存'))."</td></tr>";
 
-        echo "<tr class = subTr><td class = 'afterTrTd' colspan=5>";?>
+        echo "<tr class = subTr><td class = 'afterTrTd' colspan=7>";?>
         <div class = "afterTrDiv">
         
        <div id = "navBar">
@@ -107,11 +110,12 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
             </div>              
         </div>      
         
-        <?php echo "</td></tr>";
+        <?php 
         echo $this->form()->closeTag();
+        echo "</td></tr>";
+        
     }
 }
-?>
 ?>
 
 
