@@ -24,8 +24,8 @@ class QuestionForm extends Form
         
         /*  QuestionNum edit*/
         
-        $questionNumEdit = new Element\Hidden('questionNumEdit');
-        $this->add($questionNumEdit);
+        $questionNum2 = new Element\Hidden('questionNum2');
+        $this->add($questionNum2);
         
         /* GrammaType */
         $grammaType = new Element\Select('grammaType[]');

@@ -3,6 +3,6 @@ echo $this->headScript()->appendFile($this->basePath() . '/js/testPaper-ui.js','
  
  
         foreach ($this->questionNames as $i => $Name) {
-            echo "<li class = 'questionSquare-" . $i . "'  >" . $Name . "</li>";
+            echo "<li class = 'questionSquare square-" . $i . "'  >" . $Name . "</li>";
         }
         ?>

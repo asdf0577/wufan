@@ -12,7 +12,7 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
     list ($type, $num) = explode(":", $b[$i]); // 分离出“题型和起始数-终止数”
     list ($start, $end) = explode("-", $num); // 分离出“起始数和终止数”
     for ($qstart = $start; $qstart <= $end; $qstart ++) {
-        echo "<li class = 'questionSquare-" . $i . "'  >" . $this->Questions[$qstart - 1]['questionNum'] . "題</li>";
+        echo "<li class = 'questionSquare square-" . $i . "'  >" . $this->Questions[$qstart - 1]['questionNum'] . "題</li>";
     }
 }
 ?>
@@ -23,7 +23,7 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
     <div id="typeColor">
         <?php
         foreach ($this->questionNames as $i => $Name) {
-            echo "<li class = 'questionSquare-" . $i . "'  >" . $Name . "</li>";
+            echo "<li class = 'questionSquare square-" . $i . "'  >" . $Name . "</li>";
         }
         ?>
         

@@ -25,12 +25,12 @@ class TestPaperForm extends Form
         $termNum->setLabel('学期');
         $termNum->setEmptyOption('选择学期');
         $termNum ->setValueOptions(array(
-        	                           '1'=>'1',
-        	                           '2'=>'2',
-        	                           '3'=>'3',
-        	                           '4'=>'4',
-        	                           '5'=>'5',
-        	                           '6'=>'6',
+        	                           '1'=>'1-初一',
+        	                           '2'=>'2-初一',
+        	                           '3'=>'3-初二',
+        	                           '4'=>'4-初二',
+        	                           '5'=>'5-初三',
+        	                           '6'=>'6-初三',
                                                        
         ));
         $this->add($termNum);  
@@ -49,6 +49,11 @@ class TestPaperForm extends Form
         	                           '8'=>'8',
         	                           '9'=>'9',
         	                           '10'=>'10',
+        	                           '11'=>'11',
+        	                           '12'=>'12',
+        	                           '13'=>'13',
+        	                           '14'=>'14',
+        	                           '15'=>'15',
                                                        
         ));
         $this->add($unitNum);    

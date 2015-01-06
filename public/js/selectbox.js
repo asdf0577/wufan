@@ -50,7 +50,10 @@ $(function(){
 			var total = 0;
 			var num;
 			$('.draglistbox>input').each(function(){
-				num = parseInt($(this).val());
+				if(!$(this).val()){
+					num = 0;
+				}else{
+				num = parseInt($(this).val());}
 				total += num;
 				
 			})
@@ -131,7 +134,8 @@ $(function(){
 		$('#selectType1,.draglist').attr("disabled","true");//让部分表单元素无法提交
 		$('.draglist').attr("disabled","true");//让部分表单元素无法提交
 		var data = $('form').serialize();
-		data += "&QuestionTypeInput="+type;
+		var total= $('span#total').text();
+		data += "&QuestionTypeInput="+type+"&questionAmount="+total;
 		 $.ajax({
 	           type: "POST",
 	           url: "../album/testpaper/add",

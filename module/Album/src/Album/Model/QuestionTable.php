@@ -26,7 +26,6 @@ class QuestionTable{
     }
     public function saveQuestions($question)
     {
-        //@todo 需要修改
         $data = array(
             'tid' => $question->tid,
         	'questionNum' => $question->questionNum,
@@ -35,31 +34,33 @@ class QuestionTable{
             'grade' => $question->grade,
             
         );
-//         debug::dump($data);
-//         die();
         $id = (int)$question->id;
         if($id == 0)
         {
             $this->tableGateway->insert($data);  
-        }else{
-            if($this->getquestion($id)){
-                $data['edit_time'] = date('Y-m-d H:i:s');
-                $editCount = $this->getquestion($id)->edit_count;
-                $data['edit_count'] =$editCount+1;
-//                 debug::dump($data);
-//                 die();
-                $result = $this->tableGateway->update($data,array('id' => $id));
-                 if($result){
-                     return $result;
-                 }
-                 else{
-                     return false;
-                 }
-            }else 
-            {
-                throw new \Exception("Form id does not exist");
-            }
         }
+    }
+    
+    public function update($question){
+        $id = (int)$question->id;
+        if($this->getquestion($id)){
+
+            $editCount = $this->getquestion($id)->edit_count ;
+                $data = array(
+                		'questionNum' => $question->questionNum,
+                		'knowledge_id' =>$question->knowledge_id,
+                		'tag' => $question->tag,
+                		'grade' => $question->grade,
+                        'edit_time'=>date('Y-m-d H:i:s'),
+                        'edit_count'=>$editCount+1,
+        );
+        $this->tableGateway->update($data,array('id' => $id));
+        return $this->getquestion($id);
+        }
+        else{
+            throw new \Exception("Form id does not exist");
+        }
+        
     }
     public function delete($tid){
         $tid = (int)$tid;

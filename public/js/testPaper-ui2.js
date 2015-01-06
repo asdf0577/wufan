@@ -100,27 +100,31 @@ $(function(){
 		})
 		
 		
-//		$('button#questionSubmit').submit(function(){
-			$('#question').submit(function(){
-			var tid = $(this).parent().parent().find( "input[name='tid']" ).val();
-			var questionNumEdit = $(this).parent().parent().find( "input[name='questionNumEdit']" ).val();
+		$('button#questionSubmit').click(function(){
+			var questionNum = $(this).parent().parent().find( "input[name='questionNum2']" ).val();
 			var id = $(this).parent().parent().find( "input[name='id']" ).val();
 			var kId = $(this).parent().parent().find( "input[name='knowledge_id']" ).val();
 			var grade = $(this).parent().parent().find( "input[name='grade']" ).val();
-			data = "id="+id+"&tid="+tid+"questionNumEdit="+questionNumEdit+"&knowledge_id="+kId+"&grade="+grade;
+			data = "id="+id+"&questionNum2="+questionNum+"&knowledge_id="+kId+"&grade="+grade;
+			var that = this; // ajax 后 this 会变化
+			
 			 $.ajax({
 		           type: "POST",
 		           url: "../editprocess",
 		           data: data,
-		           success: function(res) {
-		        	    if (! res.success) {
-		        	        alert("fail");
-		        	    } else {
-		        	    	alert("success");
-		        	    }
-		        	}
-		        	    
-		           });
+		           success:function(data){
+		        	  var opts = $.parseJSON(data);
+//		        	  alert($(that).text());
+//		        	  $(that).text(opts.edit_time);	
+		        	  $(that).parent().parent().find( "td.editTime" ).text(opts.edit_time);	
+					  $(that).parent().parent().find( "td.editCount" ).text(opts.edit_count);	
+					  $(that).parent().parent().css("border-bottom","2px groove red");
+		           },
+		           error:function(data){
+		        	   alert("error");
+		           }
+		         });
+			
 			 return false;
 			
 		})

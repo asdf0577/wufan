@@ -34,17 +34,17 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
         
         
                 
-        echo "<tr class = 'questionTr-" . $i . "'  >" ;
+        echo "<tr class = 'square-" . $i . "'  >" ;
         $form->prepare();
         $form->setAttribute('action',$this->url(Null,array('controller'=>'TestPaper','action'=>'editprocess')));
         $form->setAttribute('method','post');
         echo $this->form()->openTag($form);
         
-        echo "<td width = '5%'>".$Questions[$qstart - 1]['questionNum'];
-            echo $this->formelement($form->get('id')->setAttribute('value',$Questions[$qstart - 1]['id']));
-            echo $this->formelement($form->get('tid')->setAttribute('value',$Questions[$qstart - 1]['tid']));
-            echo $this->formelement($form->get('questionNumEdit')->setAttribute('value',$Questions[$qstart - 1]['questionNum']));
+        echo "<td class='questionNum' width = '5%'>".$Questions[$qstart - 1]['questionNum'];
+        echo $this->formelement($form->get('id')->setAttribute('value',$Questions[$qstart - 1]['id']));
+        echo $this->formelement($form->get('questionNum2')->setAttribute('value',$Questions[$qstart - 1]['questionNum']));
         echo "<input type ='hidden' name ='knowledge_id' value =".$Questions[$qstart - 1]['knowledge_id']."></td>";
+        
         echo "<td class='showType' width = '15%'>".$Questions[$qstart - 1]['knowledgeName']."</br>".$Questions[$qstart - 1]['knowledgeCN_Name']."</td>";
         
         echo "<td width = '10%'>";
@@ -61,8 +61,8 @@ for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
         echo $this->formElementErrors($form->get('content[]'))."</td>";
         
      
-        echo "<td width = '10%'> ".$Questions[$qstart - 1]['edit_time']."</td>";
-        echo "<td width = '10%'> ".$Questions[$qstart - 1]['edit_count']."</td>";
+        echo "<td class ='editTime' width = '10%'> ".$Questions[$qstart - 1]['edit_time']."</td>";
+        echo "<td class = 'editCount' width = '10%'> ".$Questions[$qstart - 1]['edit_count']."</td>";
         
         echo "<td width = '10%'>";
         echo "<button id='questionSubmit'>submit</buttno>";

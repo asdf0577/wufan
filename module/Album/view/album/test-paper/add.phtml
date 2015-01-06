@@ -37,13 +37,6 @@ echo $this->form()->openTag($form);
         echo $this->formelementerrors($form->get('unitNum'));
         ?>
         </dd>
-			<dt><?php echo $this->formlabel($form->get('questionAmount'));?></dt>
-			<dd>
-        <?php
-        echo $this->formelement($form->get('questionAmount'));
-        echo $this->formelementerrors($form->get('questionAmount'));
-        ?>
-        </dd>
 			<span id="next">下一步</span>
 		</div>
 		<div id='selectbox'>

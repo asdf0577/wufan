@@ -20,7 +20,7 @@ return array(
             'Album\Controller\Student' => 'Album\Controller\TestPaper\StudentController',
             'Album\Controller\Question' => 'Album\Controller\TestPaper\QuestionController',
             'Album\Controller\Knowledge' => 'Album\Controller\TestPaper\KnowledgeController',
-            
+            'Album\Controller\Logining' => 'Album\Controller\TestPaper\LoginingController',
             //洗车
             'Album\Controller\CarWash' => 'Album\Controller\CarWashController',
         ),
@@ -231,6 +231,20 @@ return array(
             				),
             				'defaults' => array(
             						'controller' => 'Album\Controller\Knowledge',
+            						'action' => 'index',
+            				),
+            		),
+            ),
+            'Logining' => array(
+            		'type' => 'Segment',
+            		'options' => array(
+            				'route' => '/album/logining[/:action[/:id]]',
+            				'constraints' => array(
+            						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            						'id' => '[a-zA-Z0-9_-]*',
+            				),
+            				'defaults' => array(
+            						'controller' => 'Album\Controller\Logining',
             						'action' => 'index',
             				),
             		),
