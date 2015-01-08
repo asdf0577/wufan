@@ -110,7 +110,6 @@ class Module implements AutoloaderProviderInterface
 //             echo $authAdapter->getIdentity()->role;
 //             echo "yes";
         }else{
-            echo"not logining";
             
         }
         
