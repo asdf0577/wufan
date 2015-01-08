@@ -29,6 +29,16 @@ class TestPaperController extends AbstractActionController
     protected $QuestionTypeTable;
 
     protected $KnowledgeTable;
+    
+    protected $authservice;
+    
+    public function getAuthService()
+    {
+        if(!$this->authservice){
+            $this->authservice = $this->getServiceLocator()->get('TestPaperAuthService()');
+        }
+        return $this->authservice;
+    }
 
     public function getKnowledgeTable()
     {
@@ -65,11 +75,21 @@ class TestPaperController extends AbstractActionController
     // 主页
     public function indexAction()
     {
-        $TestPapers = $this->getTestPaperTable()->fetchAll();
+        $auth = $this->getAuthService();
+        if($auth->hasIdentity()){
+            $identity = $auth->getIdentity();
+            $TestPapers = $this->getTestPaperTable()->fetchAll();
+            
+            return array(
+                'TestPapers' => $TestPapers,
+                'identity'=>$identity,
+            );
         
-        return array(
-            'TestPapers' => $TestPapers
-        );
+        }
+        else{
+            return $this->redirect()->toRoute(Logining,array('action'=>'index'));
+            }
+        
     }
     // 添加试卷
     public function addAction()
@@ -230,7 +250,7 @@ class TestPaperController extends AbstractActionController
         
         $view = new ViewModel();
         $view->setTerminal(true);
-        $view->setTemplate('layout/myaccount');
+        $view->setTemplate('layout/testPaper2-layout');
         $viewContent = new ViewModel(array(
             'TestPaper' => $TestPaper,
             'Questions' => $Questions,
@@ -342,7 +362,7 @@ class TestPaperController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id');
         $testPaper = $this->getTestPaperTable()->getTestPaper($id); // 根据tid获取试卷
-        $Questions = $this->getQuestionTable()->getQuestions($id); // 根据tid获取试题
+        $questions = $this->getQuestionTable()->getQuestions($id); // 根据tid获取试题
         $questionTypeTable = $this->getQuestionTypeTable();
         // 获取该试卷的试题类型
         // 解读试题类型
@@ -354,11 +374,49 @@ class TestPaperController extends AbstractActionController
             list ($type, $numInfo) = explode(":", $typeList[$i]);
             $questionNames[$i] = $questionTypeTable->getQuestionType($type)->name;
         }
+        $sm = $this->getServiceLocator();
+        
+        //获取登陆学生（@todo教师）的班级id
+        $auth = $this->getAuthService();
+        
+        $identity = $auth->getIdentity();
+        $cid = $identity->cid;
+        
+        //获取班级列表（教师用）@todo 为班级表增加教师字段，按教师获取班级列表；
+        $form = $sm->get('InputQuestionForm');
+        $classes = $sm->get('ClassNameTable')->fetchAll();
+        $classArray = array();
+        foreach ($classes as $key=>$value){
+            $classArray[$key] = $value['name'];
+        }
+        $form ->get('cid')->setValueOptions($classArray);
+        //获取同班学生列表
+      
+        $studentTable = $sm->get('studentTable');
+       
+       
+        $students = $studentTable->getStudentsByClass($cid);
+        $studentsArray = array();
+        foreach ($students as $key=>$value){
+            $studentsArray[$key] = $value['name'];
+        }
+       
+        $form->get('sid')->setValueOptions($studentsArray);
+        
+        
+        
+        //创建答题提交表格 
+        
+//         debug::dump($identity);
+//         debug::dump($students);
+//         die();
         
         $view = new ViewModel(array(
             'questionNames' => $questionNames,
             'testPaper' => $testPaper,
-            'Questions' => $Questions
+            'questions' => $questions,
+            'students'=>$students,
+            'form'=>$form,
         ));
         return $view;
     }

@@ -28,9 +28,31 @@ use Album\Form\ClassManagerForm;
 class QuestionController extends AbstractActionController
 {
 
-    protected $TestPaperTable;
+protected $TestPaperTable;
 
     protected $QuestionTable;
+
+    protected $QuestionTypeTable;
+
+    protected $KnowledgeTable;
+    
+    protected $authservice;
+    
+    public function getAuthService()
+    {
+        if(!$this->authservice){
+            $this->authservice = $this->getServiceLocator()->get('TestPaperAuthService()');
+        }
+        return $this->authservice;
+    }
+
+    public function getKnowledgeTable()
+    {
+        if (! $this->KnowledgeTable) {
+            $this->KnowledgeTable = $this->getServiceLocator()->get('KnowledgeTable');
+            return $this->KnowledgeTable;
+        }
+    }
 
     public function getTestPaperTable()
     {
@@ -47,6 +69,15 @@ class QuestionController extends AbstractActionController
             return $this->QuestionTable;
         }
     }
+
+    public function getQuestionTypeTable()
+    {
+        if (! $this->QuestionTypeTable) {
+            $this->QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
+            return $this->QuestionTypeTable;
+        }
+    }
+    
     //主页
     public function indexAction()
     {
@@ -54,265 +85,77 @@ class QuestionController extends AbstractActionController
         $TestPapers = $this->getTestPaperTable()->fetchAll();
         return array('TestPapers'=>$TestPapers);
     }
-    //添加试卷
-    public function addAction()
+    
+ public function submitAction()
     {
-        
-        /* 通过下拉列表1选择考试科目后读取该科目下的题型 */
-        $questionTypeTable = $this->getServiceLocator()->get('questionTypeTable');
-        $questionType = $questionTypeTable->getQuestionTypes(0);
-        $questionTypeArray = array();
-        // 将获取的题型从二维数组转一维数组
-        foreach ($questionType as $Type) {
-            $questionTypeArray[$Type['id']] = $Type['name'];
-        }
-        // 实例化一个新的TestPaper 表格，并把题型一维数组放入下拉列表2中
-        $form = new TestPaperForm('TestPaper');
-        
-        $form->get('testPaperType')->setValueOptions($questionTypeArray); // 在這裏注入 select的 option
-        $request = $this->getRequest();
-        
-        if ($request->isPost()) {
-            $data = $request->getPost();
-            $testPaper = new TestPaper();
-            $form->setValidationGroup('year', 'termNum', 'unitNum', 'questionAmount');
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()) {
-                // @TODO 试题类型存入数据库
-                $validData = $form->getData();
-                $validData['QuestionTypeInput'] = $_POST['QuestionTypeInput'];
-                $testPaper->exchangeArray($validData);
-                $testPaperTable = $this->getTestPaperTable();
-                $testPaperTable->saveTestPaper($testPaper);
-                return $this->redirect()->toRoute('TestPaper', array(
-                    'action' => index
-                ));
-            }
-        }
-        $view = new ViewModel(array(
-        		'form' => $form
-        ));
-        $view->setTerminal(true);
-        return $view;
-    }
-    //获取试题类型
-    public function getTypesAction()
-    {
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $fid = $_POST['fid'];
-            $questionTypeTable = $this->getServiceLocator()->get('questionTypeTable');
-            $questionType = $questionTypeTable->getQuestionTypes($fid);
-            echo json_encode($questionType);
-            die();
-        } else {
-            echo "error";
-        }
-    }
-    //创建试题
-    public function createAction()
-    {
-        // @TODO 试题知识点联动
         $id = (int) $this->params()->fromRoute('id');
-        $testPaper = $this->getTestPaperTable()->getTestPaper($id);
-        if ($testPaper->created == "0") {
-            $form = new QuestionForm();
-            
-            return new ViewModel(array(
-                'testPaper' => $testPaper,
-                'form' => $form
-            ));
-        } else {
-            echo "This TestPaper has been created , please don't create it twice ";
-            die();
+        $testPaper = $this->getTestPaperTable()->getTestPaper($id); // 根据tid获取试卷
+        $questions = $this->getQuestionTable()->getQuestions($id); // 根据tid获取试题
+        $questionTypeTable = $this->getQuestionTypeTable();
+        // 获取该试卷的试题类型
+        // 解读试题类型
+        $questionType = $testPaper->questionType;
+        $typeList = explode(',', $questionType);
+        $count = count($typeList);
+        $questionNames = array();
+        for ($i = 0; $i < $count - 1; $i ++) {
+            list ($type, $numInfo) = explode(":", $typeList[$i]);
+            $questionNames[$i] = $questionTypeTable->getQuestionType($type)->name;
         }
-    }
-    //编辑试题
-    public function editAction()
-    {
-        // @TODO 试题知识点联动
-        $tid = $this->params()->fromRoute('id');
-        $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
-        $Questions = $this->getQuestionTable()->getQuestions($tid);
-        /*
-         * debug::dump($TestPaper); debug::dump($Questions);
-         */
-        $form = new QuestionForm();
-        /* $form->bind($Questions); */
-        $form->get('submit')->setAttribute('value', 'Edit');
-        return new ViewModel(array(
-            'TestPaper' => $TestPaper,
-            'Questions' => $Questions,
-            'form' => $form
+        $sm = $this->getServiceLocator();
+        
+        //获取登陆学生（@todo教师）的班级id
+        $auth = $this->getAuthService();
+        
+        $identity = $auth->getIdentity();
+        $cid = $identity->cid;
+        
+        //获取班级列表（教师用）@todo 为班级表增加教师字段，按教师获取班级列表；
+        $form = $sm->get('InputQuestionForm');
+        $classes = $sm->get('ClassNameTable')->fetchAll();
+        $classArray = array();
+        foreach ($classes as $key=>$value){
+            $classArray[$key] = $value['name'];
+        }
+        $form ->get('cid')->setValueOptions($classArray);
+        //获取同班学生列表
+      
+        $studentTable = $sm->get('studentTable');
+       
+       
+        $students = $studentTable->getStudentsByClass($cid);
+        $studentsArray = array();
+        foreach ($students as $key=>$value){
+            $studentsArray[$key] = $value['name'];
+        }
+       
+        $form->get('sid')->setValueOptions($studentsArray);
+        
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        $view->setTemplate('layout/myaccount');
+        //content
+        $viewContent = new ViewModel(array(
+            'questionNames' => $questionNames,
+            'testPaper' => $testPaper,
+            'questions' => $questions,
+            'students'=>$students,
+            'form'=>$form,
         ));
-    }
-    //创建处理
-    public function processAction()
-    {
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form = new QuestionForm();
-            $question = new Question();
-            $questionNum = $_POST['questionNum'];
-            $grammaType = $_POST['grammaType'];
-            $content = $_POST['content'];
-            $grade = $_POST['grade'];
-            $tid = $_POST['tid'];
-            $items = array();
-            for ($i = 0; $i < count($questionNum); $i ++) {
-                $items[$i] = array(
-                    "tid" => $_POST['tid'],
-                    "questionNum[]" => $questionNum[$i],
-                    "grammaType[]" => $grammaType[$i],
-                    "content[]" => $content[$i],
-                    "grade[]" => $grade[$i]
-                );
-            }
-            /*
-             * debug::dump($items); die();
-             */
-            foreach ($items as $item) {
-                $form->setData($item);
-                if ($form->isValid()) {
-                    
-                    $question->exchangeArray($form->getData());
-                    /*
-                     * debug::dump($question); die();
-                     */
-                    $QuestionTable = $this->getServiceLocator()->get('QuestionTable'); // Ϊʲô���ﲻ���á�
-                    $QuestionTable->saveQuestions($question);
-                } else {
-                    echo "wrong";
-                    die();
-                }
-            }
-            $id = $tid;
-            $TestPaperTable = $this->getTestPaperTable();
-            $TestPaper = $TestPaperTable->getTestPaper($id);
-            $TestPaper->created = 1;
-            $TestPaperTable->saveTestPaper($TestPaper);
-            
-            return $this->redirect()->toRoute('TestPaper');
-        }
-    }
-    //编辑处理
-    public function editprocessAction()
-    {
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form = new QuestionForm();
-            $question = new Question();
-            $questionNum = $_POST['questionNum'];
-            $grammaType = $_POST['grammaType'];
-            $content = $_POST['content'];
-            $grade = $_POST['grade'];
-            $tid = $_POST['tid'];
-            $items = array();
-            for ($i = 0; $i < count($questionNum); $i ++) {
-                $items[$i] = array(
-                    "id" => $_POST['id'],
-                    "tid" => $tid,
-                    "questionNum[]" => $questionNum[$i],
-                    "grammaType[]" => $grammaType[$i],
-                    "content[]" => $content[$i],
-                    "grade[]" => $grade[$i]
-                );
-            }
-            foreach ($items as $item) {
-                $form->setData($item);
-                if ($form->isValid()) {
-                    
-                    $question->exchangeArray($form->getData());
-                    /*
-                     * debug::dump($question); die();
-                     */
-                    $QuestionTable = $this->getServiceLocator()->get('QuestionTable');
-                    $QuestionTable->saveQuestions($question);
-                    return $this->redirect()->toRoute(Null, array(
-                        'controller' => 'TestPaper',
-                        'action' => 'edit',
-                        'id' => $tid
-                    ));
-                }
-            }
-        }
-    }
-    // 试卷题型
-    public function QuestionTypeAction()
-    {
-        $QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
-        $QuestionType = $QuestionTypeTable->fetchAll();
-        debug::dump($QuestionType);
-        die();
-        return new ViewModel();
-    }
-    //删除试题
-    public function deleteAction()
-    {
-        $tid = (int) $this->params()->fromRoute('id');
-        $this->getQuestionTable()->delete($tid);
-        $this->getTestPaperTable()->delete($tid);
-        return $this->redirect()->toRoute('TestPaper');
-    }
-
-    public function washAction()
-    {
-        $form = new ClassManagerForm();
-        $form->get('name')->setLabel('手机号');
-        $form->get('classType')->setLabel('汽车颜色');
-        $color = array(
-            '1'=>'紅',
-            '2'=>'黄',
-            '3'=>'蓝',
-        );
-        $form->get('classType')->setvalueoptions($color);
-        $form->get('submit')->setValue('预约洗车    ');
-        return new ViewModel(array(
-            'form' => $form
+        $viewContent->setTemplate('album/question/submit');
+        //siderbar
+        $viewSidebar = new ViewModel(array(
+            'questionNames' => $questionNames
         ));
-    }
-    //创建试题类型
-    public function createTypeAction()
-    {
-        // @TODO 创建试题类型
-        $questionTypeTable = $this->getServiceLocator()->get('questionTypeTable');
-        $questionType = $questionTypeTable->getQuestionTypes(0);
-        $questionTypeArray = array();
-        foreach ($questionType as $Type) {
-            $questionTypeArray[$Type['id']] = $Type['name'];
-        }
+        $viewSidebar->setTemplate('album/test-paper/sidebar');
         
-        $form = new TestPaperForm('QuestionType');
-        $form->get('testPaperType')->setValueOptions($questionTypeArray);
-        $form->remove('termNum');
-        $form->remove('unitNum');
-        $form->remove('questionAmount');
-        $form->remove('questionTypeSelect');
-        $form->remove('questionType');
+        $view->addChild($viewContent, 'content');
+        $view->addChild($viewSidebar, 'sidebar');
+        return $view;
         
-        $request = $this->getRequest();
         
-        if ($request->isPost()) {
-            $data = $request->getPost();
-            $form->setData($request->getPost());
             
-            if ($form->isValid()) {
-                $QuestionType = new QuestionType();
-                $QuestionType->exchangeArray($form->getData());
-                /*
-                 * debug::dump($QuestionType); die();
-                 */
-                $QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
-                $QuestionTypeTable->saveQuestionType($QuestionType);
-                echo "succesful";
-                die();
-            }
-        }
-        
-        return new viewmodel(array(
-            'form' => $form
-        ));
     }
+  
 }
     

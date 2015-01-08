@@ -22,12 +22,13 @@ class StudentForm extends Form{
         $studentNum->setLabel('学号');
         $this->add($studentNum);
         
+        /* classType */
         $class = new Element\Select('class');
         $class->setLabel('班级');
         $class->setEmptyOption('选择班级');
         $this->add($class);
         
-        /* classType */
+      
         $gender = new Element\Select('gender');
         $gender ->setLabel('性別');
         $gender->setEmptyOption('选择性别');

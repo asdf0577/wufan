@@ -9,6 +9,10 @@
 
 namespace Album;
 
+use Zend\Permissions\Acl\Acl;
+use Zend\Permissions\Acl\Role\GenericRole as Role;
+use Zend\Permissions\Acl\Resource\GenericResource as Resouce;
+
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
@@ -51,8 +55,12 @@ use Album\Model\StoreProductTable;
 
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable as DbTableAuthAdaper;
+use Zend\Captcha\Dumb;
 class Module implements AutoloaderProviderInterface
 {
+    
+    
+    
     public function getAutoloaderConfig()
     {
         return array(
@@ -77,10 +85,42 @@ class Module implements AutoloaderProviderInterface
     {
         // You may not need to do this if you're doing it elsewhere in your
         // application
-        $eventManager        = $e->getApplication()->getEventManager();
+        
+       
+        
+        
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
+        
+        
+        //初始化ACL
+        $this -> initAcl($e);
+        //注册一个监听事件，初始化为guest身份，如果是guest，只能进入login页面  
+//          $eventManager-> attach('route', array($this, 'checkAcl'));
+        //验证登陆人的身份，如果未登录，直接到登陆界面 
+        $authAdapter = $e->getApplication()->getServiceManager()->get('TestPaperAuthService()');
+        
+        
+        
+        if($authAdapter->hasIdentity() === true){
+            //is logged in
+//             如何返回
+//             echo $authAdapter->getIdentity()->role;
+//             echo "yes";
+        }else{
+            echo"not logining";
+            
+        }
+        
+        
+        
+        
+        
+        
         $sharedEventManager = $eventManager->getSharedManager();
+        //attach(作用区域：比如一个人 ，当指定事件发生：当坐公交车时，发生后执行的函数：必须投币，优先值：1)
         $sharedEventManager->attach(__NAMESPACE__,MvcEvent::EVENT_DISPATCH,
                 function ($e){
                     $controller = $e->getTarget();
@@ -109,6 +149,50 @@ class Module implements AutoloaderProviderInterface
                 }
     );  
       
+    }
+    
+    public function initAcl(MvcEvent $e) {
+    
+        $acl = new Acl();
+        $acl->addRole(new Role('guest'));
+        $acl->addRole(new Role('student'),'guest');
+        $acl->addRole(new Role('teacher'),'student');
+        $acl->addRole(new Role('admin'),'teacher');
+        
+        //添加资源 也就是模块
+        $acl->addResource('application');
+        $acl->addResource('album');
+        $acl->addResource('TestPaper');
+        $acl->addResource('Logining');
+        
+        $acl->allow('admin');
+        $acl->allow('student','TestPaper');
+        $acl->allow('guest','TestPaper');
+        $acl->allow('guest');
+        
+        //testing
+//         var_dump($acl->isAllowed('guest','TestPaper','index'));
+        //true
+    
+        //setting to view
+        $e -> getViewModel() -> acl = $acl;
+    
+    }
+    
+    public function checkAcl(MvcEvent $e) {
+        $route = $e -> getRouteMatch() -> getMatchedRouteName();
+        var_dump($route);
+        $userRole = 'guest';
+    
+        if (!$e -> getViewModel() -> acl -> isAllowed($userRole, $route)) {
+            echo"notallow";
+            $response = $e -> getResponse();
+            var_dump($response);
+            //location to page or what ever
+//             $response -> getHeaders() -> addHeaderLine('Location', $e -> getRequest() -> getBaseUrl() . '/404');
+//             $response -> setStatusCode(303);
+    
+        }
     }
 
     public function getServiceConfig(){
@@ -295,6 +379,10 @@ class Module implements AutoloaderProviderInterface
         				    $form= new \Album\Form\UploadEditForm();
         				    return $form;
         				},
+        				'InputQuestionForm' => function($sm){
+        				    $form= new \Album\Form\InputQuestionForm();
+        				    return $form;
+        				},
         				
         				'ImageUploadForm' => function ($sm) {
         				    $form =new \Album\Form\ImageUploadForm();
@@ -334,6 +422,14 @@ class Module implements AutoloaderProviderInterface
         				 
         				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
         				    $dbTableAuthAdapter = new DbTableAuthAdaper($dbAdapter,'user','email','password','MD5(?)');
+        				    $authservice = new AuthenticationService();
+        				    $authservice->setAdapter($dbTableAuthAdapter);
+        				   return $authservice;
+        				},
+            			'TestPaperAuthService()'=>function ($sm){
+        				 
+        				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+        				    $dbTableAuthAdapter = new DbTableAuthAdaper($dbAdapter,'student','name','password','MD5(?)');
         				    $authservice = new AuthenticationService();
         				    $authservice->setAdapter($dbTableAuthAdapter);
         				   return $authservice;

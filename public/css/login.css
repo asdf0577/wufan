@@ -1,0 +1,27 @@
+div#loginingContent{
+	display:block;
+	width:100%;
+	clear:both;
+	height:500px;
+	background-color:#333333;
+	color:white;
+	margin:auto;
+	padding:10px;
+	
+	
+}
+
+div#welcome{
+	margin: 50px 0px 0px 50px;
+	height:400px;
+	float:left;
+}
+div#loginTable{
+	padding:10px;
+	float:right;
+	height:400px;
+	margin: 50px 50px 0px 0px;
+}
+div#panel{
+	color:white;
+}

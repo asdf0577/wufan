@@ -29,7 +29,7 @@ class StudentTable{
     }
     public function getStudentsByClass($cid){
         $cid=(int)$cid;
-        $resultSet=$this->tableGateway->select(array('cid'=>$cid));
+        $resultSet=$this->tableGateway->select(array('cid'=>$cid))->toArray()   ;
         return $resultSet;
     }
     public function saveStudent($Student)

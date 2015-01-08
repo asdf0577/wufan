@@ -1,5 +1,6 @@
-<?php echo $this->doctype(); ?>
-
+<?php echo $this->doctype(); 
+// $this->layout()->panel = $this->render('album/logining/panel');
+?>
 <html lang="zh-CN">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
@@ -52,6 +53,11 @@ echo $this->headScript()
 						<li><a
 							href="<?php echo $this->url('TestPaper', array('action' => 'wash')) ?>"><?php echo $this->translate('洗车') ?></a></li>
 					</ul>
+					
+					<?php 
+					$this->layout()->panel = $this->render('album/logining/panel');
+					
+					echo $this->layout()->panel;?>
 				</div>
 				<!--/.nav-collapse -->
 			</div>

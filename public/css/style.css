@@ -500,9 +500,9 @@ TestPaper
 
 #sidebar{
 display: block;
-top: 200px;
+top: 100px;
 right: 20px;
-width: 50px;
+width: 100px;
 position:fixed;
 }
 
@@ -522,25 +522,52 @@ position:fixed;
 }
 #questionContent{
 	float:left;
-	height:530px;
-	width:65%;
-	margin:0 11px 0 0;
-	position:relative;
-	background-color:#f3f3f3;
-	overflow:auto;
-}
-#information{
-	padding:5px;
-	display:block;
-	float:left;
-	height:530px;
-	width:15%;
+	height:580px;
+	width:55%;
 	margin:0 11px 0 0;
 	position:relative;
 	background-color:#f3f3f3;
 	overflow:auto;
 	
 }
+#information{
+	padding:5px;
+	display:block;
+	float:left;
+	height:570px;
+	width:25%;
+	margin:0 11px 0 0;
+	position:relative;
+	background-color:#f3f3f3;
+	overflow:auto;
+	
+}
+div#informationContain{
+	clear:both;
+}
+div#studentSquare{
+	overflow: auto;
+width:250px;
+height:250px;
+}
+div#typeColor{
+	display: block;
+	clear: both;
+	margin:0 0 0 16px;
+}
+div#questionContent{
+	margin-left:130px;
+}
+
+div#siderbar{
+	width:50px;
+}
+
+#questions{
+	width:250px;
+}
+
+
 .testpapertr{
 	font-family: Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 	font-size:14px;
@@ -566,7 +593,18 @@ position:fixed;
 	background-color:#9B9B9B;
 	color:white;}
 
-li.questionSquare{
+
+li.siderbarSquare{
+	Color:black;
+	display:block;
+	padding:10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+	width:25px;
+	height:25px;
+	margin:2px;
+}
+li.questionSquare,li.studentSquare{
 	Color:black;
 	display:block;
 	width:35px;
@@ -578,19 +616,20 @@ li.questionSquare{
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }
 
-
-.square-0{
-	background-color:#808080;
-	border-bottom:3px groove #ccc;
-}
-.square-1{
-	background-color:#999999;
-}
-.square-2{
+li.studentSquare{
 	background-color:#cccccc;
 }
+.square-0{
+	background-color:#3399cc;
+}
+.square-1{
+	background-color:#cc3333;
+}
+.square-2{
+	background-color:#339900;
+}
 .square-3{
-	background-color:#4c4c4c;
+	background-color:#cc6633;
 }
 .square-4{
 	background-color:#0080ff;
@@ -599,16 +638,16 @@ li.questionSquare{
 	background-color:#66ccff;
 }
 .square-6{
-	background-color:#800000;
+	background-color:#cccccc;
 }
 .square-7{
-	background-color:#804000;
+	background-color:#9999cc;
 }
 .square-8{
-	background-color:#ff0000;
+	background-color:#cc99cc;
 }
 .square-9{
-	background-color:#ff6666;
+	background-color:#cc6600;
 }
 
 
@@ -733,7 +772,9 @@ input#addkonwledge{
 
 
   #selectable .ui-selecting { background: #FECA40; }
+  #nameSelect .ui-selecting { background: #FECA40; }
   #selectable .ui-selected { background: #F39814; color: white; }
+  #nameSelect .ui-selected { background: #ffcc00; color: white; }
 
 	/*
 IE7以上支持
@@ -1052,4 +1093,18 @@ form
 	width:50px;
 	height:50px;
 	background-color:#0b9ed7;
+}
+
+/*
+logining
+*/
+div#loginingContent{
+	display:block;
+	width:70%;
+	clear:both;
+	height:50%;
+	background-color:black;
+}
+div#panel{
+	color:white;
 }

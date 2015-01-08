@@ -1,0 +1,68 @@
+<div id="questionContent">
+
+    <ol id='selectable'>
+        <?php
+        $a = $this->testPaper->questionType;
+        $b = explode(',', $a); // 分离出题目的格式“题型：起始数-终止数，题型：起始数-终止数”
+        
+        $count = count($b); // 计算题型总数
+        for ($i = 0; $i < $count - 1; $i ++) { // 这里要减1，
+            list ($type, $num) = explode(":", $b[$i]); // 分离出“题型和起始数-终止数”
+            list ($start, $end) = explode("-", $num); // 分离出“起始数和终止数”
+            for ($qstart = $start; $qstart <= $end; $qstart ++) {
+                echo "<li class = 'questionSquare square-" . $i . "'  >" . $this->questions[$qstart - 1]['questionNum'] . "題</li>";
+            }
+        }
+        ?>
+    </ol>
+</div>
+<div id="information">
+<!-- 	<div id="typeColor"> -->
+        <?php
+//         foreach ($this->questionNames as $i => $Name) {
+//             echo "<li class = 'questionSquare square-" . $i . "'  >" . $Name . "</li>";
+//         }
+//         ?>
+        
+
+<!--     </div> -->
+
+	<div id="informationContain">
+        <?php echo $this->testPaper->year;?>学年 
+        <?php echo $this->testPaper->termNum;?>学期
+        <?php echo $this->testPaper->unitNum;?>单元 英语
+		
+		
+        <div id="inputQuestionForm">
+        	<?php
+            $form = $this->form;
+            $form->prepare();
+            $form->setAttribute('action', $this->url(Null, array(
+                                                                'controller' => 'Question',
+                                                                'action' => 'add'
+                                                                )));
+            $form->setAttribute('method', 'post');
+            echo $this->form()->openTag($form); ?>
+    	        <dl class='zend_form'>
+    				<dd> <?php echo $this->formelement($form->get('cid')); ?></dd>
+    				学生列表：
+    	<div id = 'studentSquare' > 
+    	<ol id = 'nameSelect'>
+    	   <?php foreach ($this->students as $student)
+    	   {
+    	       echo "<li class = 'studentSquare' title='".$student['id']."' >".$student['name']."</li>";
+    	   }
+    	       ?>
+    	 </ol>      
+    	</div>
+    	       <div id="questions">
+			          <span id="select-result">错题未被选择</span>
+		      </div>    
+    				<dd> <?php echo $this->formelement($form->get('submit')); ?></dd>
+    			</dl>
+        <?php echo $this->form()->closeTag();?>
+        </div>
+	</div>
+
+</div>
+

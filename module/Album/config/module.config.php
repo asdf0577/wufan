@@ -276,6 +276,7 @@ return array(
         'template_map' => array(
         	'layout/myaccount' => __DIR__.'/../view/layout/myaccount-layout.phtml',
         	'layout/testPaper' => __DIR__.'/../view/layout/testPaper-layout.phtml',
+        	'layout/testPaper2' => __DIR__.'/../view/layout/testPaper2-layout.phtml',
         ),
         'display_not_found_reason' => true,
         'display_exceptions' => true,

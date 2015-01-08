@@ -17,6 +17,11 @@ class ClassNameTable{
         return $resultSet;
     }
     
+    public function getClassByTeacher($teacherId){
+        //@TODO 按照教师获取;
+    }
+    
+    
     public function getClassName($id){
         $id=(int)$id;
         $result=$this->tableGateway->select(array('id'=>$id));
