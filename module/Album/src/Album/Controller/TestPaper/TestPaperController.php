@@ -322,7 +322,6 @@ class TestPaperController extends AbstractActionController
         $this->getTestPaperTable()->delete($tid);
         return $this->redirect()->toRoute('TestPaper');
     }
-    
     /*
      * public function washAction() { $form = new ClassManagerForm(); $form->get('name')->setLabel('手机号'); $form->get('classType')->setLabel('汽车颜色'); $color = array( '1'=>'紅', '2'=>'黄', '3'=>'蓝', ); $form->get('classType')->setvalueoptions($color); $form->get('submit')->setValue('预约洗车 '); return new ViewModel(array( 'form' => $form )); }
      */
