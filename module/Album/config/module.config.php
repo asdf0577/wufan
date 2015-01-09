@@ -21,7 +21,7 @@ return array(
             'Album\Controller\Question' => 'Album\Controller\TestPaper\QuestionController',
             'Album\Controller\Knowledge' => 'Album\Controller\TestPaper\KnowledgeController',
             'Album\Controller\Logining' => 'Album\Controller\TestPaper\LoginingController',
-            //洗车
+            //洗车 不做了
             'Album\Controller\CarWash' => 'Album\Controller\CarWashController',
         ),
     ),

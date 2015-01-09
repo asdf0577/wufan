@@ -25,7 +25,7 @@ use Album\Form\StudentForm;
 class LoginingController extends AbstractActionController
 {
 
-    protected $authservice;
+    protected $authservice; 
     
     public function getAuthService()
     {

@@ -17,7 +17,7 @@ use Zend\XmlRpc\Value\String;
  */
 class KnowledgeController extends AbstractActionController
 {
-protected $KnowledgeTable;
+protected $KnowledgeTable; 
     
     public function getKnowledgeTable()
     {
