@@ -110,7 +110,7 @@ protected $TestPaperTable;
         
         $identity = $auth->getIdentity();
         $cid = $identity->cid;
-        
+         
         //获取班级列表（教师用）@todo 为班级表增加教师字段，按教师获取班级列表；
         $form = new InputQuestionForm('InputQuestionForm');
         $classes = $sm->get('ClassNameTable')->fetchAll();
