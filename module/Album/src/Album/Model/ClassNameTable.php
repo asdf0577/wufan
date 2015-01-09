@@ -13,7 +13,7 @@ class ClassNameTable{
     }
     
     public function fetchAll(){
-        $resultSet = $this->tableGateway->select();
+        $resultSet = $this->tableGateway->select()->toArray();
         return $resultSet;
     }
     

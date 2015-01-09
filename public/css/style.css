@@ -501,7 +501,7 @@ TestPaper
 #sidebar{
 display: block;
 top: 100px;
-right: 20px;
+left: 110px;
 width: 100px;
 position:fixed;
 }
@@ -522,7 +522,7 @@ position:fixed;
 }
 #questionContent{
 	float:left;
-	height:580px;
+	height:550px;
 	width:55%;
 	margin:0 11px 0 0;
 	position:relative;
@@ -534,7 +534,7 @@ position:fixed;
 	padding:5px;
 	display:block;
 	float:left;
-	height:570px;
+	height:540px;
 	width:25%;
 	margin:0 11px 0 0;
 	position:relative;
@@ -566,7 +566,9 @@ div#siderbar{
 #questions{
 	width:250px;
 }
-
+#select-hidden{
+	display:none;
+}
 
 .testpapertr{
 	font-family: Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
@@ -603,6 +605,7 @@ li.siderbarSquare{
 	width:25px;
 	height:25px;
 	margin:2px;
+	line-height:11px;
 }
 li.questionSquare,li.studentSquare{
 	Color:black;
@@ -620,19 +623,19 @@ li.studentSquare{
 	background-color:#cccccc;
 }
 .square-0{
-	background-color:#3399cc;
+	background-color:#66ccff;
 }
 .square-1{
-	background-color:#cc3333;
+	background-color:#ff6666;
 }
 .square-2{
-	background-color:#339900;
+	background-color:#99cc66;
 }
 .square-3{
-	background-color:#cc6633;
+	background-color:#ff99cc;
 }
 .square-4{
-	background-color:#0080ff;
+	background-color:#6699ff;
 }
 .square-5{
 	background-color:#66ccff;

@@ -2,7 +2,7 @@
 
     <ol id='selectable'>
         <?php
-        $a = $this->testPaper->questionType;
+        $a =  $testPaper->questionType;
         $b = explode(',', $a); // 分离出题目的格式“题型：起始数-终止数，题型：起始数-终止数”
         
         $count = count($b); // 计算题型总数
@@ -28,14 +28,13 @@
 <!--     </div> -->
 
 	<div id="informationContain">
-        <?php echo $this->testPaper->year;?>学年 
-        <?php echo $this->testPaper->termNum;?>学期
-        <?php echo $this->testPaper->unitNum;?>单元 英语
+        <?php echo $testPaper->year;?>学年 
+        <?php echo $testPaper->termNum;?>学期
+        <?php echo $testPaper->unitNum;?>单元 英语
 		
 		
-        <div id="inputQuestionForm">
+        <div id="inputQuestion">
         	<?php
-            $form = $this->form;
             $form->prepare();
             $form->setAttribute('action', $this->url(Null, array(
                                                                 'controller' => 'Question',
@@ -56,7 +55,10 @@
     	 </ol>      
     	</div>
     	       <div id="questions">
+    	              <input type='hidden' name ='tid' value='<?php echo $testPaper->id;?>'>
 			          <span id="select-result">错题未被选择</span>
+			          <span id="select-hidden"></span>
+<!-- 			          <input type='hidden' name ='select-hidden' value=''> -->
 		      </div>    
     				<dd> <?php echo $this->formelement($form->get('submit')); ?></dd>
     			</dl>

@@ -114,8 +114,8 @@ $(function(){
 		           data: data,
 		           success:function(data){
 		        	  var opts = $.parseJSON(data);
-//		        	  alert($(that).text());
-//		        	  $(that).text(opts.edit_time);	
+//		        	  alert(opts);
+//		        	  alert(data);
 		        	  $(that).parent().parent().find( "td.editTime" ).text(opts.edit_time);	
 					  $(that).parent().parent().find( "td.editCount" ).text(opts.edit_count);	
 					  $(that).parent().parent().css("border-bottom","2px groove red");

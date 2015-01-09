@@ -10,6 +10,7 @@ use Zend\debug\Debug;
 use Album\Form\QuestionForm;
 use Album\Model\Question;
 use Album\Form\ClassManagerForm;
+use Album\Form\InputQuestionForm;
 
 /**
  * TestPaperController
@@ -86,7 +87,7 @@ protected $TestPaperTable;
         return array('TestPapers'=>$TestPapers);
     }
     
- public function submitAction()
+    public function submitAction()
     {
         $id = (int) $this->params()->fromRoute('id');
         $testPaper = $this->getTestPaperTable()->getTestPaper($id); // 根据tid获取试卷
@@ -111,11 +112,11 @@ protected $TestPaperTable;
         $cid = $identity->cid;
         
         //获取班级列表（教师用）@todo 为班级表增加教师字段，按教师获取班级列表；
-        $form = $sm->get('InputQuestionForm');
+        $form = new InputQuestionForm('InputQuestionForm');
         $classes = $sm->get('ClassNameTable')->fetchAll();
         $classArray = array();
-        foreach ($classes as $key=>$value){
-            $classArray[$key] = $value['name'];
+        foreach ($classes as $value){
+            $classArray[$value['id']] = $value['name'];
         }
         $form ->get('cid')->setValueOptions($classArray);
         //获取同班学生列表
@@ -124,16 +125,19 @@ protected $TestPaperTable;
        
        
         $students = $studentTable->getStudentsByClass($cid);
+//         debug::dump($classes);
         $studentsArray = array();
-        foreach ($students as $key=>$value){
-            $studentsArray[$key] = $value['name'];
+        
+        foreach ($students as $value){
+            $studentsArray[$value['id']] = $value['name'];
         }
-       
+//        debug::dump($classArray);
+//        die();
         $form->get('sid')->setValueOptions($studentsArray);
         
         $view = new ViewModel();
         $view->setTerminal(true);
-        $view->setTemplate('layout/myaccount');
+        $view->setTemplate('layout/testPaper2-layout');
         //content
         $viewContent = new ViewModel(array(
             'questionNames' => $questionNames,
@@ -157,5 +161,23 @@ protected $TestPaperTable;
             
     }
   
+    public function addProcessAction(){
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $validQuestion = array(
+                'cid' => (int) $_POST['cid'],
+                'sid' => (int) $_POST['sid'],
+                'inputQuestions' => (int) $_POST['inputQuestions'],
+                'tid' => (int) $_POST['tid']
+        
+            );
+            $question = new Question();
+            $question->exchangeArray($validQuestion);
+            $QuestionTable = $this->getServiceLocator()->get('QuestionTable');
+            $results = $QuestionTable->update($question);
+            echo json_encode($results);
+            die();
+        }
+    }
 }
     

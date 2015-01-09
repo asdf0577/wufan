@@ -38,6 +38,15 @@ class QuestionTable{
         if($id == 0)
         {
             $this->tableGateway->insert($data);  
+        }else{
+            if($this->getquestion($id)){
+                $data['edit_time'] = date('Y-m-d H:i:s');
+                  $this->tableGateway->update($data,array('id' => $id));
+                
+            }else 
+            {
+                throw new \Exception("Form id does not exist");
+            }
         }
     }
     
@@ -60,8 +69,7 @@ class QuestionTable{
         else{
             throw new \Exception("Form id does not exist");
         }
-        
-    }
+    }    
     public function delete($tid){
         $tid = (int)$tid;
         $this->tableGateway->delete(array('tid'=>$tid));

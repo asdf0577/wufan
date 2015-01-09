@@ -1,5 +1,9 @@
 eclipse.preferences.version=1
 encoding//module/Album/view/album/Store/product-detail.phtml=UTF-8
+<<<<<<< HEAD
+=======
+encoding//module/Album/view/album/test-paper/test.phtml=UTF-8
+>>>>>>> branch 'master' of https://github.com/asdf0577/wufan.git
 encoding//public/css/main.css=UTF-8
 encoding//public/css/style.css=UTF-8
 encoding//public/js/test.js=UTF-8
