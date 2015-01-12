@@ -13,6 +13,7 @@ use Album\Form\ClassManagerForm;
 use Album\Model\Question;
 use Album\Model\ClassName;
 use Album\Form\StudentForm;
+use Zend\Validator\InArray;
 
 /**
  * TestPaperController
@@ -78,8 +79,17 @@ class LoginingController extends AbstractActionController
             $result=$auth->authenticate();
             if($result->isValid()){
                 
+                
+                
                 $auth->getStorage()->write($adapter->getResultRowObject());
-                if($adapter->getResultRowObject()->role == 'student'){
+                
+                $role = $adapter->getResultRowObject()->role;
+                
+                
+                if(in_array($role,array('student','manager','supmanager'))){
+                    return $this->redirect()->toRoute(Question,array('action'=>'index'));
+                }
+                if($role == 'teacher'){
                     return $this->redirect()->toRoute(TestPaper,array('action'=>'index'));
                 }
                 

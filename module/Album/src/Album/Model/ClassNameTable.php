@@ -17,8 +17,9 @@ class ClassNameTable{
         return $resultSet;
     }
     
-    public function getClassByTeacher($teacherId){
-        //@TODO 按照教师获取;
+    public function getClassByTeacher($uid){
+      $resultSet = $this->tableGateway->select(array('uid'=>$uid))->toArray();
+        return $resultSet;
     }
     
     

@@ -1,47 +1,13 @@
 $(function(){
-		
-	
-	
 
-//    $.fn.clickToggle = function(func1, func2) {
-//        var funcs = [func1, func2];
-//        this.data('toggleclicked', 0);
-//        this.click(function() {
-//            var data = $(this).data();
-//            var tc = data.toggleclicked;
-//            $.proxy(funcs[tc], this)();
-//            data.toggleclicked = (tc + 1) % 2;
-//        });
-//        return this;
-//    };
-//
-//	
-//	$("tr[class^= questionTr]").clickToggle(function() {   
-//	    $(this).next().slideDown(2000);
-//	    $.ajax({
-//		       url:'../../grammar/add',
-//		       async:false, 
-//		       success: function(html) {
-//		    	 var htm = "<div class= 'afterTrDiv'>"+html+"</div";
-//		    	 
-//		          $('.afterTrTd').append(htm);
-//		       }
-//		    });
-//	},
-//	function() {
-//		$(this).next().hide();
-//		$(".afterTrDiv").remove();
-//	});
-	
-	
-	// 单击Tr 弹出 下拉列表
-//	$("tr[class^= questionTr]").click(function(){
-//		
-//		$(this).next().toggle(300);
-//		})
 	$("td.showType").click(function(){
 		
 		$(this).parent().next().toggle(300);
+		})
+		
+		$("a[title='open']").click(function(){
+			$(this).parent().parent().next().toggle(300);
+			return false;
 		})
 		
 		

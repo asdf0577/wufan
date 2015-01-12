@@ -520,6 +520,24 @@ position:fixed;
 	background-color:#f3f3f3;
 	
 }
+
+div#teacherBar{
+	font:#33cc66;
+	float:left;
+	height:520px;
+	width:10%;
+	overflow-y:auto;
+	overflow-x: hidden;
+	margin:0 11px 0 0;
+	padding:5px;
+	position:relative;
+	background-color:#333333;
+	
+}
+#teacherBar a{
+	color:#66cc66;
+	text-decoration:none;
+}
 #questionContent{
 	float:left;
 	height:550px;
@@ -547,7 +565,7 @@ div#informationContain{
 }
 div#studentSquare{
 	overflow: auto;
-width:250px;
+width:260px;
 height:250px;
 }
 div#typeColor{
@@ -584,8 +602,8 @@ div#siderbar{
 	background-color:#b7b7b7;
 	margin:3px;
 	float:left;
-	padding:10px 10px 10px 10px;
-	font-size:20px;
+	padding:20px;
+	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
 }
 .classSquare a{
@@ -1111,3 +1129,6 @@ div#loginingContent{
 div#panel{
 	color:white;
 }
+
+
+

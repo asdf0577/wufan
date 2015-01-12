@@ -17,29 +17,33 @@ class ClassManagerForm extends Form{
         $name->setLabel('班级名称');
         $this->add($name);
         
-        $carNum=new Element\Text('carNum');
-        $carNum->setLabel('车牌号');
-        $this->add($carNum);
-        
-        $address=new Element\Text('address');
-        $address->setLabel('车辆停放地点');
-        $this->add($address);
+        $classCheck = new Element\MultiCheckbox('classCheck');
+        $this->add($classCheck);    
         
         
-        $year = new Element\Month('year');
-        $year->setOptions(array(
-        		'label'    => '入学时间',
-        )
+//         $carNum=new Element\Text('carNum');
+//         $carNum->setLabel('车牌号');
+//         $this->add($carNum);
+        
+//         $address=new Element\Text('address');
+//         $address->setLabel('车辆停放地点');
+//         $this->add($address);
+        
+        
+//         $year = new Element\Month('year');
+//         $year->setOptions(array(
+//         		'label'    => '入学时间',
+//         )
             
-        );
-        $this->add($year);
+//         );
+//         $this->add($year);
         
-        $time = new Element\Time('time');
-        $time->setOptions(array(
-        		'label'    => '用车时间',
-        )
-        );
-        $this->add($time);
+//         $time = new Element\Time('time');
+//         $time->setOptions(array(
+//         		'label'    => '用车时间',
+//         )
+//         );
+//         $this->add($time);
         
         /* classType */
         $classType = new Element\Select('classType');

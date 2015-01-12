@@ -3,7 +3,7 @@
 <?php foreach($this->TestPapers as $Testpaper):?>
 
     <div class = "classSquare"  >
-    <a href="<?php echo $this->url('Question',array('action'=>'submit','id'=>$Testpaper->id));?>">    
+    <a href="<?php echo $this->url('Question',array('action'=>'analysis','id'=>$Testpaper->id));?>">    
      <?echo $Testpaper->year;?>年
               第<?echo $Testpaper->termNum;?>学期</br>
                  第：<?echo $Testpaper->unitNum;?>单元</br>

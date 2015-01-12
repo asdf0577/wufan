@@ -3,19 +3,15 @@ namespace Album\Model;
 
 use Album\Model\wrong_question_user;
 use Zend\Db\TableGateway\TableGateway;
-
-class wrong_question_userTable{
+use Zend\Db\Sql\Select;
+class WrongQuestionUserTable{
     protected $tableGateway;
     
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
-    public function fetchAll(){
-        $result = $this->tableGateway->select();
-        $rowset = $result->toArray();
-        return $rowset;
-    }
+  
     public function getQuestionTypes($fid)
     {
         $fid=(int)$fid;
@@ -23,6 +19,19 @@ class wrong_question_userTable{
         $rowset=$result->toArray();
         return $rowset;
     }
+    
+    public function getQuestionUser($tid,$sid){
+    //查询是否存在记录
+        $result = $this->tableGateway->select(function (select $select) use ($tid,$sid){
+            //问题错在这里
+            $select->where(array('tid'=>$tid))
+            ->where(array('sid'=>$sid));
+        })->current();
+        if($result){
+            return $result;
+        }
+    }
+    
     public function getQuestionType($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
@@ -37,7 +46,7 @@ class wrong_question_userTable{
             'qid' => $question->qid,
             'submit_time'=>date('Y-m-d H:i:s'),
         );
-        $id = (int)$questionType->id;
+        $id = (int)$question->id;
         if($id == 0)
         {
             $this->tableGateway->insert($data);  

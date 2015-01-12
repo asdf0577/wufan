@@ -1,5 +1,6 @@
-
+<?php  $this->headScript()->appendFile($this->basePath() . '/js/testPaper-ui2.js','text/javascript');?>
 <div id="testContent">
+
 	<table class="table">
 		<tr class="testpapertr">
 			<th width="10%">学年</th>
@@ -20,15 +21,46 @@
 			<td width="10%"></td>
 
 			<td width="20%">
-<?php if($TestPaper->created == 0){?>
-<a
-				href="<?php echo $this->url('TestPaper',array('action'=>'create','id'=>$TestPaper->id));?>">创建</a>&nbsp<?php }?>
-<a
-				href="<?php echo $this->url('TestPaper',array('action'=>'edit','id'=>$TestPaper->id));?>">编辑</a>
-				<a
-				href="<?php echo $this->url('TestPaper',array('action'=>'delete','id'=>$TestPaper->id));?>">删除</a>
+    <?php if($TestPaper->created == 0){?>
+    <a href="<?php echo $this->url('TestPaper',array('action'=>'create','id'=>$TestPaper->id));?>">开启编辑功能</a>&nbsp<?php }
+    else{
+      
+       echo "<a href='".$this->url('TestPaper',array('action'=>'edit','id'=>$TestPaper->id))."'>编辑</a>";
+       
+       echo" &nbsp <a href='#' title ='open'>开启答题</a>";
+    }?>
+    
+    <a href="<?php echo $this->url('TestPaper',array('action'=>'delete','id'=>$TestPaper->id));?>">删除</a>
+			
 			</td>
 		</tr>
+<tr class = subTr><td class = 'afterTrTd' colspan=7>
+<?php 
+$form->prepare();
+$form->setAttribute('action',$this->url('Question',array('action'=>'createQuestion')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+
+echo "<input type='hidden' name = 'tid' value ='".$TestPaper->id."'>";
+echo $this->formelement($form->get('classCheck'));
+echo $this->formelement($form->get('submit'));
+echo $this->form()->closeTag();
+?>
+
+
+</form>
+
+</td></tr>	
 <?php endforeach;?>
 </table>
+</div>
+<div id="teacherBar">
+<a>
+<?php 
+echo "loginInfo</br>";
+echo  "ID：" .$this->identity->id."</br>";
+echo  "name：" .$this->identity->name."</br>";
+echo  "Role：" .$this->identity->role."</br>";
+?>
+</a>
 </div>

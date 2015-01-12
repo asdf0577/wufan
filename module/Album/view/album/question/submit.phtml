@@ -38,21 +38,12 @@
             $form->prepare();
             $form->setAttribute('action', $this->url(Null, array(
                                                                 'controller' => 'Question',
-                                                                'action' => 'add'
+                                                                'action' => 'addProcess'
                                                                 )));
             $form->setAttribute('method', 'post');
             echo $this->form()->openTag($form); ?>
     	        <dl class='zend_form'>
-    				<dd> <?php echo $this->formelement($form->get('cid')); ?></dd>
-    				学生列表：
     	<div id = 'studentSquare' > 
-    	<ol id = 'nameSelect'>
-    	   <?php foreach ($this->students as $student)
-    	   {
-    	       echo "<li class = 'studentSquare' title='".$student['id']."' >".$student['name']."</li>";
-    	   }
-    	       ?>
-    	 </ol>      
     	</div>
     	       <div id="questions">
     	              <input type='hidden' name ='tid' value='<?php echo $testPaper->id;?>'>

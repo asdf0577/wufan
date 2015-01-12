@@ -78,11 +78,29 @@ class TestPaperController extends AbstractActionController
         $auth = $this->getAuthService();
         if($auth->hasIdentity()){
             $identity = $auth->getIdentity();
+            $uid = $identity->id;
             $TestPapers = $this->getTestPaperTable()->fetchAll();
+            $classNameTable = $this->getServiceLocator()->get('ClassNameTable');
+            $classes = $classNameTable->getClassByTeacher($uid);
+            
+//             debug::dump($classes);
+            $classArray = array();
+            foreach ($classes as $class){
+                $classArray[$class['id']] = $class['year']."年-".$class['name'];
+            }
+//             die();
+
+            $form = new ClassManagerForm();
+            $form->remove('name');
+            $form->remove('id');
+            $form->remove('classType');
+            $form->get('classCheck')->setValueOptions($classArray);
             
             return array(
+                'form'=>$form,
                 'TestPapers' => $TestPapers,
                 'identity'=>$identity,
+//                 'classes'=>$classes,
             );
         
         }
@@ -359,6 +377,8 @@ class TestPaperController extends AbstractActionController
         ));
     }
 
-
+    public function analysisAction(){
+        
+    }
 }
     

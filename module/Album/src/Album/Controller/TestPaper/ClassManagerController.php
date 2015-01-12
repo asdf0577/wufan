@@ -1,5 +1,4 @@
-border-bottom:3px groove
-#ccc<?php
+<?php
 namespace Album\Controller\TestPaper;
 
 use Zend\Mvc\Controller\AbstractActionController;

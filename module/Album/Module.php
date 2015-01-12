@@ -42,8 +42,15 @@ use Album\Model\QuestionTable ;
 use Album\Model\QuestionType;//试题类型
 use Album\Model\QuestionTypeTable;
 
+use Album\Model\WrongQuestionClass;
+use Album\Model\WrongQuestionClassTable;
+use Album\Model\WrongQuestionUser;
+use Album\Model\WrongQuestionUserTable;
+
 use Album\Model\TestPaper;//试卷
 use Album\Model\TestPaperTable ;
+use Album\Model\TestPaperAcl;//试卷
+use Album\Model\TestPaperAclTable ;
 
 use Album\Model\Knowledge;//语法
 use Album\Model\KnowledgeTable ;
@@ -83,17 +90,9 @@ class Module implements AutoloaderProviderInterface
 
     public function onBootstrap(MvcEvent $e)
     {
-        // You may not need to do this if you're doing it elsewhere in your
-        // application
-        
-       
-        
-        
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-        
-        
         
         //初始化ACL
         $this -> initAcl($e);
@@ -101,16 +100,14 @@ class Module implements AutoloaderProviderInterface
 //          $eventManager-> attach('route', array($this, 'checkAcl'));
         //验证登陆人的身份，如果未登录，直接到登陆界面 
         $authAdapter = $e->getApplication()->getServiceManager()->get('TestPaperAuthService()');
-        
-        
-        
         if($authAdapter->hasIdentity() === true){
             //is logged in
 //             如何返回
 //             echo $authAdapter->getIdentity()->role;
 //             echo "yes";
         }else{
-            echo"no";
+//             $response -> getHeaders() -> addHeaderLine('Location', $e -> getRequest() -> getBaseUrl() . '/404');
+            //             $response -> setStatusCode(303);
         }
         
         
@@ -300,6 +297,33 @@ class Module implements AutoloaderProviderInterface
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					return new TableGateway('question', $dbAdapter);
         				},
+        				
+        				//错题记录
+        				
+        				'WrongQuestionUserTable' =>  function($sm) {//试题
+        					$tableGateway = $sm->get('WrongQuestionUserTableGateway');
+        					$table = new WrongQuestionUserTable($tableGateway);
+        					return $table;
+        				},
+        				
+        				'WrongQuestionUserTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('wrong_question_user', $dbAdapter);
+        				},
+        				'WrongQuestionClassTable' =>  function($sm) {//试题
+        					$tableGateway = $sm->get('WrongQuestionClassTableGateway');
+        					$table = new WrongQuestionClassTable($tableGateway);
+        					return $table;
+        				},
+        				
+        				'WrongQuestionClassTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('wrong_question_class', $dbAdapter);
+        				},
+        				
+        				
+        				
+        				
         				'QuestionTypeTable' =>  function($sm) {//题型
         					$tableGateway = $sm->get('QuestionTypeTableGateway');
         					$table = new QuestionTypeTable($tableGateway);
@@ -320,6 +344,18 @@ class Module implements AutoloaderProviderInterface
         					/* $resultSetPrototype = new ResultSet();
         					$resultSetPrototype->setArrayObjectPrototype(new TestPaper()); */
         					return new TableGateway('test_paper', $dbAdapter/* , null, $resultSetPrototype */);
+        				},
+        				
+        				'TestPaperAclTable'=>function($sm){//试卷
+        					$tableGateway = $sm->get('TestPaperAclTableGateway');
+        					$table = new TestPaperAclTable($tableGateway);
+        					return $table;
+        				},
+        				'TestPaperAclTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					/* $resultSetPrototype = new ResultSet();
+        					$resultSetPrototype->setArrayObjectPrototype(new TestPaperAcl()); */
+        					return new TableGateway('test_paper_acl', $dbAdapter/* , null, $resultSetPrototype */);
         				},
         				'StudentTable' =>  function($sm) {//试题
         				$tableGateway = $sm->get('StudentTableGateway');
