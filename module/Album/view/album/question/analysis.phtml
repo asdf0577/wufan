@@ -1,0 +1,33 @@
+<div id="testContent">
+
+	<table class="table">
+		<tr class="testpapertr">
+			<th width="20%">题号</th>
+			<th width="20%">类型</th>
+			<th width="20%">所属知识点</th>
+			<th width="20%">错误数</th>
+			<th width="20%">错误学生</th>
+		</tr>
+<?php foreach ($this->TestPapers as $TestPaper):?>
+<tr>
+			<td width="10%"><?php echo $TestPaper['question_num'];?></td>
+			<td width="10%">todo</td>
+			<td width="10%">todo</td>
+			<td width="10%"><?php echo $this->escapehtml($TestPaper['total']);?></td>
+			<td width="10%"><?php echo $this->escapehtml($TestPaper['total_user']);?></td>
+			<td width="10%"></td>
+
+		</tr>
+<?php endforeach;?>
+</table>
+</div>
+<div id="teacherBar">
+<a>
+<?php 
+echo "loginInfo</br>";
+echo  "ID：" .$this->identity->id."</br>";
+echo  "name：" .$this->identity->name."</br>";
+echo  "Role：" .$this->identity->role."</br>";
+?>
+</a>
+</div>
