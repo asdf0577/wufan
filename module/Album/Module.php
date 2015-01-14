@@ -66,7 +66,7 @@ use Zend\Captcha\Dumb;
 class Module implements AutoloaderProviderInterface
 {
      
-    
+     
     
     public function getAutoloaderConfig()
     {
