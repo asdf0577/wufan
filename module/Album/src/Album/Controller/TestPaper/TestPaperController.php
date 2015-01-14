@@ -89,7 +89,7 @@ class TestPaperController extends AbstractActionController
                 $classArray[$class['id']] = $class['year']."年-".$class['name'];
             }
 //             die();
-
+ 
             $form = new ClassManagerForm();
             $form->remove('name');
             $form->remove('id');
