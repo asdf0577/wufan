@@ -65,7 +65,7 @@ use Zend\Authentication\Adapter\DbTable as DbTableAuthAdaper;
 use Zend\Captcha\Dumb;
 class Module implements AutoloaderProviderInterface
 {
-    
+     
     
     
     public function getAutoloaderConfig()
