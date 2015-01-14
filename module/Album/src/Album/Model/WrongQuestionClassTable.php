@@ -44,9 +44,11 @@ class WrongQuestionClassTable{
       
         $result = $this->tableGateway->select(function (select $select) use ($tid,$cid,$question_num,$sid){
             //问题错在这里
-            $select->where(array('tid'=>$tid))
-                    ->where(array('cid'=>$cid))
-                    ->where(array('question_num'=>$question_num));
+            $select->where(array('tid'=>$tid,
+                                 'cid'=>$cid,
+                                 'question_num'=>$question_num,
+                                
+            ));
            
         })->current();
         if($result){

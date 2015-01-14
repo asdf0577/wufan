@@ -24,11 +24,28 @@ class WrongQuestionUserTable{
     //查询是否存在记录
         $result = $this->tableGateway->select(function (select $select) use ($tid,$sid){
             //问题错在这里
-            $select->where(array('tid'=>$tid))
-            ->where(array('sid'=>$sid));
+           $select->where(array(
+                'tid'=>$tid,
+                'sid'=>$sid,
+            ));
         })->current();
         if($result){
             return $result;
+        }
+    }
+    public function getQuestionUserByClass($tid,$cid){
+    //查询是否存在记录
+        $result = $this->tableGateway->select(function (select $select) use ($tid,$cid){
+            //问题错在这里
+            $select->where(array(
+                'tid'=>$tid,
+                'cid'=>$cid,
+            ))->columns(array('sid',));
+        })->toArray();
+        if($result){
+            return $result;
+        }else{
+            return null;
         }
     }
     
@@ -42,6 +59,7 @@ class WrongQuestionUserTable{
     {
         $data = array(
             'tid' => $question->tid,
+            'cid' => $question->cid,
             'sid' => $question->sid,
             'qid' => $question->qid,
             'submit_time'=>date('Y-m-d H:i:s'),

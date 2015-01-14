@@ -22,7 +22,8 @@ use Album\Model\ClassName;
  */
 class ClassManagerController extends AbstractActionController
 {
-
+    protected $authservice;
+    
     protected $ClassNameTable;
 
     protected $StudentTable;
@@ -33,6 +34,14 @@ class ClassManagerController extends AbstractActionController
             $this->ClassNameTable = $this->getServiceLocator()->get('ClassNameTable');
             return $this->ClassNameTable;
         }
+    }
+    
+    public function getAuthService()
+    {
+        if(!$this->authservice){
+            $this->authservice = $this->getServiceLocator()->get('TestPaperAuthService()');
+        }
+        return $this->authservice;
     }
 
     public function getStudentTable()
@@ -45,8 +54,14 @@ class ClassManagerController extends AbstractActionController
     // 主页
     public function indexAction()
     {
-        $ClassName = $this->getClassNameTable()->fetchAll();
-        return array('ClassName'=>$ClassName);
+        $auth = $this->getAuthService();
+        $identity = $auth->getIdentity();
+        $uid = $identity->id;
+        $ClassName = $this->getClassNameTable()->getClassByTeacher($uid);
+        return array(
+            'ClassName'=>$ClassName,
+            'identity'=>$identity,
+        );
     }
     // 添加
     public function addAction()

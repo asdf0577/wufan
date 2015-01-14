@@ -625,7 +625,7 @@ li.siderbarSquare{
 	margin:2px;
 	line-height:11px;
 }
-li.questionSquare,li.studentSquare{
+li.questionSquare,li.studentSquare,li.studentSquareSubmit,li.studentSquareSwitch,li.studentSquareSubmitSwitch{
 	Color:black;
 	display:block;
 	width:35px;
@@ -635,6 +635,18 @@ li.questionSquare,li.studentSquare{
 	padding:10px 10px 10px 10px;
 	font-size:13px;
 	font-family:Segoe UI light,'Segoe UI',Tahoma,Helvetica,Arial,Verdana,sans-serif;
+}
+li.studentSquareSubmit{
+	background-color:#666666;
+	color:white;
+	
+}
+li.studentSquareSwitch{
+ 	
+	background-color:white;
+}
+li.studentSquareSubmitSwitch{
+	background-color:red;	
 }
 
 li.studentSquare{

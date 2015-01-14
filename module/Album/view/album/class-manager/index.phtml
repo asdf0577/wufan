@@ -2,15 +2,14 @@
 <div id="testContent">
 <?php foreach($this->ClassName as $ClassManager):?>
 
-    <div class = "classSquare"  >
-    <a href="<?php echo $this->url('ClassManager',array('action'=>'detail','id'=>$ClassManager->id));?>">    
-     ClassType：<?echo $ClassManager->name;?></br>
-     <?echo $ClassManager->year;?>级
-     <?echo $ClassManager->name;?></br>
-                  学生总数：<?echo $ClassManager->student_amount;?></br>
-                  班主任：</br>
-                  </a>
-     </div>
+   <a href="<?php echo $this->url('ClassManager',array('action'=>'detail','id'=>$ClassManager['id']));?>">  <div class = "classSquare"  >
+       
+         <?echo $ClassManager['year'] ;?>级
+     <?echo $ClassManager['name'] ;?></br>
+                  学生总数：<?echo $ClassManager['student_amount'];?></br>
+                  班主任：<?php echo $identity->name;   ?></br>
+                 
+     </div> </a>
     
 <?php endforeach;?>
 </div>

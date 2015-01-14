@@ -1,16 +1,12 @@
 $(function(){
-
-	$("td.showType").click(function(){
-		
-		$(this).parent().next().toggle(300);
+		//点击知识点TD块显示知识点选择框
+		$("td.showType").click(function(){
+			$(this).parent().next().toggle(300);})
+			$("a[title='open']").click(function(){
+				$(this).parent().parent().next().toggle(300);
+				return false;
 		})
-		
-		$("a[title='open']").click(function(){
-			$(this).parent().parent().next().toggle(300);
-			return false;
-		})
-		
-		
+		//知识点框1的联动
 		$('select.knowledgeSelect').click(function(){
 			$('select#knowledgeSelect2nd').empty();
 			$('select#knowledgeSelect3rd').empty();
@@ -27,7 +23,7 @@ $(function(){
 				}
 			}) 
 		});	
-//	
+		//知识点框2的联动	
 		$('select#knowledgeSelect2nd').click(function(){
 			$('select#knowledgeSelect3rd').empty();
 			var fid = $('select#knowledgeSelect2nd').find("option:selected").val();
@@ -44,18 +40,16 @@ $(function(){
 			}) 
 		});	
 		
-		
+		//知识点框3的联动
 		$('select#knowledgeSelect3rd').dblclick(function(){
-//			$(this).parents().prev().find('td.showType').empty();
 			var fid = $('select#knowledgeSelect3rd').find("option:selected").val();
 			var text = $('select#knowledgeSelect3rd').find("option:selected").text();
-//			var html = "<input type='hidden' name='knowledge_id' value='"+fid+"'>"; 
 			$(this).parents().prev().find('td.showType').css("background-color","rgb(161, 159, 159)").text(text);
 			$(this).parents().prev().find( "input[name='knowledge_id']" ).val(fid);
 		
 		})
 		
-		
+		//评分
 		 $("ul.rating li a").click(function(){
 		     var title = $(this).attr("title");
 			 var cl = $(this).parent().attr("class");
@@ -65,7 +59,7 @@ $(function(){
 			 return false;
 		})
 		
-		
+		//本题编辑完成提交
 		$('button#questionSubmit').click(function(){
 			var questionNum = $(this).parent().parent().find( "input[name='questionNum2']" ).val();
 			var id = $(this).parent().parent().find( "input[name='id']" ).val();
@@ -80,8 +74,6 @@ $(function(){
 		           data: data,
 		           success:function(data){
 		        	  var opts = $.parseJSON(data);
-//		        	  alert(opts);
-//		        	  alert(data);
 		        	  $(that).parent().parent().find( "td.editTime" ).text(opts.edit_time);	
 					  $(that).parent().parent().find( "td.editCount" ).text(opts.edit_count);	
 					  $(that).parent().parent().css("border-bottom","2px groove red");

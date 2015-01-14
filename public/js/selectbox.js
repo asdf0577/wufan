@@ -25,7 +25,7 @@ $(function(){
 		
 		$.ajax({
 			type:"post",
-			url:"../album/testpaper/getTypes",
+			url:"../getTypes",
 			data:{fid:fid},
 			success:function(data){
 				var opts = $.parseJSON(data);

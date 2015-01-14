@@ -34,23 +34,22 @@
 			
 			</td>
 		</tr>
-<tr class = subTr><td class = 'afterTrTd' colspan=7>
-<?php 
-$form->prepare();
-$form->setAttribute('action',$this->url('Question',array('action'=>'createQuestion')));
-$form->setAttribute('method','post');
-echo $this->form()->openTag($form);
-
-echo "<input type='hidden' name = 'tid' value ='".$TestPaper->id."'>";
-echo $this->formelement($form->get('classCheck'));
-echo $this->formelement($form->get('submit'));
-echo $this->form()->closeTag();
-?>
-
-
-</form>
-
-</td></tr>	
+         <tr class = subTr>
+            <td class = 'afterTrTd' colspan=7>
+                    <?php 
+                    $form->prepare();
+                    $form->setAttribute('action',$this->url('Question',array('action'=>'createAcl')));
+                    $form->setAttribute('method','post');
+                    echo $this->form()->openTag($form);
+                    
+                    echo "<input type='hidden' name = 'tid' value ='".$TestPaper->id."'>";
+                    echo "<input type='hidden' name = 'uid' value ='".$identity->id."'>";
+                    echo $this->formelement($form->get('classCheck'));
+                    echo $this->formelement($form->get('submit'));
+                    echo $this->form()->closeTag();
+                    ?>
+             </td>
+          </tr>	
 <?php endforeach;?>
 </table>
 </div>
