@@ -2,7 +2,8 @@
 namespace Album\Model;
 
 use Zend\Db\TableGateway\TableGateway;
-
+use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Select;
 class TestPaperAclTable
 {
 
@@ -36,6 +37,18 @@ class TestPaperAclTable
         }
         return $result;
     }
+    
+    public function getTestPaperByTestPaper($uid,$tid){
+        $result = $this->tableGateway->select(function (select $select) use ($uid,$tid){
+            //问题错在这里
+            $select->where(array(
+                'tid'=>$tid,
+                'uid'=>$uid,
+            ));
+             
+        })->toArray();
+        return $result;
+    }
 
     public function addTestPaperAcl($acl)
     {
@@ -43,9 +56,11 @@ class TestPaperAclTable
             'tid'=> $acl->tid,
             'uid'=> $acl->uid,
             'cid'=> $acl->cid,
+            'class_name'=>$acl->class_name,
+            'status'=>1,
         )
         ;
-        $id = (int) $testPaper->id;
+        $id = (int) $acl->id;
         if ($id == 0) {
             $this->tableGateway->insert($data);
         } else {
@@ -67,6 +82,25 @@ class TestPaperAclTable
         ));
     }
     
+    public function deleteByClassAndTestPaper($cid,$tid,$uid)
+    {
+        $tid = (int) $tid;
+        $uid = (int) $uid;
+        $cid = (int) $cid;
+        $this->tableGateway->delete(array(
+            'tid' => $tid,
+            'uid'=>$uid,
+            'cid'=>$cid,
+        ));
+    }
     
+    public function changeAclStatus($status,$cid,$tid)
+    {
+        $status = (int)$status;
+        $cid = (int)$cid;
+        $tid = (int)$tid;
+        $data['status']=$status;
+        $this->tableGateway->update($data,array('cid'=>$cid,'tid'=>$tid));
+    }
     
 }

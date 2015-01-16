@@ -771,7 +771,7 @@ td.showType{
 }
 
 
-.knowledgeSelect{
+.knowledgeSelect,.classSelect{
 	height:200px;
 	float:left;
 }
@@ -793,6 +793,17 @@ td.showType{
 	display:block;
 	float:left;
 	padding:10px;
+}
+.classAcl{
+	display:block;
+	float:left;
+	padding:10px;
+	height:220px;
+	width:260px;
+	margin-right: 10px;
+	border:1px groove #FFFFFF;
+	color:#545252;
+	background-color:#DFDFDF;
 }
 .subTr{
 	display:none;

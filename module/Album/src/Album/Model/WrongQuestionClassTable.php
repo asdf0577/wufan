@@ -21,7 +21,7 @@ class WrongQuestionClassTable{
         $rowset=$result->toArray();
         return $rowset;
     }
-    
+    //创建记录
     public function createQuestionClass($question)
     {
         $data = array(
@@ -32,14 +32,12 @@ class WrongQuestionClassTable{
             'total' => $question->total,
             'total_user' => $question->total_user,
         );
-//        debug::dump($data);
-//        die();
       
             $this->tableGateway->insert($data);  
      
         
     }
-    
+    //更新记录
     public function updateWrongQuestionClass($tid,$cid,$question_num,$sid){
       
         $result = $this->tableGateway->select(function (select $select) use ($tid,$cid,$question_num,$sid){
@@ -52,18 +50,12 @@ class WrongQuestionClassTable{
            
         })->current();
         if($result){
-           
             $total = $result->total;
-//             debug::dump($result->id);
-//             debug::dump($result->total);
-//             debug::dump($result->total_user);
-//             die();
             $total = $total+1;
             $total_user = $result->total_user.",".$sid;
             $this->tableGateway->update(array(
                 'total_user'=>$total_user,
                 'total'=>$total,
-                
             ),array('id'=>$result->id));
         }
         else{
@@ -73,10 +65,19 @@ class WrongQuestionClassTable{
     }
     
     
-    
-    public function delete($id){
+    //删除该试卷下所有记录
+    public function deleteByTestPaper($tid){
         $id = (int)$id;
-        $this->tableGateway->delete(array('id'=>$id));
+        $this->tableGateway->delete(array('tid'=>$tid));
+    }
+    //删除该试卷以班级为单位的所有记录
+    public function deleteByClassAndTestPaper($cid,$tid){
+        $tid = (int) $tid;
+        $cid = (int) $cid;
+        $this->tableGateway->delete(array(
+            'tid' => $tid,
+            'cid'=>$cid,
+        ));
     }
     
     

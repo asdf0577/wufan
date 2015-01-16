@@ -93,8 +93,9 @@ class TestPaperController extends AbstractActionController
             $form = new ClassManagerForm();
             $form->remove('name');
             $form->remove('id');
-            $form->remove('classType');
             $form->get('classCheck')->setValueOptions($classArray);
+            $form->get('classSelect')->setValueOptions($classArray);
+            
             
             return array(
                 'form'=>$form,
@@ -109,6 +110,24 @@ class TestPaperController extends AbstractActionController
             }
         
     }
+    
+    //获取已经开启答题功能的班级
+    public function getClassAclAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $uid = $_POST['uid'];
+            $tid = $_POST['tid'];
+            $testPaperAclTable = $this->getServiceLocator()->get('TestPaperAclTable');
+            $result = $testPaperAclTable->getTestPaperByTestPaper($uid,$tid);
+            echo json_encode($result);
+            die();
+        } else {
+            echo "error";
+        }
+    }
+    
+    
     // 添加试卷
     public function addAction()
     {

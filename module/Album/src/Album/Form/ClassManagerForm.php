@@ -21,29 +21,23 @@ class ClassManagerForm extends Form{
         $this->add($classCheck);    
         
         
-//         $carNum=new Element\Text('carNum');
-//         $carNum->setLabel('车牌号');
-//         $this->add($carNum);
+        $classSelect = new Element\Select('classSelect');
+        $classSelect->setLabel('classSelect');
+        $classSelect->setAttribute('multiple', 'multiple   ');
+        $classSelect->setAttribute('class', 'classSelect');
+        $classSelect->setAttribute('id', 'classSelect');
+        $this->add($classSelect);
         
-//         $address=new Element\Text('address');
-//         $address->setLabel('车辆停放地点');
-//         $this->add($address);
+        
+        $classSelected = new Element\Select('classSelected');
+        $classSelected->setLabel('classSelected');
+        $classSelected->setAttribute('multiple', 'multiple   ');
+        $classSelected->setAttribute('class', 'classSelect');
+        $classSelected->setAttribute('id', 'classSelected');
+        $this->add($classSelected);
         
         
-//         $year = new Element\Month('year');
-//         $year->setOptions(array(
-//         		'label'    => '入学时间',
-//         )
-            
-//         );
-//         $this->add($year);
         
-//         $time = new Element\Time('time');
-//         $time->setOptions(array(
-//         		'label'    => '用车时间',
-//         )
-//         );
-//         $this->add($time);
         
         /* classType */
         $classType = new Element\Select('classType');
@@ -58,7 +52,7 @@ class ClassManagerForm extends Form{
         $this->add($classType);
         
         $submit=new Element\submit('submit');
-        $submit->setValue('Submit');
+        $submit->setAttribute('id', 'classSelectSubmit')->setAttribute('value', ' 保存');
         $this->add($submit);
     }
     

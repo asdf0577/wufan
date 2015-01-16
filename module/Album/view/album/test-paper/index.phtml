@@ -1,4 +1,5 @@
-<?php  $this->headScript()->appendFile($this->basePath() . '/js/testPaper-ui2.js','text/javascript');?>
+ <?php  $this->headScript()->appendFile($this->basePath() . '/js/testPaper-ui2.js','text/javascript')
+ ->appendFile($this->basePath() . '/js/testPaper-acl.js','text/javascript');?>
 <div id="testContent">
 
 	<table class="table">
@@ -36,18 +37,41 @@
 		</tr>
          <tr class = subTr>
             <td class = 'afterTrTd' colspan=7>
+                  <div class ='classAcl'>
                     <?php 
                     $form->prepare();
-                    $form->setAttribute('action',$this->url('Question',array('action'=>'createAcl')));
-                    $form->setAttribute('method','post');
+                    $form->setAttribute('name','classAcl');
                     echo $this->form()->openTag($form);
-                    
                     echo "<input type='hidden' name = 'tid' value ='".$TestPaper->id."'>";
                     echo "<input type='hidden' name = 'uid' value ='".$identity->id."'>";
                     echo $this->formelement($form->get('classCheck'));
-                    echo $this->formelement($form->get('submit'));
+                    echo $this->formelement($form->get('submit')->setAttribute('id','classSelectSubmit'));
                     echo $this->form()->closeTag();
                     ?>
+                    </br>
+                    <span>此处显示已经开启答题功能的班级列表</br>
+                    如果取消则删除该班级及班级学生所有</br>有关该试卷的资料</br>
+                    如果仅关闭该试卷对于该班级的答题功</br>能，请在右边选择框取消
+                    </span>
+                   </div>  
+                  <div class ='classAcl'>
+                    <?php 
+                    $form->prepare();
+                    $form->setAttribute('name','classAclStatus');
+                    echo $this->form()->openTag($form);
+                    echo "<input type='hidden' name = 'tid' value ='".$TestPaper->id."'>";
+                    echo "<input type='hidden' name = 'uid' value ='".$identity->id."'>";
+                    echo $this->formelement($form->get('classCheck'));
+                    echo $this->formelement($form->get('submit')->setAttribute('id','classAclStatus'));
+                 
+                    echo $this->form()->closeTag();
+                    ?>
+                    </br>
+                     <span>取消勾选则可以关闭本试卷对于该班级的</br>
+                     答题功能（同时对于该班不可见），不会</br>
+                     删除该试卷对于该班级及学生的所有资料
+                    </span>
+                   </div>  
              </td>
           </tr>	
 <?php endforeach;?>

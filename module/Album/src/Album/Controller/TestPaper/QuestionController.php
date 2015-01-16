@@ -87,7 +87,8 @@ class QuestionController extends AbstractActionController
             $testPaperTable = $this->getTestPaperTable();
             $TestPapers = array();
             foreach ($TestPaperIDs as $key => $TestPaperID){
-                $TestPapers[$key] =  $testPaperTable->getTestPaper($TestPaperID['tid']);
+                if($TestPaperID['status']==1){
+                $TestPapers[$key] =  $testPaperTable->getTestPaper($TestPaperID['tid']);}
             }
             return array('TestPapers'=>$TestPapers,'identity'=>$identity,);
         
@@ -95,7 +96,7 @@ class QuestionController extends AbstractActionController
     
     }
         
-
+//教师查看成绩统计页面
     public function teacherAction(){
         $auth = $this->getAuthService();
         if($auth->hasIdentity()){
@@ -128,15 +129,21 @@ class QuestionController extends AbstractActionController
     
     
     
-    //创建以班级为单位的错题列表，@todo 长长的名字怎么精简 
+    //创建以班级为单位的错题列表，@todo 为ACL 加入班级名
     public function createAclAction(){
         $request = $this->getRequest();
         if ($request->isPost()) {
             
             $tid = $_POST['tid'];
+            $string = $_POST['cid'];
+            $cids = explode(',', $string);
+
+//             debug::dump($cids);
+//             debug::dump($tid);
+//             die();
             $sm = $this->getServiceLocator();
             $testPaper = $sm->get('TestPaperTable')->getTestPaper($tid);
-            
+            $classNameTable = $sm->get('ClassNameTable');
             $wrongQusetionClass = new WrongQuestionClass();
             $wrongQusetionClassTable = $this->getWrongQuestionClassTable();
             $testPaperAcl = new TestPaperAcl();
@@ -146,26 +153,105 @@ class QuestionController extends AbstractActionController
             'tid'=>$tid,
             'uid'=>$_POST['uid'],   
             );
-            $classes = $_POST['classCheck'];
             $data= array(
                 'tid' => $tid,
             );
             
-            foreach ($classes as $class){
+            foreach ($cids as $cid){
                 for($i=1;$i<=$testPaper->questionAmount;$i++){
-                    $data['cid'] = $class;
+                    $data['cid'] = $cid;
                     $data['question_num'] = $i;
                     $wrongQusetionClass->exchangeArray($data);
                     $wrongQusetionClassTable->createQuestionClass($wrongQusetionClass);
                 }
-                $aclData['cid'] = $class;
+                $class_name = $classNameTable->getClassName($cid);
+                $aclData['cid'] = $cid;
+                $aclData['class_name'] = $class_name['year']."年-".$class_name['name'];
                 $testPaperAcl->exchangeArray($aclData);
+//                 debug::dump($testPaperAcl);
+//                 die();
                 $testPaperAclTable->addTestPaperAcl($testPaperAcl);
                 
             }
-         return $this->redirect()->toRoute(TestPaper,array('action'=>'index'));
+            echo"添加ACL成功";
+            die();
+//          return $this->redirect()->toRoute(TestPaper,array('action'=>'index'));
         }
     }
+    
+    public function changeAclStatusAction(){
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            
+            $tid = $_POST['tid'];
+            $uid = $_POST['uid'];
+            if(isset($_POST['classCheck'])){
+                $cids = $_POST['classCheck'];
+            }else{
+                $cids=array();
+            }
+            $sm = $this->getServiceLocator();
+            $testPaperAclTable = $sm->get('TestPaperAclTable');
+            $results = $testPaperAclTable->getTestPaperByTestPaper($uid,$tid);
+            $addCid = array();
+            foreach ($results as $key=>$value){
+                if($value['status']==0){
+                $addCid[$key] = $value['cid'];}
+            }
+            //交集
+            $addArray = array_intersect($cids, $addCid);
+            if(!empty($addArray)){
+            foreach ($addArray as $cid){
+                $testPaperAclTable->changeAclStatus($status=1,$cid,$tid);
+            }
+            }
+            $subCid = array();
+            foreach ($results as $key=>$value){
+                if($value['status']==1){
+                    $subCid [$key] = $value['cid'];}
+            }
+            $subArray = array_diff($subCid, $cids);
+            
+            if(!empty($subArray)){
+            foreach ($subArray as $cid){
+                $testPaperAclTable->changeAclStatus($status=0,$cid,$tid);
+            }
+            }
+            echo"success";
+            die();
+        
+        }
+    }
+    
+    public function deleteAclAction(){
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $tid = $_POST['tid'];
+            $uid = $_POST['uid'];
+            $string = $_POST['cid'];
+            $cids = explode(',', $string);
+            $sm = $this->getServiceLocator();
+            
+            $wrongQusetionClassTable = $this->getWrongQuestionClassTable();
+            $wrongQusetionUserTable = $this->getWrongQuestionUserTable();
+            $testPaperAclTable = $sm->get('TestPaperAclTable');
+    
+            foreach ($cids as $cid){
+                //删除学生记录
+                $wrongQusetionUserTable->deleteByClassAndTestPaper($cid,$tid);
+                //删除班级记录
+                $wrongQusetionClassTable->deleteByClassAndTestPaper($cid,$tid);
+                //删除ACL
+                $testPaperAclTable->deleteByClassAndTestPaper($cid,$tid,$uid);
+                
+        }
+            echo"删除ACL成功";
+            die();
+    }
+    
+    }
+    
+    
     //问题提交功能
     public function submitAction()
     {
@@ -256,23 +342,19 @@ class QuestionController extends AbstractActionController
     public function addProcessAction(){
         $request = $this->getRequest();
         if ($request->isPost()) {
-            //先判断是否存在该试卷该学生错题记录
-            $sm = $this->getServiceLocator();
-            $WrongQuestionUserTable = $this->getWrongQuestionUserTable();
             //获取班级id,试卷id，学生id，
-           
             $tid = $_POST['tid']; //testPaper_id
             $sid = $_POST['sid']; //student_id
-            $cid = $_POST['cid']; //class_id
-            
+            //先判断是否存在该试卷该学生错题记录
+            $WrongQuestionUserTable = $this->getWrongQuestionUserTable();
             $result = $WrongQuestionUserTable->getQuestionUser($tid,$sid);
             if(!$result){
                 //如果不存在，获取提交的错题编号、班级
+                $sm = $this->getServiceLocator();
+                $cid = $sm->get('StudentTable')->getStudent($sid)->cid;
                 $inputQuestions = $_POST['inputQuestions']; //question_num_id
-                
                 $nums = explode(",", $inputQuestions);
-              
-                //获取班级错题table，在班级错体表中添加数据
+                //获取班级错题table，在班级错体表中更新数据
                 $WrongQuestionClass = new WrongQuestionClass();
                 $WrongQuestionClassTable = $this->getWrongQuestionClassTable();
                 for($i=0;$i<sizeof($nums)-1;$i++){
@@ -285,10 +367,8 @@ class QuestionController extends AbstractActionController
                                 'tid' => $tid,
                                 'cid'=>$cid,
                             );
-                 
                             $WrongQuestionUser = new WrongQuestionUser();
                             $WrongQuestionUser->exchangeArray($data);
-                            
                             $WrongQuestionUserTable->saveWrongQuestion($WrongQuestionUser);
                 echo"success";
                 die();
@@ -306,17 +386,22 @@ class QuestionController extends AbstractActionController
            
     }
     
+    //获取已经提交过答案名单的同学
     public function intersect($cid,$tid){
         //获取提交过错误名单同学列表，获取同班学生列表
         $wrongQuestionUser = $this->getWrongQuestionUserTable()->getQuestionUserByClass($tid,$cid);
         $students = $this->getServiceLocator()->get('StudentTable')->getStudentsByClass($cid);
         $studentsArray = array();
-        //如果在错误列表中存在该班级同学
+        //如果在错误列表中存在该班级同学，则为输出的学生名单标记提交属性为1，未提交为0
         if($wrongQuestionUser){
+            //找出错题列表中的学生名单，组成一个集合
             $wrongUsers = array();
             for($i=0;$i<count($wrongQuestionUser);$i++){
                 $wrongUsers[$i] = $wrongQuestionUser[$i]['sid'];
             }
+            
+           //考虑使用array_intersect 和 array_diff
+            //循环全班学生列表，如果该学生在错题名单中，则设置提交属性为1
             foreach ($students as $student){
                     if(in_array($student['id'], $wrongUsers)){
                         $studentsArray[$student['id']]= array(
@@ -324,7 +409,9 @@ class QuestionController extends AbstractActionController
                             'name'=>$student['name'],
                             'submit'=>1,
                         );
-                    } else{
+                    } 
+                    //如果不在，如果该学生不在错题名单中，则设置提交属性为0
+                    else{
                         $studentsArray[$student['id']]= array(
                             'id'=>$student['id'],
                             'name'=>$student['name'],
@@ -342,15 +429,15 @@ class QuestionController extends AbstractActionController
     }
     return $studentsArray;
             }
+            
+        //获取学生    
     public function getStudentsAction()
     {
         $request = $this->getRequest();
         if ($request->isPost()) {
             $cid = $_POST['cid'];
-//             $cid = 2;
-            $tid = 39;
+            $tid = $_POST['tid'];
             $studentArray = $this->intersect($cid, $tid);
-//             debug::dump($studentArray);
             echo json_encode($studentArray);
             die();
         } else {
@@ -358,5 +445,22 @@ class QuestionController extends AbstractActionController
         }
     }
     
+     public function getQuestionDataAction(){
+
+         $request = $this->getRequest();
+         if ($request->isPost()) {
+             $sid = $_POST['sid'];
+             $tid = $_POST['tid'];
+             $questionData = $this->getWrongQuestionUserTable()->getQuestionData($tid,$sid);
+             $question = explode(",", $questionData['qid']);
+//              debug::dump($question);
+//              debug::dump($questionData);
+//              debug::dump($questionData);
+             echo json_encode($question);
+             die();
+         } else {
+             echo "error";
+         }
+     }
     
 }

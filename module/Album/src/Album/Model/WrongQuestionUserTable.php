@@ -33,6 +33,19 @@ class WrongQuestionUserTable{
             return $result;
         }
     }
+    public function getQuestionData($tid,$sid){
+    //查询是否存在记录
+        $result = $this->tableGateway->select(function (select $select) use ($tid,$sid){
+            //问题错在这里
+           $select->where(array(
+                'tid'=>$tid,
+                'sid'=>$sid,
+            ))->columns(array('qid'));;
+        })->current();
+        if($result){
+            return $result;
+        }
+    }
     public function getQuestionUserByClass($tid,$cid){
     //查询是否存在记录
         $result = $this->tableGateway->select(function (select $select) use ($tid,$cid){
@@ -49,12 +62,7 @@ class WrongQuestionUserTable{
         }
     }
     
-    public function getQuestionType($id){
-        $id = (int)$id;
-        $row = $this->tableGateway->select(array('id' =>$id))->current();
-        if(!$row){ throw new \Exception("Form id does not exist");}
-        return $row;
-    }
+    
     public function saveWrongQuestion($question)
     {
         $data = array(
@@ -77,11 +85,23 @@ class WrongQuestionUserTable{
             }
         }
     }
-    public function delete($id){
-        $id = (int)$id;
-        $this->tableGateway->delete(array('id'=>$id));
+    public function deleteByStudent($sid){
+        $sid = (int)$sid;
+        $this->tableGateway->delete(array('sid'=>$sid));
     }
     
+    public function deleteByTestPaper($tid){
+        $tid = (int)$tid;
+        $this->tableGateway->delete(array('tid'=>$tid));
+    }
     
+    public function deleteByClassAndTestPaper($cid,$tid){
+        $tid = (int) $tid;
+        $cid = (int) $cid;
+        $this->tableGateway->delete(array(
+            'tid' => $tid,
+            'cid'=>$cid,
+        ));
+    }
     
 }

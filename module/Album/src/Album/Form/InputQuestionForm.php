@@ -17,6 +17,7 @@ class InputQuestionForm extends Form{
         
         $cid = new Element\Select('cid');
         $cid->setEmptyOption('选择班级');
+        $cid->setAttribute('id', 'classChange');
         $this->add($cid);
         
         $question = new Element\Textarea('question');
