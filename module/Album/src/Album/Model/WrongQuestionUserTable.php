@@ -40,7 +40,7 @@ class WrongQuestionUserTable{
            $select->where(array(
                 'tid'=>$tid,
                 'sid'=>$sid,
-            ))->columns(array('qid'));;
+            ))->columns(array('qids'));;
         })->current();
         if($result){
             return $result;
@@ -69,9 +69,11 @@ class WrongQuestionUserTable{
             'tid' => $question->tid,
             'cid' => $question->cid,
             'sid' => $question->sid,
-            'qid' => $question->qid,
+            'qids' => $question->qids,
             'submit_time'=>date('Y-m-d H:i:s'),
         );
+//         print_r($data);
+//         die();
         $id = (int)$question->id;
         if($id == 0)
         {
@@ -85,6 +87,33 @@ class WrongQuestionUserTable{
             }
         }
     }
+    
+    public function update($tid,$cid,$qids,$sid){
+    
+        $result = $this->tableGateway->select(function (select $select) use ($tid,$cid,$sid){
+            //问题错在这里
+            $select->where(array(
+                'tid'=>$tid,
+                'cid'=>$cid,
+                'sid'=>$sid,
+    
+            ));
+             
+        })->current();
+        if($result){
+            $this->tableGateway->update(array(
+                'qids'=>$qids,
+                'edit_time'=>date('Y-m-d H:i:s'),
+            ),array('id'=>$result->id));
+            return"更新成功";
+        }
+        else{
+            throw  new \Exception("id does not exist") ;
+        }
+    
+    }
+    
+    
     public function deleteByStudent($sid){
         $sid = (int)$sid;
         $this->tableGateway->delete(array('sid'=>$sid));

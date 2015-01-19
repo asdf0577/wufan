@@ -338,53 +338,97 @@ class QuestionController extends AbstractActionController
         $view->addChild($viewSidebar, 'sidebar');
         return $view;
     }
+    
+    
+    
+ 
+    
+    public function insertQuestionClass($tid,$sid,$qid,$cid){
+        if(!isset($cid)){
+            $cid = $this->getServiceLocator()->get('StudentTable')->getStudent($sid)->cid;
+        }
+        
+       
+    }
   
     public function addProcessAction(){
         $request = $this->getRequest();
         if ($request->isPost()) {
-            //获取班级id,试卷id，学生id，
+            //获取班级id,试卷id，学生id， 
             $tid = $_POST['tid']; //testPaper_id
             $sid = $_POST['sid']; //student_id
+            
             //先判断是否存在该试卷该学生错题记录
             $WrongQuestionUserTable = $this->getWrongQuestionUserTable();
+            
             $result = $WrongQuestionUserTable->getQuestionUser($tid,$sid);
-            if(!$result){
-                //如果不存在，获取提交的错题编号、班级
-                $sm = $this->getServiceLocator();
-                $cid = $sm->get('StudentTable')->getStudent($sid)->cid;
-                $inputQuestions = $_POST['inputQuestions']; //question_num_id
-                $nums = explode(",", $inputQuestions);
-                //获取班级错题table，在班级错体表中更新数据
-                $WrongQuestionClass = new WrongQuestionClass();
-                $WrongQuestionClassTable = $this->getWrongQuestionClassTable();
-                for($i=0;$i<sizeof($nums)-1;$i++){
-                    $WrongQuestionClassTable->updateWrongQuestionClass($tid, $cid,$nums[$i], $sid);
-                }
-                //获取学生错题表
-                            $data = array(
-                                'sid' => $sid,
-                                'qid' => $inputQuestions,
-                                'tid' => $tid,
-                                'cid'=>$cid,
-                            );
-                            $WrongQuestionUser = new WrongQuestionUser();
-                            $WrongQuestionUser->exchangeArray($data);
-                            $WrongQuestionUserTable->saveWrongQuestion($WrongQuestionUser);
-                echo"success";
-                die();
+            $sm = $this->getServiceLocator();
+                if(!$result){
+                    //如果不存在，获取提交的错题编号、班级
+                    $cid = $sm->get('StudentTable')->getStudent($sid)->cid;
+                     //question_num_id
+                    $inputQuestions = $_POST['inputQuestions'];
+                    $nums = explode(",", $inputQuestions);
+                    //获取班级错题table，在班级错体表中更新数据
+                    $WrongQuestionClassTable = $this->getWrongQuestionClassTable();
+                    for($i=0;$i<sizeof($nums)-1;$i++){
+                        $WrongQuestionClassTable->addWrongQuestionClass($tid, $cid,$nums[$i], $sid);
+                    }
+                    //获取学生错题表
+                    $data = array(
+                        'sid' => $sid,
+                        'qids' => $inputQuestions,
+                        'tid' => $tid,
+                        'cid'=>$cid,
+                    );
+                    $WrongQuestionUser = new WrongQuestionUser();
+                    $WrongQuestionUser->exchangeArray($data);
+                    $WrongQuestionUserTable->saveWrongQuestion($WrongQuestionUser);
+                    echo"success";
+                    die();
                 }
                 else {
                     echo "已经存在记录";
                     die();
                 }
-                
-                
-                
             }
-            
-            
            
     }
+    public function updateProcessAction(){
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            //获取班级id,试卷id，学生id， 
+            $sm = $this->getServiceLocator();
+            $tid = $_POST['tid']; //testPaper_id
+            $sid = $_POST['sid']; //student_id
+            $cid = $sm->get('StudentTable')->getStudent($sid)->cid;
+            $inputQuestions = $_POST['inputQuestions'];
+            $WrongQuestionUserTable = $this->getWrongQuestionUserTable();
+            $result = $WrongQuestionUserTable->getQuestionUser($tid,$sid);
+           
+                    $inputArray = explode(",", $inputQuestions);
+                    $oldData = explode(",", $result->qids);
+                    $addArray = array_diff($inputArray, $oldData);
+                    $subArray = array_diff($oldData, $inputArray);
+                    $WrongQuestionClassTable = $sm->get('WrongQuestionClassTable')   ;
+                    if(!empty($addArray)){
+                        for($i=0;$i<sizeof($addArray);$i++){
+                            $WrongQuestionClassTable->addWrongQuestionClass($tid, $cid,$addArray[$i], $sid);
+                        }
+                        echo"增加成功";
+                    }
+                    if(!empty($subArray)){
+                       
+                        foreach ($subArray as $question_num){
+                            $WrongQuestionClassTable->subWrongQuestionClass($tid, $cid, $question_num, $sid);
+                        }
+                        echo"删除成功";
+                    }
+                    $WrongQuestionUserTable->update($tid,$cid,$inputQuestions,$sid);
+                    die();
+            }
+            }
+
     
     //获取已经提交过答案名单的同学
     public function intersect($cid,$tid){
@@ -452,7 +496,9 @@ class QuestionController extends AbstractActionController
              $sid = $_POST['sid'];
              $tid = $_POST['tid'];
              $questionData = $this->getWrongQuestionUserTable()->getQuestionData($tid,$sid);
-             $question = explode(",", $questionData['qid']);
+             $question = explode(",", $questionData['qids']);
+             //删除最后一个元素
+             array_pop($question);
 //              debug::dump($question);
 //              debug::dump($questionData);
 //              debug::dump($questionData);

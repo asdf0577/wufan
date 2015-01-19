@@ -5,8 +5,9 @@ class WrongQuestionUser {
     public $sid;//student_id
     public $cid;//student_id
     public $tid;//testPaper_id
-    public $qid;//testPaper_id
+    public $qids;//wrong_question_ids
     public $submit_time;//testPaper_id
+    public $edit_time;//testPaper_id
     
     public function exchangeArray($data)
     {
@@ -15,7 +16,7 @@ class WrongQuestionUser {
         $this->tid = (isset($data['tid'])) ? $data['tid'] : null;
         $this->cid = (isset($data['cid'])) ? $data['cid'] : null;
         $this->sid = (isset($data['sid'])) ? $data['sid'] : null;
-        $this->qid = (isset($data['qid'])) ? $data['qid'] : null;
+        $this->qids = (isset($data['qids'])) ? $data['qids'] : null;
     }
     public function getArrayCopy()
     {
