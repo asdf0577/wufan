@@ -20,7 +20,7 @@ use Album\Form\KnowledgeForm;
  *
  */
 class TestPaperController extends AbstractActionController
-{
+{ 
 
     protected $TestPaperTable;
 
