@@ -405,11 +405,13 @@ class QuestionController extends AbstractActionController
             $inputQuestions = $_POST['inputQuestions'];
             $WrongQuestionUserTable = $this->getWrongQuestionUserTable();
             $result = $WrongQuestionUserTable->getQuestionUser($tid,$sid);
-           
+            debug::dump($result);
                     $inputArray = explode(",", $inputQuestions);
                     $oldData = explode(",", $result->qids);
                     $addArray = array_diff($inputArray, $oldData);
                     $subArray = array_diff($oldData, $inputArray);
+                    debug::dump($addArray);
+                    debug::dump($subArray);
                     $WrongQuestionClassTable = $sm->get('WrongQuestionClassTable')   ;
                     if(!empty($addArray)){
                         for($i=0;$i<sizeof($addArray);$i++){

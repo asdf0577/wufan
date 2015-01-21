@@ -28,7 +28,7 @@ echo $this->headScript()
             'conditional' => 'lt IE 9'))
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js') 
-            ->appendFile($this->basePath() . '/js/login.js','text/javascript')            
+            ->appendFile($this->basePath() . '/js/testPaper-index.js','text/javascript')            
             ->appendFile($this->basePath() . '/js/testPaper-submit.js','text/javascript')            
             ->appendFile($this->basePath() . '/js/jquery-ui-1.9.2.custom.min.js','text/javascript')            
         ?>
@@ -112,7 +112,7 @@ echo $this->headScript()
 					<span class="testPaperCataInfoSpan">
 						<h3>
 							<a
-								href="<?php echo $this->url('ClassManager',array('action'=>'index'));?>">班级设置</a>
+								href="<?php echo $this->url('ClassManager',array('action'=>'index'));?>">班级|学生设置</a>
 						</h3>
 					</span>
 					<div class="testPaperSubitem">
@@ -125,7 +125,7 @@ echo $this->headScript()
 								<a href="<?php echo $this->url('Student',array('action'=>'add'));?>">新生录入</a>
 							</h3>
 							<h3>
-								<a href="#">xls录入</a>
+								<a href="<?php echo $this->url('Student',array('action'=>'csv'));?>">批量录入</a>
 							</h3>
 							<h3>
 								<a href="#">个体分析</a>

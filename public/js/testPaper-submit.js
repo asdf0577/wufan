@@ -178,10 +178,10 @@ $(function(){
 	           url: "../updateProcess",
 	           data: data,
 	           success:function(data){
-	        	 alert(data);  
+	        	 console.log(data);
 	           },
 	           error:function(data){
-	        	   alert(data);
+	        	   console.log(data);
 	           }
 	         });
 		 return false;	

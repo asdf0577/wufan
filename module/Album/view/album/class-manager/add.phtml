@@ -1,6 +1,4 @@
-<?php  $this->headScript()->appendFile($this->basePath() . '/js/selectbox.js','text/javascript');?>
-<?php  $this->headScript()->appendFile($this->basePath() . '/js/jquery-ui-1.9.2.custom.min.js','text/javascript');?>
-
+<?php echo $this->headScript()->appendFile($this->basePath() . '/js/testPaper-addClass.js','text/javascript');?>
 <h3>增加班级</h3>
 <?php
 $form = $this->form;
@@ -31,13 +29,13 @@ echo $this->form()->openTag($form);
         echo $this->formelementerrors($form->get('classType'));
         ?>
         </dd>
-			
-		 <dt><?php echo $this->formlabel($form->get('year'));?></dt>
-        <dd>
-         <?php
-        echo  $this->formelement($form->get('year'));
+        <dt><?php echo $this->formlabel($form->get('year'));?></dt>
+			<dd>
+        <?php
+        echo $this->formelement($form->get('year'));
         ?>
         </dd>
+			
 <?php
         echo $this->formelement($form->get('submit'));?>
 		</div>

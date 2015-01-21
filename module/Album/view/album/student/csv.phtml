@@ -1,0 +1,30 @@
+
+ <?php  $this->headScript()->appendFile($this->basePath() . '/js/testPaper-csv.js','text/javascript');?>
+<div id="testContent">
+上传CSV文档建立学生数据库
+<?php 
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('action',$this->url(Null,array('controller'=>'Student','action'=>'csv')));
+$form->setAttribute('method','post');
+echo $this->form()->openTag($form);
+?>
+
+<?php echo $this->formelement($form->get('CSVUpload'))?>
+
+<?php echo $this->formelement($form->get('submit'));?>
+
+<?php echo $this->form()->closeTag();?>
+<table class= "table" style ="display:none">
+<tr >
+<td>角色</td>
+<td>姓名</td>
+<td>性别</td>
+<td>学号</td>
+
+</tr>
+
+
+</table>
+
+</div>

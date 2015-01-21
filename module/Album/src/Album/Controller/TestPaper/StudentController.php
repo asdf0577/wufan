@@ -6,6 +6,7 @@ use Zend\View\Model\ViewModel;
 use Zend\debug\Debug;
 use Album\Model\ClassName;
 use Album\Model\Student;
+use Album\Form\CSVUploadForm;
 
 /**
  * TestPaperController
@@ -137,6 +138,38 @@ class StudentController extends AbstractActionController
          $type = 'sub';
          $this->getClassNameTable()->studentAmount($cid,$type); 
         return $this->redirect()->toRoute('ClassManager',array('action'=>'detail','id'=>$cid));
+    }
+    
+    
+    public function csvAction(){
+        
+        $form = new CSVUploadForm();
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $uploadFile = $this->params()->fromFiles('CSVUpload');
+//             debug::dump($uploadFile);
+            if($uploadFile){
+                $studentList =array();
+                $n=0;
+                ini_set('auto_detect_line_endings', TRUE);
+                $handle = fopen($uploadFile['tmp_name'], 'r');
+              while( ($data = fgetcsv($handle,1000,","))!==false){
+                for($i=0;$i<count($data);$i++){
+                    $studentList[$n][$i] = iconv('gb2312', 'utf-8', $data[$i]);
+                }
+                $n++;
+              }
+              fclose($handle);
+              ini_set('auto_detect_line_endings', FALSE);
+//               debug::dump($studentList);
+             echo json_encode($studentList);
+                die();
+            }else{
+                debug::dump("NOfiel");
+                die();
+            }
+        }
+        return array("form"=>$form);
     }
 }
     

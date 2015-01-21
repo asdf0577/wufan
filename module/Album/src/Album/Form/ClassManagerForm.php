@@ -17,6 +17,14 @@ class ClassManagerForm extends Form{
         $name->setLabel('班级名称');
         $this->add($name);
         
+        
+//         year
+        $year = new Element\Select('year');
+        $year ->setLabel('入学时间');
+        $this->add($year);
+        
+        
+        
         $classCheck = new Element\MultiCheckbox('classCheck');
         $this->add($classCheck);    
         
