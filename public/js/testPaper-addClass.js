@@ -413,7 +413,7 @@ $(function(){
 				data:data,
 				success: function(list) {
 					alert(list);
-					window.location.href="http://www.wufan.com/album/class-manager";
+					window.location.href="http://www.test.com/album/class-manager";
 				}
 			});
 			return false;
