@@ -395,7 +395,7 @@ $(function(){
 			var year = td.eq(1).text();
 			var tips = "<span>如果您要删除<bold>"+year+"-"+name+"</bold>及该班所有学生资料，请输入密码</span></br>";
 			var buttonID = 'deleteConfirm';
-			var location = $(this);
+			var location = $(this).parent();
 			confirmBox(tips,uid,cid,buttonID,location);
 			return false;
 		});
