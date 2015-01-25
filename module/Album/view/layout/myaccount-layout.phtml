@@ -35,18 +35,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Communication Application') ?></a>
+                    <a class="brand" href="<?php echo $this->url('TestPaper') ?>"><?php echo $this->translate('错题集') ?></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <!--  <li ><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>  -->
-							<li ><a href="<?php echo $this->url('groupchat') ?>"><?php echo $this->translate('Group chat') ?></a></li>                            		                        
-							<li ><a href="<?php echo $this->url('usermanager') ?>"><?php echo $this->translate('User') ?></a></li>                            		                        
-							<li ><a href="<?php echo $this->url('uploadmanager') ?>"><?php echo $this->translate('Upload') ?></a></li>
-							<li ><a href="<?php echo $this->url('Storeadmin', array('action' => 'addproduct')) ?>"><?php echo $this->translate('Add Product  ') ?></a></li>
-							<li ><a href="<?php echo $this->url('album/login', array('action' => 'logout')) ?>"><?php echo $this->translate('Logout') ?></a></li>				
 							<li ><a href="<?php echo $this->url('TestPaper') ?>"><?php echo $this->translate('试卷') ?></a></li>				
-							<li ><a href="<?php echo $this->url('store') ?>"><?php echo $this->translate('商城') ?></a></li>				
-							<li ><a href="<?php echo $this->url('TestPaper', array('action' => 'wash')) ?>"><?php echo $this->translate('洗车') ?></a></li>				
+							<li><a href="<?php echo $this->url('Logining',array('action'=>'logout')) ?>"><?php echo $this->translate('登出') ?></a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -56,7 +49,7 @@
             <?php echo $this->content; ?>
            
         </div>
-         <div id="sidebar">
+         <div class="editSideBar">
             <?php echo $this->sidebar ;?>
          </div>
          <!-- /container -->

@@ -22,11 +22,11 @@ $(function(){
 			genderSelect ="<option value = '1' >男</option>"+
 		      			"<option value = '2'>女</option></select>";
 		}
-		if(gender = 1){
+		if(gender == 1){
 			genderSelect ="<option value = '1' selected >男</option>"+
 					      "<option value = '2'>女</option></select>";
 		}
-		if(gender = 2){
+		if(gender == 2){
 			genderSelect ="<option value = '1' >男</option>"+
 			"<option value = '2' selected>女</option></select>";
 		}
@@ -60,15 +60,18 @@ $(function(){
 		if(cid == undefined){
 			cid = "";
 		}
+		console.log(sid);
 		var editButton;
 		editButton = "<input type ='submit'name='saveEditCSV' value ='保存'>";
 		
-		if(csv == undefined&&sid == ""){
-			editButton = "<input type ='submit'name='saveEditStudent' value ='添加'>";
-		}
 		if(csv == undefined){
 			editButton ="<input type ='submit'name='saveEditStudent' value ='更新'>";
 		}
+		
+		if(csv == undefined && sid == ""){
+			editButton = "<input type ='submit'name='saveEditStudent' value ='添加'>";
+		}
+		
 		var addTR = hidden+"<td ='afterTrTd' colspan=7>" +
 		"性别 <select class ='addStudentName'name = 'gender' value='"+gender+"'>" +genderSelect+
 		"学号<input type ='text'  class ='addStudentName'name = 'studentNum' value ='"+studentNum+"'>" +
@@ -162,6 +165,7 @@ $(function(){
 		var	sid = that.find("input[name='sid']").val();
 		console.log(sid);
 		var gender= that.find("select[name='gender']").val();
+		var genderText= that.find("select[name='gender']").find("option:selected").text();
 		var studentNum= that.find("input[name='studentNum']").val();
 		var name= that.find("input[name='name']").val();
 		var role= that.find("select[name='role']").val();
@@ -173,15 +177,18 @@ $(function(){
 			data = "cid="+cid+"&gender="+gender+"&studentNum="+studentNum+"&name="+name+"&role="+role;
 			callbackType = 1;
 		}
+		
+		console.log(callbackType);
 		$.ajax({
        	  url: "../album/Student/addProcess",
        	  data: data,
             type: "POST",
             success:function(data){
-            	console.log(data);
+            	
             	//如果是更新操作，则删除当前添加窗口，显示被隐藏的信息栏并填充添加的信息
-            	if(callbackType = 0){
-            		prev.find("td:eq(0)").text(gender);
+            	if(callbackType == 0){
+            		alert("更新成功");
+            		prev.find("td:eq(0)").text(genderText);
             		prev.find("td:eq(2)").text(name);
             		prev.find("td:eq(1)").text(studentNum);
             		prev.find("td:eq(5)").text(role);
@@ -189,9 +196,11 @@ $(function(){
             		that.remove();
             	}else{
             	//如果是新增操作，则删除当前添加窗口，并添加一行 	
+            		alert("添加成功");
+            		window.location.href="http://www.wufan.com/album/class-manager";
             	}
-//            	alert("提交成功");
-//        		window.location.href="http://www.wufan.com/album/class-manager";
+//            	
+//        		
             },
         });
 	});
@@ -227,6 +236,8 @@ $(function(){
 	$('body').on("click","a[title='editStudent']",function(){
 	 	var that =$(this).parent().parent();
 	 	var gender = that.find("td:eq(0)").text();
+	 	
+	 	
 	 	if(gender =="男"){
 	 		gender =1;
 	 	}else{
@@ -235,25 +246,16 @@ $(function(){
 	 	var name = that.find("td:eq(2)").text();
 	 	var studentNum = that.find("td:eq(1)").text();
 	 	var role = that.find("td:eq(5)").text();
-	 	console.log(gender);
-	 	console.log(name);
-	 	console.log(studentNum);
-	 	console.log(role);
-	 	
 	 	
 	 	//如果没有sid，说明是编辑导入的列表，更改最后的连接为保存当前编辑框
 	 	var sid = that.find("input[name='sid']").val();
-	 	console.log(sid);
-//	 	return false;
 	 	
 	 	var cid = that.parent().parent().parent().parent().prev().find("input[name='cid']").val();
 	 	var hidden="<tr>",TR;
 	 	if(sid == undefined){
 	 		var csv = 1;
-	 		alert("undefind");
 		 	 TR = addTR(cid,hidden,gender,studentNum,name,role,sid,csv);
 	 	} else {
-	 		alert("defind");
 		 	 TR = addTR(cid,hidden,gender,studentNum,name,role,sid)
 	 	}
 	 	

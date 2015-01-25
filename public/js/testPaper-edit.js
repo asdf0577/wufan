@@ -1,5 +1,9 @@
 $(function(){
 		//点击知识点TD块显示知识点选择框
+	
+		$("#sidebar").addClass("editSideBar");
+	
+	
 		$("td.showType").click(function(){
 			$(this).parent().next().toggle(300);})
 		

@@ -505,7 +505,15 @@ left: 110px;
 width: 100px;
 position:fixed;
 }
-
+.editSideBar{
+	display: block;
+top: 100px;
+right: 10px;
+width: 50px;
+position:fixed;
+	
+	
+}
 /*
  * ajax跳出页面
 */
