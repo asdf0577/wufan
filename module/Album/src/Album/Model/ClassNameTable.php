@@ -11,9 +11,9 @@ class ClassNameTable{
     {
         $this->tableGateway = $tableGateway;
     }
-    
-    public function fetchAll(){
-        $resultSet = $this->tableGateway->select()->toArray();
+    public function fetchAll()
+    {
+        $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
     
@@ -21,8 +21,6 @@ class ClassNameTable{
       $resultSet = $this->tableGateway->select(array('uid'=>$uid))->toArray();
         return $resultSet;
     }
-    
-    
     public function getClassName($id){
         $id=(int)$id;
         $result=$this->tableGateway->select(array('id'=>$id));
@@ -36,6 +34,8 @@ class ClassNameTable{
     public function saveClassName($className)
     {
         $data = array(
+            'uid'=>$className->uid,
+            'comrade'=>$className->comrade,
             'name'=>$className->name,
             'year'=>$className->year,//如何转换格式
             'class_type'=>$className->classType,
@@ -63,11 +63,10 @@ class ClassNameTable{
             }
         }
     }
-    public function delete($tid){
-    	$tid = (int)$tid;
-    	$this->tableGateway->delete(array('id'=>$tid));
+    public function delete($id){
+    	$id = (int)$id;
+    	$this->tableGateway->delete(array('id'=>$id));
     }
-    
     public function studentAmount($cid,$type){
         $cid=(int)$cid;
         $result=$this->getClassName($cid);

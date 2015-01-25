@@ -3,6 +3,7 @@ namespace Album\Model;
 
 use Album\Model\Student;
 use Zend\Db\TableGateway\TableGateway;
+use ZendGData\YouTube\Extension\Gender;
 
 class StudentTable{
     protected $tableGateway;
@@ -34,11 +35,17 @@ class StudentTable{
     }
     public function saveStudent($Student)
     {
+        $gender = $Student->gender;
+        switch ($gender){
+            case "男":$gender=1;break;
+            case "女":$gender=2;break;
+        }
         $data = array(
                 'name'=>$Student->name,            
-                'gender'=>$Student->gender,            
+                'gender'=>$gender,            
                 'cid'=>$Student->cid,            
                 'studentNum'=>$Student->studentNum,            
+                'role'=>$Student->role,            
                 'password'=>md5($Student->studentNum),            
         );
         $id = (int)$Student->id;
@@ -46,11 +53,11 @@ class StudentTable{
         {
             $this->tableGateway->insert($data);  
         }else{
-            if($this->gettestPaper($id)){
+            if($this->getStudent($id)){
                 $this->tableGateway->update($data,array('id' => $id));
             }else 
             {
-                throw new \Exception("Form id does not exist");
+                throw new \Exception("该id不存在");
             }
         }
     }

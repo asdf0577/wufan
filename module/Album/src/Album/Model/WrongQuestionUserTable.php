@@ -23,7 +23,6 @@ class WrongQuestionUserTable{
     public function getQuestionUser($tid,$sid){
     //查询是否存在记录
         $result = $this->tableGateway->select(function (select $select) use ($tid,$sid){
-            //问题错在这里
            $select->where(array(
                 'tid'=>$tid,
                 'sid'=>$sid,
@@ -36,7 +35,6 @@ class WrongQuestionUserTable{
     public function getQuestionData($tid,$sid){
     //查询是否存在记录
         $result = $this->tableGateway->select(function (select $select) use ($tid,$sid){
-            //问题错在这里
            $select->where(array(
                 'tid'=>$tid,
                 'sid'=>$sid,
@@ -62,7 +60,14 @@ class WrongQuestionUserTable{
         }
     }
     
+    public  function getTestPaperByUser($sid){
+        $result = $this->tableGateway->select(array('sid'=>$sid))->toArray();
+        return $result;
+    }
     
+    
+    
+    //保存记录
     public function saveWrongQuestion($question)
     {
         $data = array(
@@ -72,8 +77,6 @@ class WrongQuestionUserTable{
             'qids' => $question->qids,
             'submit_time'=>date('Y-m-d H:i:s'),
         );
-//         print_r($data);
-//         die();
         $id = (int)$question->id;
         if($id == 0)
         {
@@ -87,7 +90,7 @@ class WrongQuestionUserTable{
             }
         }
     }
-    
+    //更新记录
     public function update($tid,$cid,$qids,$sid){
     
         $result = $this->tableGateway->select(function (select $select) use ($tid,$cid,$sid){
@@ -113,7 +116,7 @@ class WrongQuestionUserTable{
     
     }
     
-    
+    //根据学生id删除记录
     public function deleteByStudent($sid){
         $sid = (int)$sid;
         $this->tableGateway->delete(array('sid'=>$sid));

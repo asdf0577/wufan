@@ -811,7 +811,14 @@ td.showType{
 input#addkonwledge{
 	width:130px;
 }
-
+.addStudentName{width:80px;}
+#addstudentbutton{display:none;}
+.tdButton{
+	padding:5px;
+	color:white;
+	background-color:#666666;
+	
+}
 
 
 
@@ -939,16 +946,7 @@ NoticeInfo li a:hover{
 	width:500px;
 }
 #tooltips2{
-	/*
-padding:10px 10px 10px 10px;
-	position:absolute;
-	color:#333;
-	border:1px solid #333;
-	display:none;
-	width:250px;
-	height:400px;
-	background-color:#c0c0c0;
-*/
+
 display: none;
     width: 750px;
 	height:366px;
@@ -958,6 +956,22 @@ display: none;
     position: absolute;
     top: 20%;
     left: 50%;
+    margin-left: -25%;
+	background-color:#F2F1F1;
+	border-radius:5px;
+	box-shadow: 10px 10px 10px 2px #b6b6b6;
+	padding:15px 15px 0 15px;
+}
+#tooltips3{
+	display: none;
+    width: 250px;
+	height:150px;
+    padding: 10px 10px 20px 10px;
+    min-height: 6em;
+    border:1px solid #ccc;
+    position: absolute;
+    top: 20%;
+    left: 70%;
     margin-left: -25%;
 	background-color:#F2F1F1;
 	border-radius:5px;
@@ -1152,6 +1166,26 @@ div#loginingContent{
 div#panel{
 	color:white;
 }
-
-
+table#CSVtable{
+	background-color:#ccc;
+}
+#CSVframe{
+display: none;
+    width: 750px;
+	height:500px;
+    padding: 0.5em;
+    min-height: 6em;
+    border:1px solid #ccc;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-left: -25%;
+	background-color:#F2F1F1;
+	border-radius:5px;
+	box-shadow: 10px 10px 10px 2px #b6b6b6;
+	padding:15px 15px 0 15px;
+}
+input#CSVsubmit{
+	display:none;
+}
 

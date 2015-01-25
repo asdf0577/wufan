@@ -11,6 +11,7 @@ use Album\Form\QuestionForm;
 use Album\Form\ClassManagerForm;
 use Album\Model\Question;
 use Album\Model\ClassName;
+use Zend\Validator\InArray;
 
 /**
  * TestPaperController
@@ -26,7 +27,7 @@ class ClassManagerController extends AbstractActionController
     
     protected $ClassNameTable;
 
-    protected $StudentTable;
+    protected $StudentTable;    
 
     public function getClassNameTable()
     {
@@ -67,28 +68,26 @@ class ClassManagerController extends AbstractActionController
     public function addAction()
     {
         $form = new ClassManagerForm('ClassManager');
-        
+
+        $auth = $this->getAuthService();
+        $identity = $auth->getIdentity();
         $request = $this->getRequest();
         
         if ($request->isPost()) {
             $data = $request->getPost();
             $className = new ClassName();
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()) {
-                $validData = $form->getData();
-                $className->exchangeArray($validData);
-                $classNameTable = $this->getClassNameTable;
-                $classNameTable->saveClassName($className);
-                return $this->redirect()->toRoute('ClassManager', array(
-                    'action' => index
-                ));
+            $className->exchangeArray($data);
+            $classNameTable = $this->getServiceLocator()->get('ClassNameTable');
+            $classNameTable->saveClassName($className);
+            return $this->redirect()->toRoute('ClassManager', array(
+                'action' => index
+            ));
             }
-        }
-        $viewModel = new viewModel();
-        $viewModel->setVariables(array(
-            'form' => $form
+        $viewModel = new viewModel(array(
+            'form' => $form,
+            'identity'=>$identity,
         ));
+        $viewModel->setTerminal(true);
         return $viewModel;
     }
     
@@ -126,11 +125,95 @@ class ClassManagerController extends AbstractActionController
     }
     // 删除
     public function deleteAction()
-    {
-        $tid = (int) $this->params()->fromRoute('id');
-        $this->getQuestionTable()->delete($tid);
-        $this->getTestPaperTable()->delete($tid);
-        return $this->redirect()->toRoute('TestPaper');
+    {   
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $password = $_POST['password'];
+            $uid = $_POST['uid'];
+            $studentTable = $this->getStudentTable();
+            $user =  $studentTable->getStudent($uid);
+            //校验密码，确认是用户操作
+            if(md5($password) == $user->password){
+                $cid = $_POST['cid'];
+                $classNameTable = $this->getClassNameTable();
+                //查找班级，确认是用户名下的班级
+                $class =  $classNameTable->getClassName($cid);
+                if($class->uid == $uid){
+                    $sm =$this->getServiceLocator();
+                    
+                    $wrongQuestionUserTable = $sm->get('WrongQuestionUserTable');
+                    $wrongQuestionClassTable = $sm->get('WrongQuestionClassTable');
+//                     $students = $studentTable->getStudentsByClass($cid);
+                    $students = $studentTable->getStudentsByClass($cid);
+//                     debug::dump($students);
+//                     die();
+                        //循环该班级的学生
+                    foreach ($students as $student){
+                        //删除学生错题表
+                        $wrongQuestionUserTable->deleteByStudent($student['id']);
+                        //删除学生
+                        $studentTable->delete($student['id']);
+                    }
+                        //删除ACL
+                    $sm->get('TestPaperAclTable')->deleteByClass($cid);
+                        //删除班级错题表
+                    $wrongQuestionClassTable->deleteByClass($cid);
+                    $classNameTable->delete($cid);
+                     echo"删除成功";
+                    die();
+                }else{
+                    echo"班级不存在";
+                    die();
+                }
+            }else{
+                echo"密码错误";
+                die();
+            }
+        }
     }
-}
+    //ajax获取学生列表
+    public function getStudentsAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $cid = $_POST['cid'];
+            $uid = $_POST['uid'];   
+            $classNameTable = $this->getClassNameTable();
+            $class = $classNameTable->getClassName($cid);
+            $uidAcl = explode(',', $class->comrade);
+            //如果用户的id 不在本班级的comrade中，跳出
+            if(in_array($uid, $uidAcl)){
+                $students = $this->getStudentTable()->getStudentsByClass($cid);
+                
+                echo json_encode($students);
+                die();
+                
+            }else{
+                echo "用户ID不在本班级许可范围内";
+                die();
+            }
+        } else {
+            echo "error";
+        }
+    }
     
+    public function safeModeAction(){
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $password = $_POST['password'];
+            $uid = $_POST['uid'];
+            $studentTable = $this->getStudentTable();
+            $user =  $studentTable->getStudent($uid);
+            //校验密码，确认是用户操作
+            if(md5($password) == $user->password){
+                echo"true";
+                die();
+            }
+            else{
+                echo "false";
+                die();
+            }
+    }
+    
+}
+}   

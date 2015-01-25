@@ -18,6 +18,7 @@ $(function(){
 		$('#next').show();
 		
 	    $("#tooltips2").fadeOut(1000).remove();
+	    $("#tooltips3").remove();
 	    
 	});
 	$("div.item.fore2").hover(function(){

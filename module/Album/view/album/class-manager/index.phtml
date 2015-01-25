@@ -1,15 +1,72 @@
 
+ <?php  $this->headScript()->appendFile($this->basePath() . '/js/testPaper-addClass.js','text/javascript');?>
 <div id="testContent">
-<?php foreach($this->ClassName as $ClassManager):?>
 
-   <a href="<?php echo $this->url('ClassManager',array('action'=>'detail','id'=>$ClassManager['id']));?>">  <div class = "classSquare"  >
-       
-         <?echo $ClassManager['year'] ;?>级
-     <?echo $ClassManager['name'] ;?></br>
-                  学生总数：<?echo $ClassManager['student_amount'];?></br>
-                  班主任：<?php echo $identity->name;   ?></br>
-                 
-     </div> </a>
-    
+	<table class="table">
+		<tr class="testpapertr">
+			<th width="10%">类型</th>
+			<th width="10%">入学年</th>
+			<th width="10%">班级名称</th>
+			<th width="10%">学生总数</th>
+			<th width="10%">创建者</th>
+			<th width="10%">创建时间</th>
+			<th width="20%">操作</th>
+		</tr>
+<?php foreach ($this->ClassName as $ClassManager):?>
+<tr>
+			<td width="10%">
+			<?php
+			$classType = $ClassManager['class_type'];
+			switch ($classType){
+			    case 1:
+			        $classType = "小学";
+			        break;
+			    case 2:
+			        $classType = "初中";
+			        break;
+			    case 3:
+			        $classType = "高中";
+			        break;
+			    case 4:
+			        $classType = "大学";
+			        break;
+			        
+			} 
+			echo $classType;
+			?>
+			</td>
+			<td width="10%"><?php echo $this->escapehtml($ClassManager['year']);?></td>
+			<td width="10%"><?php echo $this->escapehtml( $ClassManager['name'] );?></td>
+			<td width="10%"><?php echo $this->escapehtml($ClassManager['student_amount']);?></td>
+			<td width="10%">
+                			<?php echo $identity->name; ?>
+                			<input type='hidden' name='uid' value = <?php echo $identity->id;?>>
+                			<input type='hidden' name='cid' value = <?php echo $this->escapehtml($ClassManager['id']);?>>
+			</td>
+			
+			<td width="10%"><?php echo date('Y-m-d',$this->escapehtml($ClassManager['create_time']));?></td>
+			<td width="20%"><a href='#' title ='open'>显示学生列表</a>
+			<a href='#' title ='delete'>删除</a>
+			</td>
+</tr>	
+
+ <tr class="subTr">
+          <td class = 'afterTrTd' colspan=7>
+            <input type = 'hidden' name = 'cid' value ='<?php echo $this->escapehtml($ClassManager['id']);?>'>
+            <table id ='append' class="table" style="background-color: #ccc">
+            </table>
+            </td>
+ </tr>
 <?php endforeach;?>
+</table>
+</div>
+<div id="teacherBar">
+<a>
+<?php 
+echo "loginInfo</br>";
+echo  "ID：" .$this->identity->id."</br>";
+echo  "name：" .$this->identity->name."</br>";
+echo  "Role：" .$this->identity->role."</br>";
+?>
+</a>
 </div>

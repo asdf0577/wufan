@@ -1,4 +1,4 @@
-<?php echo $this->headScript()->appendFile($this->basePath() . '/js/testPaper-addClass.js','text/javascript');?>
+<?php echo $this->headScript()->appendFile($this->basePath() . '/js/testPaper-class.js','text/javascript');?>
 <h3>增加班级</h3>
 <?php
 $form = $this->form;
@@ -34,6 +34,7 @@ echo $this->form()->openTag($form);
         <?php
         echo $this->formelement($form->get('year'));
         ?>
+        <input type= 'hidden' name = 'uid' value = <?php echo $identity->id;?>>
         </dd>
 			
 <?php

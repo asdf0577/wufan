@@ -82,6 +82,13 @@ class TestPaperAclTable
         ));
     }
     
+    public function deleteByClass($cid)
+    {
+        $cid = (int) $cid;
+        $this->tableGateway->delete(array(
+            'cid'=>$cid,
+        ));
+    }
     public function deleteByClassAndTestPaper($cid,$tid,$uid)
     {
         $tid = (int) $tid;
@@ -93,7 +100,7 @@ class TestPaperAclTable
             'cid'=>$cid,
         ));
     }
-    
+    //试卷对班级可见/不可见
     public function changeAclStatus($status,$cid,$tid)
     {
         $status = (int)$status;

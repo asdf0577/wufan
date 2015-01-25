@@ -2,6 +2,8 @@
 namespace Album\Model;
 class ClassName {
 	public $id;
+	public $uid;
+	public $comrade;
 	public $name;
 	public $classType;
 	public $year;
@@ -14,6 +16,8 @@ class ClassName {
 	{
 
 		$this->id = (isset($data['id'])) ? $data['id'] : null;
+		$this->uid = (isset($data['uid'])) ? $data['uid'] : null;
+		$this->comrade = (isset($data['comrade'])) ? $data['comrade'] : null;
 		$this->name = (isset($data['name'])) ? $data['name'] : null;
 		$this->classType = (isset($data['classType'])) ? $data['classType'] : null;
 		$this->year = (isset($data['year'])) ? $data['year'] : null;

@@ -30,7 +30,8 @@ class CSVUploadForm extends Form
         $submit = new Element('submit');
         $submit->setAttributes(array(
         		'type' => 'submit',
-                'value' => 'upload now'
+                'value' => '上传', 
+                'id'=>'CSVsubmit',
         ));
         $this->add($submit);
     }

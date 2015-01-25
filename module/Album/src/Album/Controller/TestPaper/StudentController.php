@@ -49,105 +49,96 @@ class StudentController extends AbstractActionController
         ));
     }
     // 添加
-    public function addAction()
-    {
-        $sm = $this->getServiceLocator();
-        $classTable = $this->getClassNameTable();
-        $className = $classTable->fetchAll();
-        $classNameArray = array();
-        
-        foreach ($className as $Type) {
-        	$classNameArray[$Type['id']] = $Type['name'];
-        }
-        
-       /*  debug::dump($classNameArray);
-        die(); */
-        
-        $form = $sm->get('StudentForm');
-        
-        
-        $form->get('class')->setValueOptions($classNameArray);
-        
-        
-        
+ 
+    public function addProcessAction(){ 
         $request = $this->getRequest();
-        
         if ($request->isPost()) {
+//            
             
             $data = $request->getPost();
             $Student = new Student;
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()) {
-                $validData = $form->getData();
-                $Student->exchangeArray($validData);
-                $cid = $Student->cid;
-                
-                $StudentTable = $this->getStudentTable();
-                $StudentTable->saveStudent($Student);
+            $Student->exchangeArray($data);
+//             debug::dump($Student);
+//             die();
+           
+            $StudentTable = $this->getStudentTable();
+            $StudentTable->saveStudent($Student);
+            //@todo这里要加一个判断，如果成功添加学生，才进行下一步
+            if(!isset($_POST['sid'])){
+               $cid = $Student->cid;
                 $type = 'add';
+                $classTable = $this->getClassNameTable();
                 $classTable->studentAmount($cid,$type);
-                return $this->redirect()->toRoute('ClassManager', array(
-                    'action' => index
-                ));
             }
+            echo"添加完成";
+            die();
         }
-        $viewModel = new viewModel();
-        $viewModel->setVariables(array(
-            'form' => $form
-        ));
-        return $viewModel;
-    }
-    
-    public function detailAction(){
-        $cid = (int) $this->params()->fromRoute('id');
-        if (!$cid) {
-        	return $this->redirect()->toRoute('ClassManager', array(
-        			'action' => 'index'
-        	));
-        }
-        $students = $this->getStudentTable()->getStudentsByClass($cid);
-        return new ViewModel(array('students'=>$students));
-    }
-    // 编辑
-    public function editAction()
-    {
-        // @TODO 试题知识点联动
-        $tid = $this->params()->fromRoute('id');
-        $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
-        $Questions = $this->getQuestionTable()->getQuestions($tid);
-        /*
-         * debug::dump($TestPaper); debug::dump($Questions);
-         */
-        $form = new QuestionForm();
-        /* $form->bind($Questions); */
-        $form->get('submit')->setAttribute('value', 'Edit');
-        return new ViewModel(array(
-            'TestPaper' => $TestPaper,
-            'Questions' => $Questions,
-            'form' => $form
-        ));
     }
     // 删除
+    
+    private function delete($sid,$cid){
+        $sm = $this->getServiceLocator();
+        $WrongQuestionClassTable = $sm->get('WrongQuestionClassTable');
+        $WrongQuestionUserTable = $sm->get('WrongQuestionUserTable');
+        //删除WrongQuestionClass中的记录
+        $testPapers = $WrongQuestionUserTable->getTestPaperByUser($sid);
+        if($testPapers){
+            foreach ($testPapers as $testPaper){
+                $questionNum = explode(",",$testPaper['qids']);
+                $qids = array_filter($questionNum);
+                foreach($qids as $qid){
+                    $WrongQuestionClassTable->subWrongQuestionClass($testPaper['tid'],$cid,$qid,$sid);
+                }
+            }
+            //删除WrongQuestionUser中的记录
+            $WrongQuestionUserTable->deleteByStudent($sid);
+        }
+        //Class的学生总数-1
+        $sm->get('ClassNameTable')->studentAmount($cid,"sub");
+        //删除此人
+        $sm->get('StudentTable')->delete($sid);
+        echo"删除完成";
+        die();
+    }
     public function deleteAction()
     {
-         $id = (int) $this->params()->fromRoute('id');
-         $studentTable = $this->getStudentTable();
-         $cid =  $studentTable->getStudent($id)->cid;//两次调用this->getStudentTable 会出错
-         $studentTable->delete($id); 
-         $type = 'sub';
-         $this->getClassNameTable()->studentAmount($cid,$type); 
-        return $this->redirect()->toRoute('ClassManager',array('action'=>'detail','id'=>$cid));
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+              $password = $_POST['password'];
+              $uid = $_POST['uid'];
+              $studentTable = $this->getStudentTable();
+              $user =  $studentTable->getStudent($uid);
+              //校验密码，确认是用户操作
+              if(md5($password) == $user->password){
+                          $sid = $_POST['sid'];
+                          if(isset($_POST['cid'])){
+                              $cid = $_POST['cid'];
+                          }else{
+                          $cid =  $studentTable->getStudent($sid)->cid;}
+                          $classNameTable = $this->getClassNameTable();
+                          $uid = $classNameTable->getClassName($cid)->uid;
+                          //确认该用户具备资格
+                          if($uid == $_POST['uid']){
+                              debug::dump("success");
+                             $this->delete($sid, $cid);
+                          }else{
+                              echo"该用户不具备删除权限" ;
+                              die();
+                          }
+              }else{
+                  echo"密码错误";
+                  die();
+              }
+             
     }
     
-    
+    } 
     public function csvAction(){
         
-        $form = new CSVUploadForm();
+        $form = new CSVUploadForm('CSV');
         $request = $this->getRequest();
         if ($request->isPost()) {
             $uploadFile = $this->params()->fromFiles('CSVUpload');
-//             debug::dump($uploadFile);
             if($uploadFile){
                 $studentList =array();
                 $n=0;
@@ -161,7 +152,6 @@ class StudentController extends AbstractActionController
               }
               fclose($handle);
               ini_set('auto_detect_line_endings', FALSE);
-//               debug::dump($studentList);
              echo json_encode($studentList);
                 die();
             }else{
@@ -169,7 +159,9 @@ class StudentController extends AbstractActionController
                 die();
             }
         }
-        return array("form"=>$form);
+        $view = new ViewModel(array("form"=>$form));
+        $view->setTerminal(true);
+        return $view;
     }
 }
     

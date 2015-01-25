@@ -66,37 +66,20 @@ class WrongQuestionClassTable{
         
     }
     public function subWrongQuestionClass($tid,$cid,$question_num,$sid){
-      
-        
-//         debug::dump($tid);
-//         debug::dump($cid);
-//         debug::dump($question_num);
-//         debug::dump($sid);
-//         die();
-        
         $result = $this->tableGateway->select(function (select $select) use ($tid,$cid,$question_num){
-            //问题错在这里
-            
             $select->where(array('tid'=>$tid,
                                  'cid'=>$cid,
                                  'question_num'=>$question_num,
-                                
             ));
-           
         })->current();
         if($result){
-//             debug::dump($result);
-//             die();
             $total = $result->total;
             $total = $total-1;
             $sids = $result->total_user;    
-//             debug::dump($sids);  
             $repalceSid = ",".$sid;     
             $length = strlen($repalceSid);//计算将要替换字符的长度
             $count=strpos($sids,$repalceSid);//找到将要替换字符的位置
             $total_user=substr_replace($sids,"",$count,$length);//字符串，将要替换的内容，开始的位置，将要替换的长度
-//             debug::dump($total_user);
-//             die();
             $this->tableGateway->update(array(
                 'total_user'=>$total_user,
                 'total'=>$total,
@@ -120,6 +103,13 @@ class WrongQuestionClassTable{
         $cid = (int) $cid;
         $this->tableGateway->delete(array(
             'tid' => $tid,
+            'cid'=>$cid,
+        ));
+    }
+    //删除该班级下的所有试题记录
+    public function deleteByClass($cid){
+        $cid = (int) $cid;
+        $this->tableGateway->delete(array(
             'cid'=>$cid,
         ));
     }
