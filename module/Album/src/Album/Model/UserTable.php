@@ -12,6 +12,7 @@ class UserTable{
             'email'=>$user->email,
             'name'=>$user->name,
             'password'=>$user->password,
+            'role'=>'teacher',
             'time_reg'=>date('Y-m-d H:i:s'),
         );  
         $id=(int)$user->id;

@@ -128,10 +128,12 @@ class ClassManagerController extends AbstractActionController
     {   
         $request = $this->getRequest();
         if ($request->isPost()) {
+            
             $password = $_POST['password'];
             $uid = $_POST['uid'];
-            $studentTable = $this->getStudentTable();
-            $user =  $studentTable->getStudent($uid);
+            $sm =$this->getServiceLocator();
+            $userTable = $sm->get('UserTable');
+            $user = $userTable->getUser($uid);
             //校验密码，确认是用户操作
             if(md5($password ) == $user->password){
                 $cid = $_POST['cid'];
@@ -139,11 +141,12 @@ class ClassManagerController extends AbstractActionController
                 //查找班级，确认是用户名下的班级
                 $class =  $classNameTable->getClassName($cid);
                 if($class->uid == $uid){
-                    $sm =$this->getServiceLocator();
+                    
                     
                     $wrongQuestionUserTable = $sm->get('WrongQuestionUserTable');
                     $wrongQuestionClassTable = $sm->get('WrongQuestionClassTable');
 //                     $students = $studentTable->getStudentsByClass($cid);
+                    $studentTable = $this->getStudentTable();
                     $students = $studentTable->getStudentsByClass($cid);
 //                     debug::dump($students);
 //                     die();
@@ -202,8 +205,9 @@ class ClassManagerController extends AbstractActionController
         if ($request->isPost()) {
             $password = $_POST['password'];
             $uid = $_POST['uid'];
-            $studentTable = $this->getStudentTable();
-            $user =  $studentTable->getStudent($uid);
+            $sm =$this->getServiceLocator();
+            $userTable = $sm->get('UserTable');
+            $user = $userTable->getUser($uid);
             //校验密码，确认是用户操作
             if(md5($password) == $user->password){
                 echo"true";

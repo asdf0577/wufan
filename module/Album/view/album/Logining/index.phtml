@@ -1,3 +1,4 @@
+<?php echo $this->headScript()->appendFile($this->basePath() . '/js/testPaper-login.js','text/javascript');?>
 <script type="text/javascript">
 
 $(function(){
@@ -24,7 +25,11 @@ $(function(){
     <h4>欢迎来到...（名字还没有想好）</h4>
     slogan...也没有想好
     </div>
+    <div id ='userTable'>
+  
 	<div id='loginTable'>
+	  <a title = 'login' href='#'>登陆</a>
+        <a title = 'register' href='#'>注册</a>
             <?php
             $form = $this->form;
             $form->prepare();
@@ -51,8 +56,51 @@ $(function(){
             echo $this->formelementerrors($form->get('studentNum'));
             ?>
             </dd>
-            			<dd><?php echo $this->formelement($form->get('submit'));?></dd>
+            			<div id ='loginButuon'><input type ='submit' name='Login' value = '学生登陆' >
+            			  <a title = 'student' href='#'>学生登陆</a>
+                          <a title = 'teacher' href='#'>教师登陆</a>
+                          </div>
             		</dl>
             <?php echo $this->form()->closeTag();?>
+</div>
+<div id ='registerTable'>
+  <a title = 'login' href='#'>登陆</a>
+   <a title = 'register' href='#'>注册</a>
+<?php 
+$registerForm=$this->registerForm;
+$registerForm->prepare();
+$registerForm->setAttribute('action',$this->url(Null,array('controller'=>'logining','action'=>'register',)));
+$registerForm->setAttribute('method','post');
+echo $this->Form()->openTag($registerForm);
+?>
+<dl class='zend_registerForm'>
+<dt><?php echo $this->formlabel($registerForm->get('name'));?></dt>
+<dd><?php echo $this->formElement($registerForm->get('name'));
+          echo $this->formElementerrors($registerForm->get('name'));
+?>
+</dd>
+<dt><?php echo $this->formlabel($registerForm->get('email'));?></dt>
+<dd><?php echo $this->formElement($registerForm->get('email'));
+          echo $this->formElementerrors($registerForm->get('email'));
+?>
+</dd>
+
+<dt><?php echo $this->formlabel($registerForm->get('password'));?></dt>
+<dd><?php echo $this->formElement($registerForm->get('password'));
+          echo $this->formElementErrors($registerForm->get('password'));
+?>
+</dd>
+<dt><?php echo $this->formlabel($registerForm->get('confirm_password'));?></dt>
+<dd><?php echo $this->formElement($registerForm->get('confirm_password'));
+          echo $this->formElementErrors($registerForm->get('confirm_password'));
+?>
+</dd>
+<dd><?php echo $this->formElement($registerForm->get('submit'));
+          
+?>
+</dd>
+</dl>
+<?php $this->form()->closeTag();?>
+</div>
 </div>
 </div>

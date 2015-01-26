@@ -97,8 +97,8 @@ $(function(){
 		"<th width='7%'>性别</th>"+
 		"<th width='10%'>学号</th>"+
 		"<th width='15%'>姓名</th>"+
-		"<th width='10%'>登记次数</th>"+
-		"<th width='10%'>错题总数</th>"+
+		"<th width='5%'>登记次数</th>"+
+		"<th width='5%'>错题总数</th>"+
 		"<th width='10%'>角色</th>"+
 		"<th width='10%'></th>"+
 		"<th name='appendButton'  width='25%'><span class='tdButton'>设置</span></th>";
@@ -414,6 +414,7 @@ $(function(){
 				url:'../album/class-manager/delete',
 				data:data,
 				success: function(list) {
+//					console.log(list);
 					alert(list);
 					window.location.href="http://www.test.com/album/class-manager";
 				}

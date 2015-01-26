@@ -15,11 +15,24 @@ div#welcome{
 	height:400px;
 	float:left;
 }
+
+div#userTable{
+	padding:10px;
+	float:right;
+	height:700px;
+	margin: 50px 50px 0px 0px;
+}
 div#loginTable{
 	padding:10px;
 	float:right;
 	height:400px;
-	margin: 50px 50px 0px 0px;
+}
+
+div#registerTable{
+	display:none;
+	padding:10px;
+	float:right;
+	height:600px;
 }
 div#panel{
 	color:white;

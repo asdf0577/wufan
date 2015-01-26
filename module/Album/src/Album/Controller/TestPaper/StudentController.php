@@ -106,14 +106,17 @@ class StudentController extends AbstractActionController
         if ($request->isPost()) {
               $password = $_POST['password'];
               $uid = $_POST['uid'];
-              $studentTable = $this->getStudentTable();
-              $user =  $studentTable->getStudent($uid);
+              $sm =$this->getServiceLocator();
+              $userTable = $sm->get('UserTable');
+              $user = $userTable->getUser($uid);
+              
               //校验密码，确认是用户操作
               if(md5($password) == $user->password){
                           $sid = $_POST['sid'];
                           if(isset($_POST['cid'])){
                               $cid = $_POST['cid'];
                           }else{
+                          $studentTable = $this->getStudentTable();
                           $cid =  $studentTable->getStudent($sid)->cid;}
                           $classNameTable = $this->getClassNameTable();
                           $uid = $classNameTable->getClassName($cid)->uid;

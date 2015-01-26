@@ -207,18 +207,23 @@ class Module implements AutoloaderProviderInterface
         					$resultSetPrototype->setArrayObjectPrototype(new Album());//set ����ע��
         					return new TableGateway('albums', $dbAdapter, null, $resultSetPrototype);
         				},
-        				'Album\Model\UserTable'=>function ($sm){
+        				'UserTable'=>function ($sm){
         				    $tableGateway=$sm->get('UserTableGateway');
         				    $table =new UserTable($tableGateway);
         				    return $table;
         				},
         				
+        				
         				'UserTableGateway'=>function($sm){
         				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
-        				    $resultSetPrototype = new ResultSet();
-        				    $resultSetPrototype->setArrayObjectPrototype(new User());
-        				    return new TableGateway('user',$dbAdapter,null,$resultSetPrototype);
+        				    return new TableGateway('user',$dbAdapter);
         				} ,
+//         				'UserTableGateway'=>function($sm){
+//         				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
+//         				    $resultSetPrototype = new ResultSet();
+//         				    $resultSetPrototype->setArrayObjectPrototype(new User());
+//         				    return new TableGateway('user',$dbAdapter,null,$resultSetPrototype);
+//         				} ,
         				'Album\Model\ImageUploadTable'=>function ($sm){
         					$tableGateway=$sm->get('ImageUploadTableGateway');
         					$table =new ImageUploadTable($tableGateway);
@@ -454,7 +459,7 @@ class Module implements AutoloaderProviderInterface
             			'AuthService()'=>function ($sm){
         				 
         				    $dbAdapter=$sm->get('Zend\Db\Adapter\Adapter');
-        				    $dbTableAuthAdapter = new DbTableAuthAdaper($dbAdapter,'user','email','password','MD5(?)');
+        				    $dbTableAuthAdapter = new DbTableAuthAdaper($dbAdapter,'user','name','password','MD5(?)');
         				    $authservice = new AuthenticationService();
         				    $authservice->setAdapter($dbTableAuthAdapter);
         				   return $authservice;

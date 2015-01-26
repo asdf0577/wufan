@@ -5,6 +5,7 @@ class User {
     public $name;
     public $email;
     public $password;
+    public $role;
     public $time_reg;
     
     public function setPassword($clear_password){
@@ -13,6 +14,7 @@ class User {
     public function exchangeArray($data){
          $this->id=(isset($data['id']))?$data['id']:null; 
         $this->name=(isset($data['name']))?$data['name']:null;
+        $this->role=(isset($data['role']))?$data['role']:null; 
         $this->email=(isset($data['email']))?$data['email']:null; 
         $this->time_reg=(isset($data['time_reg']))?$data['time_reg']:null; 
        if(isset($data["password"])){

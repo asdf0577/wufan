@@ -15,11 +15,11 @@ class StudentForm extends Form{
         $this->add($id);
         
         $name=new Element\Text('name');
-        $name->setLabel('学生姓名');
+        $name->setLabel('姓名');
         $this->add($name);
         
         $studentNum=new Element\Text('studentNum');
-        $studentNum->setLabel('学号');
+        $studentNum->setLabel('密码');
         $this->add($studentNum);
         
         /* classType */

@@ -357,8 +357,10 @@ class TestPaperController extends AbstractActionController
             $sm =$this->getServiceLocator();
             $password = $_POST['password'];
             $uid = $_POST['uid'];
-            $StudentTable = $this->getStudentTable();
-            $user =  $StudentTable->getStudent($uid);
+            $sm =$this->getServiceLocator();
+            $userTable = $sm->get('UserTable');
+            $user = $userTable->getUser($uid);
+           
             //校验密码，确认是用户操作
             if(md5($password) == $user->password){
                 $tid = $_POST['tid'];
