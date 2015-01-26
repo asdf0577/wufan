@@ -133,7 +133,7 @@ class ClassManagerController extends AbstractActionController
             $studentTable = $this->getStudentTable();
             $user =  $studentTable->getStudent($uid);
             //校验密码，确认是用户操作
-            if(md5($passwor ) == $user->password){
+            if(md5($password ) == $user->password){
                 $cid = $_POST['cid'];
                 $classNameTable = $this->getClassNameTable();
                 //查找班级，确认是用户名下的班级
