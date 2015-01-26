@@ -35,7 +35,7 @@ class ClassNameTable{
     {
         $data = array(
             'uid'=>$className->uid,
-            'comrade'=>$className->comrade,
+            'comrade'=>$className->uid,
             'name'=>$className->name,
             'year'=>$className->year,//如何转换格式
             'class_type'=>$className->classType,
