@@ -83,7 +83,16 @@ class QuestionController extends AbstractActionController
         $auth = $this->getAuthService();
         if($auth->hasIdentity()){
             $identity = $auth->getIdentity();
-            $TestPaperIDs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByClass($identity->cid);
+            if($identity->role=='teacher'){
+                 $TestPaperIDs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByTeacher($identity->id);
+            }else{
+                $TestPaperIDs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByClass($identity->cid);
+            }
+            
+            
+            
+            
+            
             $testPaperTable = $this->getTestPaperTable();
             $TestPapers = array();
             foreach ($TestPaperIDs as $key => $TestPaperID){
@@ -302,8 +311,13 @@ class QuestionController extends AbstractActionController
             'teacher',
         ))){
             //获取登陆学生的班级id
-            $cid = $identity->cid;
-            $studentsArray = $this->intersect($cid, $tid);           
+            if($identity->role == 'teacher'){
+                $studentsArray="";
+            }else{
+                $cid = $identity->cid;
+                $studentsArray = $this->intersect($cid, $tid);
+            }
+                   
             $viewContent = new ViewModel(array(
             'questionNames' => $questionNames,
             'testPaper' => $testPaper,
@@ -313,15 +327,17 @@ class QuestionController extends AbstractActionController
         ));
             $viewContent->setTemplate('album/question/student-manager-submit');
             
-            //如果是超级管理员、教师，获取班级列表    
+            //如果是教师，获取班级列表    
                 if (in_array($role, array(
-                    'supmanager',
                     'teacher',
                 ))){
-                    $classes = $sm->get('ClassNameTable')->fetchAll();
+                    $classes = $sm->get('TestPaperAclTable')->getTestPaperByTeacher($identity->id);
                     $classArray = array();
-                    foreach ($classes as $value){
-                        $classArray[$value['id']] = $value['name'];
+                    $classNameTable = $sm->get('ClassNameTable');
+                    
+                    foreach ($classes as $class){
+                        $name = $classNameTable->getClassName($class['cid']);
+                        $classArray[$name['id']] = $name['name'];
                     }
                     $form ->get('cid')->setValueOptions($classArray);
                     $viewContent->setTemplate('album/question/super-student-manager-submit');

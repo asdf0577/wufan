@@ -37,7 +37,11 @@
     				学生列表：
     	<div id = 'studentSquare' > 
     	<ol id = 'nameSelect'>
-    	   <?php foreach ($this->students as $student)
+    	
+    	   <?php 
+    	   if(!empty($this->students)){
+    	   
+    	   foreach ($this->students as $student)
     	   {
     	       if($student['submit']==1){
     	       echo "<li class = 'studentSquareSubmit' title='".$student['id']."' >".$student['name']."</li>";
@@ -45,7 +49,7 @@
     	       if($student['submit']==0){
     	      echo "<li class = 'studentSquare' title='".$student['id']."' >".$student['name']."</li>";
     	   }
-    	   }  ?>
+    	   } } ?>
     	 </ol>      
     	</div>
     	       <div id="questions">
