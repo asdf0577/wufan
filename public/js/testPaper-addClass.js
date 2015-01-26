@@ -96,7 +96,7 @@ $(function(){
 		var TH = 	
 		"<th width='7%'>性别</th>"+
 		"<th width='10%'>学号</th>"+
-		"<th width='8%'>姓名</th>"+
+		"<th width='15%'>姓名</th>"+
 		"<th width='10%'>登记次数</th>"+
 		"<th width='10%'>错题总数</th>"+
 		"<th width='10%'>角色</th>"+
@@ -451,7 +451,7 @@ $(function(){
 				$.each(opts,function(i,d){
 					var TD ="<td width ='7%' name='gender' >"+d[2]+"</td>"+
 							"<td width ='10%' name='studentNum' >"+d[3]+"</td>" +
-							"<td width ='8%' name='name'>"+d[1]+"</td>"+
+							"<td width ='15%' name='name'>"+d[1]+"</td>"+
 							"<td width ='10%'></td>" +
 							"<td width ='10%'></td>"+
 							"<td width ='10%'name='role'>"+d[0]+"</td >"+
@@ -500,7 +500,7 @@ $(function(){
 		data ="cid="+cid;;
 		}).promise().done(function(){
 			alert("提交成功");
-			window.location.href="http://www.test.com/album/class-manager";
+//			window.location.href="http://www.test.com/album/class-manager";
 		})     
 		 return false;
 	});
