@@ -89,6 +89,13 @@ class TestPaperAclTable
             'cid'=>$cid,
         ));
     }
+    public function deleteByTestPaper($tid)
+    {
+        $tid = (int) $tid;
+        $this->tableGateway->delete(array(
+            'tid'=>$tid,
+        ));
+    }
     public function deleteByClassAndTestPaper($cid,$tid,$uid)
     {
         $tid = (int) $tid;

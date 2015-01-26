@@ -134,4 +134,67 @@ $(function(){
 			}})
 		return false;
 	})
+	
+	//删除试卷按钮
+	
+	$("a[title='delete']").click(function(){
+		var that = $(this).parent();
+		var td =  $(this).parent().parent()
+		var tid = that.find("input[name='tid']").val();
+		var uid = that.find("input[name='uid']").val();
+		$("#tooltips3").remove();
+		var unit = td.find("td:eq(2)").text();
+		var year = td.find("td:eq(0)").text();
+		var term = td.find("td:eq(1)").text();
+		var tips = "<span>您要删除<bold>"+year+"学年-"+term+"学期-"+unit+"单元</bold>的【试卷】吗？这样将删除该试卷所关联的班级记录、学生记录，确定请输入您的用户密码</span></br>";
+		var buttonID = "deleteTestPaper";
+		var location =that;
+		confirmBox(tips,uid,tid,buttonID,location);
+		return false;
+		
+		
+	})
+	
+	
+	//所有的删除工作均弹出密码框
+	function confirmBox(tips,uid,tid,buttonID,location){
+		var htm1 = "<div id='tooltips3'>" +
+		"<div class='close'>X</div>" +tips+
+				"<input type ='text' name ='password'>" +
+				"<input type ='hidden' name ='tid' value='"+tid+"'>" +
+				"<input type ='hidden' name ='uid' value='"+uid+"'>" ;
+		var htm3 = "<button id = '"+buttonID+"'>确认</button></div>";
+		var htm = htm1+htm3;
+		$(location).append(htm);
+		$("#tooltips3").fadeIn(1000);
+		$('.close').fadeIn(3000);
+			}
+	
+	$('body').on("click","button#deleteTestPaper",function(){
+		var that = $(this).parent();
+		var password = that.find("input[name='password']").val();
+		var uid =that.find("input[name='uid']").val();
+		var tid =that.find("input[name='tid']").val();
+		data = "password="+password+"&uid="+uid+"&tid="+tid;
+		$.ajax({
+			type:"POST",
+			url:'../album/testpaper/delete',
+			data:data,
+			success: function(list) {
+				console.log(list);
+				if(list == "false"){
+					alert("密码错误");
+				}else{
+					that.parent().parent().hide(300).remove();
+					that.hide(300).remove();
+					
+				}
+			}
+		});
+		return false;
+	}
+	)
+	
+	
+	
 })

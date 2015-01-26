@@ -31,6 +31,7 @@ class TestPaperController extends AbstractActionController
     protected $KnowledgeTable;
     
     protected $authservice;
+    protected $StudentTable;
     
     public function getAuthService()
     {
@@ -69,6 +70,14 @@ class TestPaperController extends AbstractActionController
         if (! $this->QuestionTypeTable) {
             $this->QuestionTypeTable = $this->getServiceLocator()->get('QuestionTypeTable');
             return $this->QuestionTypeTable;
+        }
+    }
+    
+    public function getStudentTable()
+    {
+        if (! $this->StudentTable) {
+            $this->StudentTable = $this->getServiceLocator()->get('StudentTable');
+            return $this->StudentTable;
         }
     }
     
@@ -344,10 +353,43 @@ class TestPaperController extends AbstractActionController
     // 删除试题
     public function deleteAction()
     {
-        $tid = (int) $this->params()->fromRoute('id');
-        $this->getQuestionTable()->delete($tid);
-        $this->getTestPaperTable()->delete($tid);
-        return $this->redirect()->toRoute('TestPaper');
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $sm =$this->getServiceLocator();
+            $password = $_POST['password'];
+            $uid = $_POST['uid'];
+            $StudentTable = $this->getStudentTable();
+            $user =  $StudentTable->getStudent($uid);
+            //校验密码，确认是用户操作
+            if(md5($password) == $user->password){
+                $tid = $_POST['tid'];
+                debug::dump($tid);
+                $wrongQuestionUserTable = $sm->get('WrongQuestionUserTable');
+                $wrongQuestionClassTable = $sm->get('WrongQuestionClassTable');
+                //删除学生错题表
+                $wrongQuestionUserTable->deleteByTestPaper($tid);
+                //删除ACL
+                $sm->get('TestPaperAclTable')->deleteByTestPaper($tid);
+                //删除班级错题表
+                $wrongQuestionClassTable->deleteByTestPaper($tid);
+                //删除知识点连接
+                $this->getQuestionTable()->delete($tid);
+                //删除试卷
+                $this->getTestPaperTable()->delete($tid);
+                echo"true";
+                die();
+            }else{
+                echo "false";
+                die();
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
     }
     
     /*

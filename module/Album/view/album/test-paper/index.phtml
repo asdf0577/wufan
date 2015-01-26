@@ -21,6 +21,8 @@
 			<td width="10%"></td>
 
 			<td width="20%">
+			<input type ="hidden" name ='tid' value ='<?php echo $TestPaper->id ;?>'>
+			<input type ="hidden" name ='uid' value ='<?php echo $identity->id ;?>'>
     <?php if($TestPaper->created == 0){?>
     <a href="<?php echo $this->url('TestPaper',array('action'=>'create','id'=>$TestPaper->id));?>">开启编辑功能</a>&nbsp<?php }
     else{
@@ -30,7 +32,7 @@
        echo" &nbsp <a href='#' title ='open'>开启答题</a>";
     }?>
     
-    <a href="<?php echo $this->url('TestPaper',array('action'=>'delete','id'=>$TestPaper->id));?>">删除</a>
+    <a  title = 'delete' href="#" >删除</a>
 			
 			</td>
 		</tr>

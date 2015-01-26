@@ -341,7 +341,7 @@ $(function(){
 		var uid = that.find("input[name='uid']").val();
 		var cid = that.find("input[name='cid']").val();
 		var sid = $(this).parent().parent().find("input[name='sid']").val();
-		var name= $(this).parent().parent().find("td:eq(1)").text();
+		var name= $(this).parent().parent().find("td:eq(2)").text();
 		var tips = "<span>如果您要删除<bold>"+name+"</bold>的所有资料，请输入密码</span></br>";
 		var buttonID = "deleteStudentConfirm";
 		var location = $(this).parent().parent();
@@ -472,17 +472,20 @@ $(function(){
 		
 	})
 	//批量上传
-		$('body').on('click',"input#CSVsubmit",function(e){
+		$('body').on('click',"input#CSVsubmit",function(){
 		var tr  = $(this).parent().next().find('tr.csvTr');
 		var cid = $(this).parent().parent().parent().parent().parent().parent().parent().prev().find("input[name='cid']").val();
 		var data ="cid="+cid;
+		var gender,studentNum,name,role;
 		//循环学生表的数据
 		tr.each(function(i){
 			//循环每一行内的数据,形成要提交的data数据
-			$(this).children().each(function(){
-				data = data+"&"+$(this).attr("name")+"="+$(this).text();
-			//把数据通过ajax提交到服务器
-			})
+			
+			gender = $(this).find("td:eq(0)").text();
+			studentNum = $(this).find("td:eq(1)").text();
+			name = $(this).find("td:eq(2)").text();
+			role = $(this).find("td:eq(5)").text();
+			data = data+"&gender="+gender+"&studentNum="+studentNum+"&name="+name+"&role="+role;
 			$(this).append("<td>√</td>");
 			console.log(data);
 			$.ajax({
@@ -492,12 +495,12 @@ $(function(){
 	              success:function(data){
 	            	  console.log(data);
 	              },
-	          });
+			})
 //		重置data
-		data ="cid="+cid;
+		data ="cid="+cid;;
 		}).promise().done(function(){
 			alert("提交成功");
-			window.location.href="http://www.wufan.com/album/class-manager";
+			window.location.href="http://www.test.com/album/class-manager";
 		})     
 		 return false;
 	});

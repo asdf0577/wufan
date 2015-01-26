@@ -94,7 +94,7 @@ class WrongQuestionClassTable{
     
     //删除该试卷下所有记录
     public function deleteByTestPaper($tid){
-        $id = (int)$id;
+        $tid = (int)$tid;
         $this->tableGateway->delete(array('tid'=>$tid));
     }
     //删除该试卷以班级为单位的所有记录
