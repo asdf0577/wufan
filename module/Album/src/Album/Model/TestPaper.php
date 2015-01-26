@@ -2,6 +2,7 @@
 namespace Album\Model;
 class TestPaper {
 	public $id;
+	public $uid;
 	public $year;
 	public $termNum;
 	public $unitNum;
@@ -13,6 +14,7 @@ class TestPaper {
 	{
 
 		$this->id = (isset($data['id'])) ? $data['id'] : null;
+		$this->uid = (isset($data['uid'])) ? $data['uid'] : null;
 		$this->year = (isset($data['year'])) ? $data['year'] : null; 
 		$this->termNum = (isset($data['termNum'])) ? $data['termNum'] : null;
 		$this->unitNum = (isset($data['unitNum'])) ? $data['unitNum'] : null;

@@ -88,29 +88,25 @@ class TestPaperController extends AbstractActionController
         if($auth->hasIdentity()){
             $identity = $auth->getIdentity();
             $uid = $identity->id;
-            $TestPapers = $this->getTestPaperTable()->fetchAll();
+            $TestPapers = $this->getTestPaperTable()->getTestPaperByTeacher($uid);
             $classNameTable = $this->getServiceLocator()->get('ClassNameTable');
             $classes = $classNameTable->getClassByTeacher($uid);
-            
 //             debug::dump($classes);
+//             die();
             $classArray = array();
             foreach ($classes as $class){
                 $classArray[$class['id']] = $class['year']."年-".$class['name'];
             }
-//             die();
- 
             $form = new ClassManagerForm();
             $form->remove('name');
             $form->remove('id');
             $form->get('classCheck')->setValueOptions($classArray);
             $form->get('classSelect')->setValueOptions($classArray);
-            
-            
             return array(
                 'form'=>$form,
                 'TestPapers' => $TestPapers,
                 'identity'=>$identity,
-//                 'classes'=>$classes,
+                'classes'=>$classes,
             );
         
         }
@@ -164,7 +160,10 @@ class TestPaperController extends AbstractActionController
                 // @TODO 试题类型存入数据库
                 $validData = $form->getData();
                 $validData['QuestionTypeInput'] = $_POST['QuestionTypeInput'];
+                $validData['uid'] = $_POST['uid'];
                 $testPaper->exchangeArray($validData);
+//                 debug::dump($testPaper);
+//                 die();
                 $testPaperTable = $this->getTestPaperTable();
                 $testPaperTable->saveTestPaper($testPaper);
                 return $this->redirect()->toRoute('TestPaper', array(

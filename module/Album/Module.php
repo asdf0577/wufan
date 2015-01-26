@@ -341,9 +341,7 @@ class Module implements AutoloaderProviderInterface
         				},
         				'TestPaperTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-        					/* $resultSetPrototype = new ResultSet();
-        					$resultSetPrototype->setArrayObjectPrototype(new TestPaper()); */
-        					return new TableGateway('test_paper', $dbAdapter/* , null, $resultSetPrototype */);
+        					return new TableGateway('test_paper', $dbAdapter);
         				},
         				
         				'TestPaperAclTable'=>function($sm){//试卷

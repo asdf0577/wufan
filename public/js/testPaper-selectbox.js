@@ -135,13 +135,16 @@ $(function(){
 		$('.draglist').attr("disabled","true");//让部分表单元素无法提交
 		var data = $('form').serialize();
 		var total= $('span#total').text();
-		data += "&QuestionTypeInput="+type+"&questionAmount="+total;
+		var uid = $('body').find("input[name = 'uid']").val();
+//		console.log(uid);
+//		return false;
+		data += "&QuestionTypeInput="+type+"&questionAmount="+total+"&uid="+uid;
 		 $.ajax({
 	           type: "POST",
 	           url: "../album/testpaper/add",
 	           data: data,
 	           success: function(res) {
-	        	   
+//	        	   console.log(res);
 	        	        if (! res.url) { //如果未返回目标地址
 	        	            if (location.href!='/user/login') { //判断当前页面是不是登录页面（如果你的登录可能是弹窗方式，也可能是单独页面的时候才需要）
 	        	                location.reload();

@@ -33,9 +33,19 @@ class TestPaperTable
         return $row;
     }
 
+    public function getTestPaperByTeacher($uid)
+    {
+        $uid = (int) $uid;
+        $result = $this->tableGateway->select(array(
+            'uid' => $uid
+        ))->toArray();
+        return $result;
+    }
+
     public function saveTestPaper($testPaper)
     {
         $data = array(
+            'uid' => $testPaper->uid,
             'year' => $testPaper->year,
             'termNum' => $testPaper->termNum,
             'unitNum' => $testPaper->unitNum,
