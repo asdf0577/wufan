@@ -17,7 +17,7 @@ class Question {
         
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->tid = (isset($data['tid'])) ? $data['tid'] : null;
-        $this->questionNum = (isset($data['questionNum2'])) ? $data['questionNum2'] : 1;
+        $this->questionNum = (isset($data['questionNum'])) ? $data['questionNum'] : null;
         $this->questionType = (isset($data['questionType'])) ? $data['questionType'] : null;
         $this->knowledge_id= (isset($data['knowledge_id'])) ? $data['knowledge_id'] : null;
         $this->tag = (isset($data['tag'])) ? $data['tag'] : null; 
