@@ -62,7 +62,7 @@ class StudentController extends AbstractActionController
 //             die();
            
             $StudentTable = $this->getStudentTable();
-            $StudentTable->saveStudent($Student);
+            $result =  $StudentTable->saveStudent($Student);
             //@todo这里要加一个判断，如果成功添加学生，才进行下一步
             if(!isset($_POST['sid'])){
                $cid = $Student->cid;
@@ -70,7 +70,9 @@ class StudentController extends AbstractActionController
                 $classTable = $this->getClassNameTable();
                 $classTable->studentAmount($cid,$type);
             }
-            echo"添加完成";
+            if($result == TRUE){
+            echo $result;
+            }
             die();
         }
     }

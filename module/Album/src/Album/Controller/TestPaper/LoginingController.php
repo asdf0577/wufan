@@ -158,7 +158,7 @@ class LoginingController extends AbstractActionController
             $user->exchangeArray($form->getData());
 //             debug::dump($user);
 //             die();
-            $userTable=$this->getServiceLocator()->get('\Album\Model\UserTable');
+            $userTable=$this->getServiceLocator()->get('UserTable');
             $userTable->saveUser($user);
             return $this->redirect()->toRoute(Null,array('controller'=>'logining','action'=>'index'));
             

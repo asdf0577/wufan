@@ -1,5 +1,5 @@
 $(function(){
-	$("a#createClass").click(function(e){
+	$("a[title='createClass']").click(function(){
 		 $.ajax({
 		       url:'../album/class-manager/add',
 		       async:false, 
@@ -416,7 +416,7 @@ $(function(){
 				success: function(list) {
 //					console.log(list);
 					alert(list);
-					window.location.href="http://www.test.com/album/class-manager";
+					window.location.href="../album/class-manager";
 				}
 			});
 			return false;
@@ -474,34 +474,39 @@ $(function(){
 	})
 	//批量上传
 		$('body').on('click',"input#CSVsubmit",function(){
+		var TD = $(this).parent();
 		var tr  = $(this).parent().next().find('tr.csvTr');
 		var cid = $(this).parent().parent().parent().parent().parent().parent().parent().prev().find("input[name='cid']").val();
 		var data ="cid="+cid;
 		var gender,studentNum,name,role;
 		//循环学生表的数据
-		tr.each(function(i){
+		tr.each(function(){
 			//循环每一行内的数据,形成要提交的data数据
 			gender = $(this).find("td:eq(0)").text();
 			studentNum = $(this).find("td:eq(1)").text();
 			name = $(this).find("td:eq(2)").text();
 			role = $(this).find("td:eq(5)").text();
 			data = data+"&gender="+gender+"&studentNum="+studentNum+"&name="+name+"&role="+role;
-			$(this).append("<td>√</td>");
-			console.log(data);
+			var that = $(this);
+//			console.log(data);
 			$.ajax({
 	         	  url: "../album/Student/addProcess",
 	         	  data: data,
 	              type: "POST",
 	              success:function(data){
-	            	  console.log(data);
+	            	  if(data == 1){
+	            		  that.append("<td>√</td>");
+	            		  that.hide(1000);
+	            	  }else{
+	            		  that.append("<td>X</td>");
+	            	  }
+	            		
 	              },
 			})
 //		重置data
 		data ="cid="+cid;;
-		}).promise().done(function(){
-			alert("提交成功");
-//			window.location.href="http://www.test.com/album/class-manager";
-		})     
+		})
+		TD.empty().text("提交完成");
 		 return false;
 	});
 		//批量导入的CSV文件删除行

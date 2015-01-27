@@ -181,10 +181,11 @@ return array(
             'Question' => array(
             		'type' => 'Segment',
             		'options' => array(
-            				'route' => '/album/question[/:action[/:id]]',
+            				'route' => '/album/question[/:action[/:tid][/:cid]]',
             				'constraints' => array(
             						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-            						'id' => '[a-zA-Z0-9_-]*',
+            						'tid' => '[a-zA-Z0-9_-]*',
+            						'cid' => '[a-zA-Z0-9_-]*',
             				),
             				'defaults' => array(
             						'controller' => 'Album\Controller\Question',

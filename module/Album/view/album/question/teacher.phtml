@@ -3,11 +3,11 @@
 <?php foreach($this->TestPapers as $Testpaper):?>
 
     <div class = "classSquare"  >
-    <a href="<?php echo $this->url('Question',array('action'=>'analysis','id'=>$Testpaper->id));?>">    
-     <?echo $Testpaper->year;?>年
-              第<?echo $Testpaper->termNum;?>学期</br>
-                 第：<?echo $Testpaper->unitNum;?>单元</br>
-       试题总数：<?php echo $Testpaper->questionAmount?>           
+    <a href="<?php echo $this->url('Question',array('action'=>'analysis','tid'=>$Testpaper['id'],'cid'=>$TestPaper['cid']));?>">    
+     <?echo $Testpaper['year'];?>年
+              第<?echo $Testpaper['termNum'];?>学期</br>
+                 第：<?echo $Testpaper['unitNum'];?>单元</br>
+                 班级：<?echo $Testpaper['className'];?></br>
                   </a>
      </div>
     
@@ -21,7 +21,6 @@ echo "loginInfo</br>";
 echo  "ID：" .$this->identity->id."</br>";
 echo  "name：" .$this->identity->name."</br>";
 echo  "Role：" .$this->identity->role."</br>";
-echo  "classId：" .$this->identity->cid."</br>";
 ?>
 </a>
 </div>

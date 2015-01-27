@@ -58,7 +58,8 @@ class StudentTable{
         $id = (int)$Student->id;
         if($id == 0)
         {
-            $this->tableGateway->insert($data);  
+            $this->tableGateway->insert($data); 
+            return TRUE; 
         }else{
             if($this->getStudent($id)){
                 $this->tableGateway->update($data,array('id' => $id));

@@ -6,7 +6,7 @@
 			<th width="20%">类型</th>
 			<th width="20%">所属知识点</th>
 			<th width="20%">错误数</th>
-			<th width="20%">错误学生</th>
+			<th width="20%">操作</th>
 		</tr>
 <?php foreach ($this->TestPapers as $TestPaper):?>
 <tr>
@@ -14,7 +14,7 @@
 			<td width="10%">todo</td>
 			<td width="10%">todo</td>
 			<td width="10%"><?php echo $this->escapehtml($TestPaper['total']);?></td>
-			<td width="10%"><?php echo $this->escapehtml($TestPaper['total_user']);?></td>
+			<td width="10%"><a title='showStudents' >显示相关学生</a></td>
 			<td width="10%"></td>
 
 		</tr>

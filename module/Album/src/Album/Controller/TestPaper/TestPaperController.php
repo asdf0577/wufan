@@ -211,6 +211,7 @@ class TestPaperController extends AbstractActionController
         $TestPaperTable = $this->getTestPaperTable();
         $testPaper = $TestPaperTable->getTestPaper($id);
         $question = new Question();
+        //如果未被创建，则执行创建
         if ($testPaper->created == "0") {
             $total = $testPaper->questionAmount;
             $a = $testPaper->questionType;
@@ -226,14 +227,11 @@ class TestPaperController extends AbstractActionController
                     'questionType'=>$type,
                     
                 );
-                
-                
                 $question->exchangeArray($questionData);
-                $QuestionTable = $this->getServiceLocator()->get('QuestionTable'); // Ϊʲô���ﲻ���á�
+                $QuestionTable = $this->getServiceLocator()->get('QuestionTable'); // 
                 $QuestionTable->saveQuestions($question);
                 }}
                
-            
             $testPaper->created = 1;
             $TestPaperTable->saveTestPaper($testPaper);
             return $this->redirect()->toRoute('TestPaper');

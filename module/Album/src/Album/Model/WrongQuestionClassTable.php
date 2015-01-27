@@ -21,6 +21,20 @@ class WrongQuestionClassTable{
         $rowset=$result->toArray();
         return $rowset;
     }
+    public function getQuestionClassByTestPaperAndClass($tid,$cid)
+    {
+        $tid=(int)$tid;
+        $cid=(int)$cid;
+        $result = $this->tableGateway->select(function (select $select) use ($tid,$cid)
+         {
+            $select->where(array('tid'=>$tid,
+                'cid'=>$cid,
+            ));
+         })->toArray();
+        
+        
+        return $result;
+    }
     //创建记录
     public function createQuestionClass($question)
     {

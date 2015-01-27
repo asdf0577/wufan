@@ -18,7 +18,7 @@ class QuestionTable{
         $rowset=$result->toArray();
         return $rowset;
     }
-    public function getquestion($id){
+    public function getQuestion($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
         if(!$row){ throw new \Exception(" id does not exist");}

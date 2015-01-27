@@ -110,25 +110,55 @@ class QuestionController extends AbstractActionController
         $auth = $this->getAuthService();
         if($auth->hasIdentity()){
             $identity = $auth->getIdentity();
-            $TestPaperIDs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByTeacher($identity->id);
+            $sm = $this->getServiceLocator();
+            $TestPaperIDs = $sm->get('TestPaperAclTable')->getTestPaperByTeacher($identity->id);
+           
+            $classNameTable = $sm->get('ClassNameTable');
             $testPaperTable = $this->getTestPaperTable();
             $TestPapers = array();
             foreach ($TestPaperIDs as $key => $TestPaperID){
-                $TestPapers[$key] =  $testPaperTable->getTestPaper($TestPaperID['tid']);
+                $tid = $TestPaperID['tid'];
+                $cid = $TestPaperID['cid'];
+                $testPaperContent = $testPaperTable->getTestPaper($tid);
+                $classContent = $classNameTable->getClassName($cid);
+                $TestPapers[$key] = array(
+                    'tid'=>$tid,
+                    'cid'=>$cid,
+                    'className'=>$classContent['name'],
+                    'termNum'=>$testPaperContent['termNum'],
+                    'unitNum'=>$testPaperContent['unitNum'],
+                    'year'=>$testPaperContent['year'],
+                ) ; 
+                
             }
+//             debug::dump($TestPapers);
+//             die();
+            
+            
             return array('TestPapers'=>$TestPapers,'identity'=>$identity,);
         
         }
     }    
     
-    
-    public function analysisAction(){
+    //@todo 以后分析试题要加入lazyload
+    public function analysisAction(){ 
         $auth = $this->getAuthService();
         $identity = $auth->getIdentity();
         $tid = (int) $this->params()->fromRoute('id');
         $WrongQuestionClassTable = $this->getWrongQuestionClassTable();
-        $TestPapers = $WrongQuestionClassTable->getQuestionClassByTestPaper($tid);
-        
+        //查询该试卷id下的所有题目，得到试卷的错误人数
+        $testPapers = $WrongQuestionClassTable->getQuestionClassByTestPaper($tid);
+        //查询该试卷id下的所有题目，得到试卷的知识点
+        $questionTable = $this->getQuestionTable();
+        $knowledges = $questionTable->getQuestions($tid);
+        $analysisArray = array();
+        foreach ($testPapers as $key=>$testPaper){
+            $analysisArray[$key] =array(
+                'questionNum' =>$testPaper['question_num'],
+            );
+        }
+        debug::dump($analysisArray);
+        die();
 //         debug::dump($TestPapers);
 //         die();
         return array('TestPapers'=>$TestPapers,
