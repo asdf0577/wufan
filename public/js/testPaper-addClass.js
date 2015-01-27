@@ -486,7 +486,7 @@ $(function(){
 			name = $(this).find("td:eq(2)").text();
 			role = $(this).find("td:eq(5)").text();
 			data = data+"&gender="+gender+"&studentNum="+studentNum+"&name="+name+"&role="+role;
-			$(this).dealy(100).append("<td>√</td>");
+			$(this).append("<td>√</td>");
 			console.log(data);
 			$.ajax({
 	         	  url: "../album/Student/addProcess",
