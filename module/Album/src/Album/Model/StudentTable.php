@@ -3,8 +3,8 @@ namespace Album\Model;
 
 use Album\Model\Student;
 use Zend\Db\TableGateway\TableGateway;
-use ZendGData\YouTube\Extension\Gender;
-
+use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Select;
 class StudentTable{
     protected $tableGateway;
     
@@ -30,8 +30,15 @@ class StudentTable{
     }
     public function getStudentsByClass($cid){
         $cid=(int)$cid;
-        $resultSet=$this->tableGateway->select(array('cid'=>$cid))->toArray()   ;
-        return $resultSet;
+       $result = $this->tableGateway->select(function (select $select) use ($cid){
+//             //问题错在这里
+            $select->where(array(
+                'cid'=>$cid,
+            ))->order('studentNum ASC');
+        })->toArray();
+        return $result;
+        
+        
     }
     public function saveStudent($Student)
     {

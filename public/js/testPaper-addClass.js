@@ -481,13 +481,12 @@ $(function(){
 		//循环学生表的数据
 		tr.each(function(i){
 			//循环每一行内的数据,形成要提交的data数据
-			
 			gender = $(this).find("td:eq(0)").text();
 			studentNum = $(this).find("td:eq(1)").text();
 			name = $(this).find("td:eq(2)").text();
 			role = $(this).find("td:eq(5)").text();
 			data = data+"&gender="+gender+"&studentNum="+studentNum+"&name="+name+"&role="+role;
-			$(this).append("<td>√</td>");
+			$(this).dealy(100).append("<td>√</td>");
 			console.log(data);
 			$.ajax({
 	         	  url: "../album/Student/addProcess",
