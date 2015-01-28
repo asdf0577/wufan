@@ -11,6 +11,7 @@ use Album\Model\WrongQuestionUser;
 use Album\Model\WrongQuestionClassTable;
 use Zend\Captcha\Dumb;
 use Zend\Validator\InArray;
+use Zend\Filter\Null;
 
 class QuestionController extends AbstractActionController
 {
@@ -83,23 +84,33 @@ class QuestionController extends AbstractActionController
         $auth = $this->getAuthService();
         if($auth->hasIdentity()){
             $identity = $auth->getIdentity();
+            //如果是教师登陆，则获取该教师名下所有在ACL的名单
             if($identity->role=='teacher'){
-                 $TestPaperIDs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByTeacher($identity->id);
+                 $TestPaperACLs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByTeacher($identity->id);
             }else{
-                $TestPaperIDs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByClass($identity->cid);
+            //如果非教师登陆，则获取该用户名下所在班级的ACL的名单
+                $TestPaperACLs = $this->getServiceLocator()->get('TestPaperAclTable')->getTestPaperByClass($identity->cid);
             }
-            
-            
-            
-            
             
             $testPaperTable = $this->getTestPaperTable();
-            $TestPapers = array();
-            foreach ($TestPaperIDs as $key => $TestPaperID){
-                if($TestPaperID['status']==1){
-                $TestPapers[$key] =  $testPaperTable->getTestPaper($TestPaperID['tid']);}
+            $testPaperArray = array();
+            foreach ($TestPaperACLs as $key => $testPaperACL){
+                if($testPaperACL['status']==1){
+                    $tid = $testPaperACL['tid'];
+                    $testPaperContent = $testPaperTable->getTestPaper($tid);
+                $testPaperArray[$key] = array(
+                    'tid'=>$tid,
+                    'cid'=>$testPaperACL['cid'],
+                    'termNum'=>$testPaperContent['termNum'],
+                    'unitNum'=>$testPaperContent['unitNum'],
+                    'year'=>$testPaperContent['year'],
+                ) ; 
+                }
             }
-            return array('TestPapers'=>$TestPapers,'identity'=>$identity,);
+            
+//             debug::dump($testPaperArray);
+//             die();
+            return array('testPaperArray'=>$testPaperArray,'identity'=>$identity,);
         
         }    
     
@@ -118,9 +129,12 @@ class QuestionController extends AbstractActionController
             $TestPapers = array();
             foreach ($TestPaperIDs as $key => $TestPaperID){
                 $tid = $TestPaperID['tid'];
-                $cid = $TestPaperID['cid'];
+                $cid = (int)$TestPaperID['cid'];
+               
                 $testPaperContent = $testPaperTable->getTestPaper($tid);
                 $classContent = $classNameTable->getClassName($cid);
+//                 debug::dump($cid);
+//                 die();
                 $TestPapers[$key] = array(
                     'tid'=>$tid,
                     'cid'=>$cid,
@@ -144,24 +158,37 @@ class QuestionController extends AbstractActionController
     public function analysisAction(){ 
         $auth = $this->getAuthService();
         $identity = $auth->getIdentity();
-        $tid = (int) $this->params()->fromRoute('id');
+        $tid = (int) $this->params()->fromRoute('tid');
+        $cid = (int) $this->params()->fromRoute('cid');
         $WrongQuestionClassTable = $this->getWrongQuestionClassTable();
         //查询该试卷id下的所有题目，得到试卷的错误人数
-        $testPapers = $WrongQuestionClassTable->getQuestionClassByTestPaper($tid);
-        //查询该试卷id下的所有题目，得到试卷的知识点
+        $testPapers = $WrongQuestionClassTable->getQuestionClassByTestPaperAndClass($tid, $cid);
+        //查询该试卷id下的所有题目，得到试卷的知识点id
         $questionTable = $this->getQuestionTable();
-        $knowledges = $questionTable->getQuestions($tid);
+        $questions = $questionTable->getQuestions($tid);
+        //查询知识点表，根据id获得知识点的名称
+        $knowledgeTable = $this->getServiceLocator()->get('KnowledgeTable');
         $analysisArray = array();
         foreach ($testPapers as $key=>$testPaper){
             $analysisArray[$key] =array(
                 'questionNum' =>$testPaper['question_num'],
+                'total' =>$testPaper['total'],
             );
         }
-        debug::dump($analysisArray);
-        die();
-//         debug::dump($TestPapers);
+        foreach ($questions as $key => $question){
+            if($question['knowledge_id']!=Null){
+                $knowledge = $knowledgeTable->getKnowledge($question['knowledge_id']);
+                $analysisArray[$key]['knowledge'] = $knowledge['name'];
+                $analysisArray[$key]['knowledge_cn'] = $knowledge['cn_name'];
+            }else{
+                $analysisArray[$key]['knowledge'] = "";
+                $analysisArray[$key]['knowledge_cn'] = "";
+            }
+           
+        }
+//         debug::dump($analysisArray);
 //         die();
-        return array('TestPapers'=>$TestPapers,
+        return array('analysisArray'=> $analysisArray,
             'identity'=>$identity,
         );
     }
@@ -301,7 +328,7 @@ class QuestionController extends AbstractActionController
         
         
         //获取试卷再获取试题
-        $tid = (int) $this->params()->fromRoute('id');
+        $tid = (int) $this->params()->fromRoute('tid');
         $testPaper = $this->getTestPaperTable()->getTestPaper($tid); // 根据tid获取试卷
         $questions = $this->getQuestionTable()->getQuestions($tid); // 根据tid获取试题
         $questionTypeTable = $this->getQuestionTypeTable();
@@ -522,7 +549,7 @@ class QuestionController extends AbstractActionController
     return $studentsArray;
             }
             
-        //获取学生    
+        //获取学生   @todo class-manager 也有一个getstudents 
     public function getStudentsAction()
     {
         $request = $this->getRequest();

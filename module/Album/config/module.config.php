@@ -181,7 +181,8 @@ return array(
             'Question' => array(
             		'type' => 'Segment',
             		'options' => array(
-            				'route' => '/album/question[/:action[/:tid][/:cid]]',
+            				'route' => '/album/question[/:action[&tid=:tid][&cid=:cid]]',
+//             				'route' => '/album/question[/:action[/cid=:cid]]',
             				'constraints' => array(
             						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
             						'tid' => '[a-zA-Z0-9_-]*',

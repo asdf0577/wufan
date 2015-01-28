@@ -27,7 +27,7 @@ class KnowledgeTable{
     public function getKnowledge($id){
         $id = (int)$id;
         $row = $this->tableGateway->select(array('id' =>$id))->current();
-        if(!$row){ throw new \Exception("Form id does not exist");}
+//         if(!$row){ throw new \Exception("Form id does not exist");}
         return $row;
     }
     public function saveKnowledge($questionType) 

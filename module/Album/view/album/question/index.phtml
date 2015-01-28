@@ -1,18 +1,22 @@
 
 <div id="testContent">
-<?php foreach($this->TestPapers as $Testpaper):?>
+<?php foreach($this->testPaperArray as $Testpaper):?>
 
     <div class = "classSquare"  >
-    <a href="<?php echo $this->url('Question',array('action'=>'submit','id'=>$Testpaper->id));?>">    
-     <?echo $Testpaper->year;?>年
-              第<?echo $Testpaper->termNum;?>学期</br>
-                 第：<?echo $Testpaper->unitNum;?>单元</br>
-       试题总数：<?php echo $Testpaper->questionAmount?>           
-                  </a>
+    <a href="<?php echo $this->url('Question',array(
+                                                    'action'=>'submit',
+                                                    'tid'=>$Testpaper['tid'],
+//                                                     'cid'=>$Testpaper['cid'],
+                                                    ));?>">   
+        <?echo $Testpaper['year'];?>年
+         第<?echo $Testpaper['termNum'];?>学期</br>
+         第：<?echo $Testpaper['unitNum'];?>单元</br>
+    
+    </a>
      </div>
     
 <?php endforeach;?>
-</div> 
+ </div>
 
 <div id="teacherBar">
 <a>

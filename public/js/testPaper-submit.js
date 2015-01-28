@@ -4,9 +4,12 @@ $(function(){
 		$('ol#nameSelect').empty();
 		var cid = $('select').val();
 		var tid = $("input[name='tid']").val();//这里是硬编码
+		console.log(tid);
+		console.log(cid);
+//		return false;
 		$.ajax({
 			type:"post",
-			url:"../getStudents",
+			url:"../question/getStudents",
 			data:{cid:cid,
 				  tid:tid,},
 			success:function(data){
@@ -107,7 +110,7 @@ $(function(){
 //		alert(data);
 		$.ajax({
 			type: "POST",
-			url: "../addProcess",
+			url: "../question/addProcess",
 			data: data,
 			success:function(data){
 				alert(data);
