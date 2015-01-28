@@ -113,7 +113,7 @@ $(function(){
 		var data = "cid="+cid+"&uid="+uid;
 		$.ajax({
 			type:"post",
-			url:"../album/class-manager/getStudents",
+			url:"../album/Student/getStudentsByClass",
 			data:data,
 			success:function(list){
 				var opt = $.parseJSON(list);
@@ -224,7 +224,7 @@ $(function(){
 		var that = $(this).parent().next().find("tr.subTr");
 		$(this).parent().parent().find('tr.appendCSV').remove();
 		$.ajax({
-			url:'../album/Student/csv',
+			url:'../album/class-manager/csv',
 			async:false, 
 			success: function(html) {
 				var htm = "<tr class='appendCSV'><td  colspan=8>"+html+"</td></tr>";
@@ -441,7 +441,7 @@ $(function(){
 		data = new FormData();
 		data.append("CSVUpload",file);
 		$.ajax({
-       	  url: "../album/Student/csv",
+       	  url: "../album/class-manager/csv",
        	  data: data,
             contentType:false,
             processData:false,

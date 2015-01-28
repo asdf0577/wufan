@@ -173,6 +173,7 @@ class QuestionController extends AbstractActionController
             $analysisArray[$key] =array(
                 'questionNum' =>$testPaper['question_num'],
                 'total' =>$testPaper['total'],
+                'totalUser' =>$testPaper['total_user'],
             );
         }
         foreach ($questions as $key => $question){

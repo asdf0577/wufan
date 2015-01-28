@@ -12,6 +12,7 @@ use Album\Form\ClassManagerForm;
 use Album\Model\Question;
 use Album\Model\ClassName;
 use Zend\Validator\InArray;
+use Album\Form\CSVUploadForm;
 
 /**
  * TestPaperController
@@ -64,7 +65,7 @@ class ClassManagerController extends AbstractActionController
             'identity'=>$identity,
         );
     }
-    // 添加
+    // 添加班级
     public function addAction()
     {
         $form = new ClassManagerForm('ClassManager');
@@ -91,39 +92,39 @@ class ClassManagerController extends AbstractActionController
         return $viewModel;
     }
     
-    public function detailAction(){
-        $cid = (int) $this->params()->fromRoute('id');
-        if (!$cid) {
-        	return $this->redirect()->toRoute('ClassManager', array(
-        			'action' => 'index'
-        	));
-        }
-        $className =$this->getClassNameTable()->getClassName($cid);
-        $students = $this->getStudentTable()->getStudentsByClass($cid);
-        return new ViewModel(array(
-            'students'=>$students,
-            'className'=>$className,));
-    }
+//     public function detailAction(){
+//         $cid = (int) $this->params()->fromRoute('id');
+//         if (!$cid) {
+//         	return $this->redirect()->toRoute('ClassManager', array(
+//         			'action' => 'index'
+//         	));
+//         }
+//         $className =$this->getClassNameTable()->getClassName($cid);
+//         $students = $this->getStudentTable()->getStudentsByClass($cid);
+//         return new ViewModel(array(
+//             'students'=>$students,
+//             'className'=>$className,));
+//     }
     // 编辑
-    public function editAction()
-    {
-        // @TODO 试题知识点联动
-        $tid = $this->params()->fromRoute('id');
-        $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
-        $Questions = $this->getQuestionTable()->getQuestions($tid);
-        /*
-         * debug::dump($TestPaper); debug::dump($Questions);
-         */
-        $form = new QuestionForm();
-        /* $form->bind($Questions); */
-        $form->get('submit')->setAttribute('value', 'Edit');
-        return new ViewModel(array(
-            'TestPaper' => $TestPaper,
-            'Questions' => $Questions,
-            'form' => $form
-        ));
-    }
-    // 删除
+//     public function editAction()
+//     {
+//         // @TODO 试题知识点联动
+//         $tid = $this->params()->fromRoute('id');
+//         $TestPaper = $this->getTestPaperTable()->getTestPaper($tid);
+//         $Questions = $this->getQuestionTable()->getQuestions($tid);
+//         /*
+//          * debug::dump($TestPaper); debug::dump($Questions);
+//          */
+//         $form = new QuestionForm();
+//         /* $form->bind($Questions); */
+//         $form->get('submit')->setAttribute('value', 'Edit');
+//         return new ViewModel(array(
+//             'TestPaper' => $TestPaper,
+//             'Questions' => $Questions,
+//             'form' => $form
+//         ));
+//     }
+    // 删除班级
     public function deleteAction()
     {   
         $request = $this->getRequest();
@@ -174,32 +175,8 @@ class ClassManagerController extends AbstractActionController
             }
         }
     }
-    //ajax获取学生列表
-    public function getStudentsAction()
-    {
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $cid = $_POST['cid'];
-            $uid = $_POST['uid'];   
-            $classNameTable = $this->getClassNameTable();
-            $class = $classNameTable->getClassName($cid);
-            $uidAcl = explode(',', $class->comrade);
-            //如果用户的id 不在本班级的comrade中，跳出
-            if(in_array($uid, $uidAcl)){
-                $students = $this->getStudentTable()->getStudentsByClass($cid);
-                
-                echo json_encode($students);
-                die();
-                
-            }else{
-                echo "用户ID不在本班级许可范围内";
-                die();
-            }
-        } else {
-            echo "error";
-        }
-    }
-    
+   
+    //解除安全模式（删除班级下面的学生不再需要输入密码）
     public function safeModeAction(){
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -218,6 +195,39 @@ class ClassManagerController extends AbstractActionController
                 die();
             }
     }
+   
+  
     
+}
+//以CSV格式批量添加学生名单
+public function csvAction(){
+
+    $form = new CSVUploadForm('CSV');
+    $request = $this->getRequest();
+    if ($request->isPost()) {
+        $uploadFile = $this->params()->fromFiles('CSVUpload');
+        if($uploadFile){
+            $studentList =array();
+            $n=0;
+            ini_set('auto_detect_line_endings', TRUE);
+            $handle = fopen($uploadFile['tmp_name'], 'r');
+            while( ($data = fgetcsv($handle,1000,","))!==false){
+                for($i=0;$i<count($data);$i++){
+                    $studentList[$n][$i] = iconv('gb2312', 'utf-8', $data[$i]);
+                }
+                $n++;
+            }
+            fclose($handle);
+            ini_set('auto_detect_line_endings', FALSE);
+            echo json_encode($studentList);
+            die();
+        }else{
+            debug::dump("NOfiel");
+            die();
+        }
+    }
+    $view = new ViewModel(array("form"=>$form));
+    $view->setTerminal(true);
+    return $view;
 }
 }   

@@ -1,3 +1,4 @@
+ <? $this->headScript()->appendFile($this->basePath() . '/js/testPaper-analysis.js','text/javascript');?>
 <div id="testContent">
 
 	<table class="table">
@@ -18,7 +19,13 @@
 			<td width="10%"><?php echo $analysis['total'];?></td>
 			<td width="20%"><a title='showStudents' >显示相关学生</a></td>
 
-		</tr>
+</tr>
+<tr class="subTr">
+          <td class = 'afterTrTd' colspan=7>
+          <input type = 'hidden' name ='totalUser' value ='<?php echo $analysis['totalUser']?>'>
+          <div id ='studentList'></div>
+            </td>
+ </tr>
 <?php endforeach;?>
 </table>
 </div>

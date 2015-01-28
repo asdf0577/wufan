@@ -437,8 +437,5 @@ class TestPaperController extends AbstractActionController
         ));
     }
 
-    public function analysisAction(){
-        
-    }
 }
     

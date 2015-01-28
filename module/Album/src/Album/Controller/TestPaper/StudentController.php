@@ -6,7 +6,7 @@ use Zend\View\Model\ViewModel;
 use Zend\debug\Debug;
 use Album\Model\ClassName;
 use Album\Model\Student;
-use Album\Form\CSVUploadForm;
+
 
 /**
  * TestPaperController
@@ -40,27 +40,14 @@ class StudentController extends AbstractActionController
             return $this->StudentTable;
         }
     }
-    // 主页
-    public function indexAction()
-    {
-        $Students = $this->getStudentTable()->fetchAll();
-        return new ViewModel(array(
-            'Students' => $Students
-        ));
-    }
-    // 添加
+    // 添加学生
  
     public function addProcessAction(){ 
         $request = $this->getRequest();
         if ($request->isPost()) {
-//            
-            
             $data = $request->getPost();
             $Student = new Student;
             $Student->exchangeArray($data);
-//             debug::dump($Student);
-//             die();
-           
             $StudentTable = $this->getStudentTable();
             $result =  $StudentTable->saveStudent($Student);
             //@todo这里要加一个判断，如果成功添加学生，才进行下一步
@@ -76,7 +63,7 @@ class StudentController extends AbstractActionController
             die();
         }
     }
-    // 删除
+    // 删除方法
     
     private function delete($sid,$cid){
         $sm = $this->getServiceLocator();
@@ -102,6 +89,7 @@ class StudentController extends AbstractActionController
         echo"删除完成";
         die();
     }
+    //删除学生
     public function deleteAction()
     {
         $request = $this->getRequest();
@@ -138,35 +126,54 @@ class StudentController extends AbstractActionController
     }
     
     } 
-    public function csvAction(){
-        
-        $form = new CSVUploadForm('CSV');
+   
+    
+    //以班级号获取班内学生名单
+    public function getStudentsByClassAction()
+    {
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $uploadFile = $this->params()->fromFiles('CSVUpload');
-            if($uploadFile){
-                $studentList =array();
-                $n=0;
-                ini_set('auto_detect_line_endings', TRUE);
-                $handle = fopen($uploadFile['tmp_name'], 'r');
-              while( ($data = fgetcsv($handle,1000,","))!==false){
-                for($i=0;$i<count($data);$i++){
-                    $studentList[$n][$i] = iconv('gb2312', 'utf-8', $data[$i]);
-                }
-                $n++;
-              }
-              fclose($handle);
-              ini_set('auto_detect_line_endings', FALSE);
-             echo json_encode($studentList);
+            $cid = $_POST['cid'];
+            $uid = $_POST['uid'];
+            $classNameTable = $this->getClassNameTable();
+            $class = $classNameTable->getClassName($cid);
+            $uidAcl = explode(',', $class->comrade);
+            //如果用户的id 不在本班级的comrade中，跳出
+            if(in_array($uid, $uidAcl)){
+                $students = $this->getStudentTable()->getStudentsByClass($cid);
+    
+                echo json_encode($students);
                 die();
+    
             }else{
-                debug::dump("NOfiel");
+                echo "用户ID不在本班级许可范围内";
                 die();
             }
+        } else {
+            echo "error";
         }
-        $view = new ViewModel(array("form"=>$form));
-        $view->setTerminal(true);
-        return $view;
     }
+    public function getStudentsByTestPaperAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $sids = array_filter(explode(',',$_POST['totalUser']));
+            
+            $studentArray = array();
+            $studentTable = $this->getStudentTable();
+            foreach ($sids as $key=>$sid){
+                $studentArray[$key] = array(
+                    'sid' => $sid,
+                    'name'=> $studentTable->getStudent($sid)->name,
+                );
+            }
+//             debug::dump($studentArray);
+                echo json_encode($studentArray);
+                die();
+        } else {
+            echo "error";
+        }
+    }
+    
 }
     
