@@ -49,6 +49,7 @@ class TestPaperTable
             'year' => $testPaper->year,
             'termNum' => $testPaper->termNum,
             'unitNum' => $testPaper->unitNum,
+            'type' => $testPaper->type,
             'questionAmount' => $testPaper->questionAmount,
             'questionType' => $testPaper->questionType,
             'created' => $testPaper->created,

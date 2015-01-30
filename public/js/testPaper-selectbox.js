@@ -96,7 +96,7 @@ $(function(){
 	
 	//提交
 	$('form#TestPaper').submit(function(){
-		var type = "",name="";				//Type（name：startNum-endNum...）,题型名称
+		var QuestionTypeInput = "",name="";				//Type（name：startNum-endNum...）,题型名称
 		var num =0,startNum =0 ,endNum =0 ;	//input框内数值，题号起始数,题号终止数
 		$('.draglistbox>input').each(function(index,value){
 				//计算endNum
@@ -126,7 +126,7 @@ $(function(){
 				startNum = startNum+1;
 				
 				name =$(this).attr('name'); //获取这个input的name
-				type += name+':'+startNum+'-'+endNum+',';
+				QuestionTypeInput += name+':'+startNum+'-'+endNum+',';
 				endNum = 0;
 				startNum = 0;
 				
@@ -136,15 +136,19 @@ $(function(){
 		var data = $('form').serialize();
 		var total= $('span#total').text();
 		var uid = $('body').find("input[name = 'uid']").val();
+		var type = $('body').find("select#testPaperType option:selected").text();
+//		console.log(type);
+//		return false;
 //		console.log(uid);
 //		return false;
-		data += "&QuestionTypeInput="+type+"&questionAmount="+total+"&uid="+uid;
+		data += "&QuestionTypeInput="+QuestionTypeInput+"&questionAmount="+total+"&uid="+uid+"&type="+type;
 		 $.ajax({
 	           type: "POST",
 	           url: "../album/testpaper/add",
 	           data: data,
 	           success: function(res) {
-//	        	   console.log(res);
+	        	   console.log(res);
+	        	   return false;
 	        	        if (! res.url) { //如果未返回目标地址
 	        	            if (location.href!='/user/login') { //判断当前页面是不是登录页面（如果你的登录可能是弹窗方式，也可能是单独页面的时候才需要）
 	        	                location.reload();

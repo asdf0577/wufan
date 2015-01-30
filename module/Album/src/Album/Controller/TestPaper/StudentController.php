@@ -6,7 +6,7 @@ use Zend\View\Model\ViewModel;
 use Zend\debug\Debug;
 use Album\Model\ClassName;
 use Album\Model\Student;
-
+use album\model\StudentTable;
 
 /**
  * TestPaperController
@@ -174,6 +174,13 @@ class StudentController extends AbstractActionController
             echo "error";
         }
     }
-    
+    //学生详细页面
+    public function infoAction(){
+        //通过学生的ID及教师的id进入，只有拥有权限的教师和学生本人可以查看
+        //如果是从试卷页面进入，则进入试卷相关科目页面
+        
+        
+        
+    }
 }
     

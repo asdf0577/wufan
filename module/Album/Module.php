@@ -54,6 +54,9 @@ use Album\Model\TestPaperAclTable ;
 
 use Album\Model\Knowledge;//语法
 use Album\Model\KnowledgeTable ;
+use Album\Model\EnglishGrammarTable ;
+
+
 
 //商店
 use Album\Model\StoreOrderTable;
@@ -379,6 +382,16 @@ class Module implements AutoloaderProviderInterface
         				'KnowledgeTableGateway' => function ($sm) {
         					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
         					return new TableGateway('Knowledge', $dbAdapter);
+        				},
+        				'EnglishGrammarTable' =>  function($sm) {//试题
+        				$tableGateway = $sm->get('EnglishGrammarTableGateway');
+        				$table = new EnglishGrammarTable($tableGateway);
+        				return $table;
+        				},
+        				
+        				'EnglishGrammarTableGateway' => function ($sm) {
+        					$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+        					return new TableGateway('english_grammar', $dbAdapter);
         				},
         				
         				

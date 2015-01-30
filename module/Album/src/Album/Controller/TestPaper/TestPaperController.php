@@ -161,6 +161,7 @@ class TestPaperController extends AbstractActionController
                 $validData = $form->getData();
                 $validData['QuestionTypeInput'] = $_POST['QuestionTypeInput'];
                 $validData['uid'] = $_POST['uid'];
+                $validData['type'] = $_POST['type'];
                 $testPaper->exchangeArray($validData);
 //                 debug::dump($testPaper);
 //                 die();
